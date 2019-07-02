@@ -1,12 +1,12 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Code
- Package:  jsoneditor4code
- Version:  0.9.1  Date: 2018/10/04 13:03:19
- Homepage: https://niebert.github.io/ClassEditorUML
+ Package:  jsoneditor4menu
+ Version:  0.0.1  Date: 2019/07/01 10:36:55
+ Homepage: https://niebert.github.io/hamburger-menu-creator
  Author:   Engelbert Niehaus
  License:  MIT
  Require Module with:
-    const JSONEditor4Code = require('jsoneditor4code');
+    const JSONEditor4Code = require('jsoneditor4menu');
     var  compileCode = JSONEditor4Code.compile(vTemplate);
  JSHint: installation with 'npm install jshint -g'
  ------------------------------------------ */
@@ -2902,6 +2902,44 @@ if (typeof jQuery === 'undefined') {
   })
 
 }(jQuery);
+var vSettingsVisible = false;
+
+function toggleSettings() {
+  vSettingsVisible = !vSettingsVisible;
+  console.log("classeditor.js:4 - toggleSettings(): vSettingsVisible = "+vSettingsVisible);
+  var vSettingsEditorIDs = ["baseclasslist","localclasslist","remoteclasslist"];
+  var vMainEditorIDs = ["data"];
+  if (vSettingsVisible == true) {
+    console.log("Settings for Classes visible");
+    for (var iD in vSettingsEditorIDs) {
+      if (vSettingsEditorIDs.hasOwnProperty(iD)) {
+        // display all settings editors for classes
+
+      }
+    };
+    for (var iID in vMainEditorIDs) {
+      if (vMainEditorIDs.hasOwnProperty(iID)) {
+        // hide all settings elements of the JSON editors
+
+      }
+    }
+  } else {
+    console.log("JSON Editor visible data");
+    for (var iD in vSettingsEditorIDs) {
+      if (vSettingsEditorIDs.hasOwnProperty(iD)) {
+        // hide all settings editors for classes
+
+      }
+    };
+    for (var iID in vMainEditorIDs) {
+      if (vMainEditorIDs.hasOwnProperty(iID)) {
+        // display all settings elements of the JSON editors
+
+      }
+    }
+
+  }
+}
 
 function deleteClass() {
   vJSONEditor.initAsk();
@@ -2911,13 +2949,6 @@ function deleteClass() {
 function update_editor(pJSON) {
   var vJSON = pJSON || editor.getValue();
   $('#display_filename').html(class2filename(vJSON.data.classname,".json"));
-  var c = vJSON.settings;
-  var vRequired_Classes = concat_array(c.remoteclasslist,c.localclasslist);
-  //console.log("vRequired_Classes: "+vRequired_Classes.join(","));
-  c.classlist = concat_array(c.baseclasslist,vRequired_Classes);
-  console.log("vRequired_Classes: ('"+c.classlist.join("','")+"')");
-  //vRequired_Classes.sort();
-  c.classlist.sort();
   var vEditNode = editor.getEditor('root.settings');
   // `getEditor` will return null if the path is invalid
   if(vEditNode) {
@@ -2935,6 +2966,12 @@ function update_editor(pJSON) {
     console.log("Update 'root.data' undefined");
   };
   editor.setValue(vJSON);
+  update_editor_post(pJSON)
+}
+
+function update_editor_post(pJSON) {
+  console.log("CALL: update_editor_post(pJSON) jsoneditor4code.js");
+  // insert your code here
 }
 
 function saver4JSON(pFile) {

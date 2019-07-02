@@ -1,4 +1,4 @@
-vDataJSON["umljs"] = {
+vDataJSON["menu_data"] = {
     "data": {
         "classname": "LoadFile4DOM",
         "superclassname": " ",

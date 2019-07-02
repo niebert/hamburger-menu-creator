@@ -12,7 +12,7 @@
      <script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
      <script src="jquery/external/jquery/jquery.js" type="text/javascript"></script>
      <!-- JSON Editor for Code Generation -->
-     <script src="js/jsoneditor4code.js"></script>
+     <script src="js/jsoneditor4menu.js"></script>
 
     <script>
     // vDataJSON is the main JSON storage for the privacy friendly WebApp
@@ -40,7 +40,7 @@
     */
     var vFileBase = "class";
     // ACE Editor is used in JSONEditor for Code Editor
-    var vProgLanguage = "javascript";
+    var vProgLanguage = "css";
     /*
     Defined the Syntax Highlighting for ACE Editor - Used in Schema "schema/class_schema.js"
       * set the default CSS theme and icon library globally
@@ -48,10 +48,10 @@
     */
     //---- Initialize Editor with JSON --------------
     // The JSON data is defined in file "db/umljs.js"
-    var vJSON = vDataJSON["umljs"];
+    var vJSON = vDataJSON["menu_data"];
     //---- Create one JSON Editor for Code ---------
-    if (JSONEditor4Code) {
-      var vJSONEditor = new JSONEditor4Code();
+    if (JSONEditor4Menu) {
+      var vJSONEditor = new JSONEditor4Menu();
       vJSONEditor.initDoc(document);
     }
     /*
@@ -71,7 +71,7 @@
 
     //console.log("Edit JSON:\n"+JSON.stringify(vJSON,null,3));
     // vJSONEditor.init(...) will be called at very end of this file
-    var vDefaultID4JSON = "umljs"; //see file "db/uml_default.js"
+    var vDefaultID4JSON = "menu_default"; //see file "db/uml_default.js"
     </script>
     <!-- ### UML Default File  #####################
     used for initializing afte delete class command

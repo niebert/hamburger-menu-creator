@@ -1,5 +1,6 @@
 {
   "name": "jsoneditor4menu",
+  "exportvar": "JSONEditor4Menu",
   "version": "0.0.1",
   "description": "JSON Editor for creating HTML5 menus with CSS and HTML Templates for Hamburger Menus - based on JSON Editor of Jeremy Dorn",
   "main": "src/main.js",
