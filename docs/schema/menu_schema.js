@@ -1,5 +1,5 @@
 
-vDataJSON["hamburger_menu_schema"] = {
+vDataJSON["menu_schema"] = {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "additionalProperties": true,
     "options":{
@@ -31,6 +31,26 @@ vDataJSON["hamburger_menu_schema"] = {
             "yes",
             "no"
         ]
+      },
+      "selectoricon": {
+        "type": "string",
+        "default": "",
+        "enum":[
+            "",
+            "fa fa-folder-open-o",
+            "fa fa-floppy-o",
+            "a fa-cog",
+            "fa fa-trash"
+        ],
+        "options": {
+          "enum_titles": [
+            "NO ICON",
+            "Load",
+            "Save",
+            "Settings",
+            "Trash"
+          ]
+        }
       },
       "selectorclass": {
         "type": "string",
@@ -66,42 +86,42 @@ vDataJSON["hamburger_menu_schema"] = {
             "title":"JSON Data",
             "propertyOrder": 10,
             "type": "object",
-            "headerTemplate": "Class: {{self.classname}}",
+            "headerTemplate": "App: {{self.appname}}",
             "id": "/properties/data",
             "options": {
               "collapsed": false,
               "disable_properties": true
             },
             "defaultProperties": [
-                "classname",
-                "superclassname",
+                "appname",
+                "apptitle",
                 "comment",
                 "reposinfo",
                 "attributes",
                 "methods"
             ],
             "properties": {
-                "classname": {
+                "appname": {
                     "type": "string",
-                    "id": "/properties/data/properties/classname",
-                    "title": "Class:",
+                    "id": "/properties/data/properties/appname",
+                    "title": "App:",
                     "propertyOrder": 10,
-                    "default": "NewClass",
+                    "default": "NewApp",
                     "format": "text",
-                    "description": "Use a classname with uppercase first character e.g. 'Myclass' or 'MyClass' and not 'myclass'."
+                    "description": "Use as appname (uppercase character allowed, e.g.'MyWebApp') - it is used for exported files as filenames e.g. 'mywebapp.json'."
                 },
-                "superclassname": {
+                "apptitle": {
                     "type": "string",
-                    "id": "/properties/data/properties/superclassname",
-                    "title": "Super Class",
+                    "id": "/properties/data/properties/apptitle",
+                    "title": "App Title",
                     "propertyOrder": 20,
-                    "default": "",
-                    "$ref": "#/definitions/selectorclass"
+                    "format": "text",
+                    "default": "My web-based App"
                 },
                 "comment": {
                     "type": "string",
                     "id": "/properties/data/properties/comment",
-                    "title": "Description of Class",
+                    "title": "Description for the App",
                     "propertyOrder": 30,
                     "description": "Describe the main application of this class for the software development. This description will be used to generate a documentation of the UML definition.",
                     "$ref": "#/definitions/comment"
@@ -171,33 +191,24 @@ vDataJSON["hamburger_menu_schema"] = {
                             "propertyOrder": 40,
                             "description": "Set to 'Yes' if you want to insert the require commands for used classes in the generated code and add a 'module.exports' at the end of the generated code"
                         },
-                        "static": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/static",
-                            "$ref": "#/definitions/yesno",
-                            "title": "Static Class:",
-                            "propertyOrder": 50,
-                            "default": "no",
-                            "description": "If set to 'Yes' the generated class will be an Object (hash) with attributes and assigned functions. You do not need to instantiate a class with new MyClass()"
-                        },
                         "debugheader": {
                             "type": "string",
                             "id": "/properties/data/properties/reposinfo/properties/debugheader",
                             "$ref": "#/definitions/yesno",
-                            "title": "Debug Header Methods:",
+                            "title": "Debug Headers:",
                             "propertyOrder": 60,
                             "default": "no",
-                            "description": "If set to 'Yes' the generated methods of the class will be have a debug header for assigned functions. The debug header will create an commented alert-call and a console.log command with the method name for easier debugging"
+                            "description": "If set to 'Yes' the generated output of the app will have a debug comments and headers for easier debugging"
                         },
                         "requirelist": {
-                            "title":"Require List",
+                            "title":"List of Libraries",
                             "propertyOrder": 70,
                             "type": "array",
                             "id": "/properties/data/properties/reposinfo/properties/requirelist",
                             "format": "table",
-                            "description": "Add required modules for the definition of the class. This creates a require('modulename') in the generated code.",
+                            "description": "Add required libraries for the App. This creates a SCRIPT-tag in the generated HTML code for each module - add the required libraries to the  'js' folder in exported zip file.",
                             "options": {
-                              "collapsed": true
+                              "collapsed": false
                             },
                             "items": {
                               "type": "object",
@@ -457,10 +468,9 @@ vDataJSON["hamburger_menu_schema"] = {
             "defaultProperties": [
                 "extension4code",
                 "classlist",
-                "localclasslist",
-                "remoteclasslist",
-                "baseclasslist",
-                "baseclasses"
+                "pagemenuitems",
+                "linkmenuitems",
+                "basemenuitems"
             ],
             "properties": {
               "extension4code": {
@@ -471,7 +481,7 @@ vDataJSON["hamburger_menu_schema"] = {
                 "format": "text",
                 "propertyOrder": 10,
                 "size":12,
-                "description": "When ClassEditorUML generates code, it stores a generated file in the programming language '"+vProgLanguage+"' with this file extension"
+                "description": "When WebApp generates code, it stores a generated file in the programming language '"+vProgLanguage+"' with this file extension"
               },
               "extension4json": {
                 "type": "string",
@@ -514,9 +524,9 @@ vDataJSON["hamburger_menu_schema"] = {
                         "String"
                       ],
                 },
-                "localclasslist": {
+                "pagemenuitems": {
                     "type": "array",
-                    //"id": "/properties/settings/properties/localclasslist",
+                    //"id": "/properties/settings/properties/pagemenuitems",
                     "title": "Local List of Classes",
                     "description":"A local class is a module that is required and implemented on your local filesystem (and NOT installed from a remote repository via NPM). The pathname prefix is defined in 'Repository Info'. The prefix is concatenated for all local modules that are listed in  Local Classes.",
                     "format": "table",
@@ -526,7 +536,7 @@ vDataJSON["hamburger_menu_schema"] = {
                     },
                     "items": {
                         "type": "object",
-                        "id": "/properties/settings/properties/localclasslist/items",
+                        "id": "/properties/settings/properties/pagemenuitems/items",
                         "title": "Local Class",
                         "headerTemplate": "{{self.name}}()",
                         "defaultProperties": [
@@ -537,7 +547,7 @@ vDataJSON["hamburger_menu_schema"] = {
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/localclasslist/items/properties/name",
+                                "id": "/properties/settings/properties/pagemenuitems/items/properties/name",
                                 "title": "Base Class Name",
                                 "default": "",
                                 "propertyOrder": 10,
@@ -545,7 +555,7 @@ vDataJSON["hamburger_menu_schema"] = {
                             },
                             "initvalue": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/localclasslist/items/properties/initvalue",
+                                "id": "/properties/settings/properties/pagemenuitems/items/properties/initvalue",
                                 "title": "Init Value",
                                 "default": "",
                                 "propertyOrder": 20,
@@ -553,7 +563,7 @@ vDataJSON["hamburger_menu_schema"] = {
                             },
                             "repo": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/repo",
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/repo",
                                 "title": "Module Name (repo)",
                                 "default": "",
                                 "propertyOrder": 20,
@@ -562,90 +572,102 @@ vDataJSON["hamburger_menu_schema"] = {
                         }
                     }
                 },
-                "remoteclasslist": {
+                "linkmenuitems": {
                     "type": "array",
-                    "id": "/properties/settings/properties/remoteclasslist",
-                    "title": "Remote List of Classes",
+                    "id": "/properties/settings/properties/linkmenuitems",
+                    "title": "Remote Link Menu Items",
                     "format": "table",
                     "propertyOrder": 40,
         						"options": {
                       "collapsed": true
                     },
-                    "description":"A remote class is a module required from a package manager like NPM.",
+                    "description":"A remote link menu item refers to a website or server outside the WebApp e.g. displayed in a new window.",
                     "items": {
                         "type": "object",
-                        "id": "/properties/settings/properties/remoteclasslist/items",
+                        "id": "/properties/settings/properties/linkmenuitems/items",
                         "title": "Remote Class",
                         "headerTemplate": "{{self.name}}()",
                         "defaultProperties": [
                             "name",
-                            "initvalue",
-                            "repo"
+                            "link4item",
+                            "target4link"
                         ],
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/remoteclasslist/items/properties/name",
-                                "title": "Base Class Name",
+                                "id": "/properties/settings/properties/linkmenuitems/items/properties/name",
+                                "title": "Link Title",
                                 "default": "",
                                 "propertyOrder": 10,
                     						"format": "text"
                             },
-                            "initvalue": {
+                            "link4item": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/remoteclasslist/items/properties/initvalue",
-                                "title": "Init Value",
+                                "id": "/properties/settings/properties/linkmenuitems/items/properties/link4item",
+                                "title": "Link/URL",
                                 "default": "",
                                 "propertyOrder": 20,
                                 "format": "text"
                             },
-                            "repo": {
+                            "target4link": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/repo",
-                                "title": "Module Name (repo)",
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/target4link",
+                                "title": "Target for Link",
                                 "default": "",
-                                "propertyOrder": 20,
+                                "propertyOrder": 30,
                                 "format": "text"
                             }
                         }
                     }
                 },
-                "baseclasslist": {
+                "basemenuitems": {
                     "type": "array",
-                    "id": "/properties/settings/properties/baseclasslist",
-                    "title": "List of Base Classes",
-                    "format": "table",
+                    "id": "/properties/settings/properties/basemenuitems",
+                    "title": "List of Basic Menu Items",
+                    "format": "tabs",
+                    "uniqueItems": true,
                     "propertyOrder": 60,
         						"options": {
                       "collapsed": true
                     },
-                    "description":"A base class is provide by the programming language '"+vProgLanguage+"' itself, so using these classes in a module does not imply that the special module must be required locally of from a package manager.",
+                    "description":"A basic menu items provide by basic user interfaces in an application. These are components for loading or saving files.",
                     "items": {
                         "type": "object",
-                        "id": "/properties/settings/properties/baseclasses/items",
-                        "title": "Base Class",
-                        "headerTemplate": "{{self.name}}()",
+                        "id": "/properties/settings/properties/basemenuitems/items",
+                        "title": "Basic Menu Item",
+                        "headerTemplate": "Basic MI: {{self.name}}",
                         "defaultProperties": [
-                            "name",
-                            "initvalue"
+                          "name",
+                          "icon",
+                          "codetemplate"
                         ],
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/name",
-                                "title": "Base Class Name",
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/name",
+                                "title": "Basic Item Name",
                                 "default": "",
                                 "propertyOrder": 10,
                     						"format": "text"
                             },
-                            "initvalue": {
+                            "icon": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/baseclasses/items/properties/initvalue",
-                                "title": "Init Value",
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/icon",
+                                "title": "Icon",
+                                "$ref": "#/definitions/selectoricon",
                                 "default": "",
                                 "propertyOrder": 20,
                                 "format": "text"
+                            },
+                            "codetemplate": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/codetemplate",
+                                "title": "Code - Template: '"+vProgLanguage+"'",
+                                "default": "// insert your code template here",
+                                "propertyOrder": 30,
+                    						"format": vProgLanguage
                             }
+
                         }
                     }
                 }

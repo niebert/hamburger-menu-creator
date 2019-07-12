@@ -1,17 +1,19 @@
-vDataJSON["menu_data"] = {
+{
     "data": {
-      "appname": "NewMenu",
-      "apptitle": "My new Hamburger Menu",
-      "comment": "What does the app do?",
-      "reposinfo": {
+        "appname": "NewApp",
+        "apptitle": "My web-based App",
+        "comment": "Creates hidden file tag in the DOM to emulated loading interactively files from the local file system of you computer or mobile device into the browser for further processing\n",
+        "reposinfo": {
             "JSCC_type": "CLASS",
             "JSCC_version": "2",
             "repository": "https://www.gitlab.com/niehausbert/loadfile4dom",
+            "debugheader": "no",
             "require_classes": "yes",
             "author": "Bert Niehaus",
             "email": "niebert GitHub",
             "created": "2018/12/12 14:49:10",
             "modified": "2018/12/12 14:49:10",
+            "configcode": "// the configuration code can be used to create some constants or local functions",
             "requirelist": []
         },
         "attributes": [
@@ -157,9 +159,7 @@ vDataJSON["menu_data"] = {
         ]
     },
     "settings": {
-        "umleditor": "https://niebert.github.io/ClassEditorUML",
         "extension4code": ".js",
-        "extension4json": "_uml.json",
         "classlist": [
             " ",
             "Array",
@@ -174,24 +174,23 @@ vDataJSON["menu_data"] = {
             "String"
         ],
         "localclasslist": [
-          {
-            "name": "LinkParam",
-            "initvalue": "new LinkParam()",
-            "repo": "handlebars4code"
-          }
-
+            {
+                "name": "LinkParam",
+                "initvalue": "new LinkParam()",
+                "repo": "handlebars4code"
+            }
         ],
         "remoteclasslist": [
-          {
-            "name": "JSONEditor",
-            "initvalue": "new JSONEditor4Code()",
-            "repo": "jsoneditor4code"
-          }
-        ],
-        "baseclasslist":  [
             {
-              "name": "Array",
-              "initvalue": "[]"
+                "name": "JSONEditor",
+                "initvalue": "new JSONEditor4Code()",
+                "repo": "jsoneditor4code"
+            }
+        ],
+        "baseclasslist": [
+            {
+                "name": "Array",
+                "initvalue": "[]"
             },
             {
                 "name": "Boolean",
@@ -229,6 +228,7 @@ vDataJSON["menu_data"] = {
                 "name": "RegularExp",
                 "initvalue": "/search/g"
             }
-        ]
+        ],
+        "extension4json": "_uml.json"
     }
-};
+}

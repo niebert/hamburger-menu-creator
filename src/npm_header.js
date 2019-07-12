@@ -1,13 +1,14 @@
 /* ---------------------------------------
- Exported Module Variable: JSONEditor4Code
+ Exported Module Variable: JSONEditor4Menu
  Package:  jsoneditor4menu
- Version:  0.0.1  Date: 2019/07/01 10:36:55
+ Version:  0.0.1  Date: 2019/07/11 13:04:28
  Homepage: https://niebert.github.io/hamburger-menu-creator
  Author:   Engelbert Niehaus
  License:  MIT
+ Date:     2019/07/11 13:04:28
  Require Module with:
-    const JSONEditor4Code = require('jsoneditor4menu');
-    var  compileCode = JSONEditor4Code.compile(vTemplate);
+    const JSONEditor4Menu = require('jsoneditor4menu');
+    var  compileCode = JSONEditor4Menu.compile(vTemplate);
  JSHint: installation with 'npm install jshint -g'
  ------------------------------------------ */
 

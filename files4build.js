@@ -15,7 +15,7 @@ const getLibs4Build = function (pLibPath) {
     pLibPath+'jsoneditor.js',
     //-----------------------------------------------
     //---- Load Handlebars4Code or ------------------
-    //pLibPath+'handlebars4code.js',
+    // pLibPath+'handlebars4code.js',
     //- OR Load Handlebars with Handlebars Helpers---
     pLibPath+'handlebars.js',
     pLibPath+'handlebars_helper.js',

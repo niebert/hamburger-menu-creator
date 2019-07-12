@@ -33,7 +33,7 @@ function preProcessHandlebars(pText,pDataJSON) {
 function postProcessHandlebars(pText,pDataJSON) {
   console.log("postProcessHandlebars(pText,pDataJSON) Call");
   var vText = pText ||"undefined postprocessing text";
-  var vClassname = pDataJSON.data.classname || "Undefined Class";
+  var vClassname = pDataJSON.data.appname || "Undefined Class";
   var vFilename = name2filename(vClassname);
   //vText = replaceString(vText,"___classname___",vClassname);
   //vText = replaceString(vText,"___filename___",vFilename);

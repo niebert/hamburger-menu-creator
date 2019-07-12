@@ -1,24 +1,16 @@
-vDataJSON["UMLJS"]= {
+vDataJSON["menu_demo"]= {
     "data":{
-      "classname": "NewClass",
-      "superclassname": "Integer",
-      "comment": "What does the class do?",
+      "appname": "NewMenu",
+      "apptitle": "My new Hamburger Menu",
+      "comment": "What does the app do?",
       "reposinfo": {
-          "repository": "https://www.github.com/author/NewClass",
-          "require_classes": "yes",
+          "repository": "https://www.github.com/author/MyMenu",
+          "require_libraries": "yes",
           "author": "My Name",
           "email": "name@example.com",
           "created": "23.04.2018",
           "modified": "01.05.2018",
           "requirelist": [
-            {
-              "module":"handlebars",
-              "variable":"Handlebars"
-            },
-            {
-              "module":"filesaver",
-              "variable":"FileSaver"
-            },
             {
               "module":"jquery",
               "variable":"$"
@@ -81,15 +73,15 @@ vDataJSON["UMLJS"]= {
           "LinkParam",
           "JSONEditor"
       ],
-      "localclasslist": [
+      "pagemenuitems": [
           "App",
           "AppAbstract"
       ],
-      "remoteclasslist": [
+      "linkmenuitems": [
           "LinkParam",
           "JSONEditor"
       ],
-      "baseclasslist": [
+      "basicmenuitems": [
           "",
           "Array",
           "Boolean",

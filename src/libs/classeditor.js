@@ -1,12 +1,13 @@
+
 var vSettingsVisible = false;
 
 function toggleSettings() {
   vSettingsVisible = !vSettingsVisible;
   console.log("classeditor.js:4 - toggleSettings(): vSettingsVisible = "+vSettingsVisible);
-  var vSettingsEditorIDs = ["baseclasslist","localclasslist","remoteclasslist"];
+  var vSettingsEditorIDs = ["basemenuitems","pagemenuitems","linkmenuitems"];
   var vMainEditorIDs = ["data"];
   if (vSettingsVisible == true) {
-    console.log("Settings for Classes visible");
+    console.log("Settings for JSON-Editor visible");
     for (var iD in vSettingsEditorIDs) {
       if (vSettingsEditorIDs.hasOwnProperty(iD)) {
         // display all settings editors for classes
@@ -44,7 +45,7 @@ function deleteClass() {
 
 function update_editor(pJSON) {
   var vJSON = pJSON || editor.getValue();
-  $('#display_filename').html(class2filename(vJSON.data.classname,".json"));
+  $('#display_filename').html(app2filename(vJSON.data.appname,".json"));
   var vEditNode = editor.getEditor('root.settings');
   // `getEditor` will return null if the path is invalid
   if(vEditNode) {
@@ -91,7 +92,7 @@ function exporter4Schema(pFilename) {
 function exporter4JSON(pFile) {
  // Get the value from the editor
  var vJSON = vJSONEditor.getValue();
- var vFile = class2filename(vJSON.data.classname,".json");
+ var vFile = app2filename(vJSON.data.appname,".json");
 // set modified date in reposinfo.modified
  updateModified(vJSON);
  var vContent = JSON.stringify(vJSON,null,4);
@@ -109,9 +110,9 @@ function updateModified(pJSON) {
 
 };
 
-function class2filename(pClassName,pExt) {
+function app2filename(pAppName,pExt) {
   var vExt = pExt || "";
-  var vFilename = pClassName || "Undefined Class";
+  var vFilename = pAppName || "Undefined App Name";
   vFilename = vFilename.toLowerCase();
   vFilename = vFilename.replace(/[^a-z0-9]/g,"_");
   vFilename = vFilename.replace(/_[_]+/g,"_");

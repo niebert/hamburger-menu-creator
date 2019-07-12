@@ -1,8 +1,8 @@
 vDataJSON["menu_default"]={
     "data":{
-      "classname": "MyClass",
-      "superclassname": "",
-      "comment": "",
+      "appname": "NewMenu",
+      "apptitle": "My new Hamburger Menu",
+      "comment": "What does the app do?",
       "reposinfo": {
           "repository": "",
           "require_classes": "yes",
@@ -12,7 +12,12 @@ vDataJSON["menu_default"]={
           "created": getDateTime(),
           "modified": getDateTime(),
           "debugheader": "no",
-          "requirelist": []
+          "requirelist": [
+            {
+              "module":"jquery",
+              "variable":"$"
+            }
+  		  ]
       },
       "attributes": [],
       "methods": []
@@ -28,14 +33,14 @@ vDataJSON["menu_default"]={
           "repo": "linkparam"
         }
       ],
-      "remoteclasslist": [
+      "linkmenuitems": [
         {
           "name": "JSONEditor",
           "initvalue": "new JSONEditor4Code()",
           "repo": "jsoneditor4code"
         }
       ],
-      "baseclasslist": [
+      "basicmenuitems": [
           {
             "name": "Array",
             "initvalue": "[]"
