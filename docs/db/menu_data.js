@@ -3,6 +3,28 @@ vDataJSON["menu_data"] = {
       "appname": "NewMenu",
       "apptitle": "My new Hamburger Menu",
       "comment": "What does the app do?",
+      "colors": {
+        "app":{
+         "background": "#F6F4E2",
+         "textcolor": "#70420D"
+        },
+        "menu":{
+             "toggleleft": false,
+             "background": "#F6F4E2",
+             "textcolor": "#70420D",
+             "mobile":{
+                 "texcolor": "#EBEBD3",
+                 "default":"#333000",
+                 "hover":"#70420D",
+                 "focus":"#E4B363"
+             },
+             "desktop":{
+                 "default":"#E4B363",
+                 "hover":"#d18428",
+                 "focus":"#472a07"
+             }
+          }
+      },
       "reposinfo": {
             "JSCC_type": "CLASS",
             "JSCC_version": "2",

@@ -126,6 +126,251 @@ vDataJSON["menu_schema"] = {
                     "description": "Describe the main application of this class for the software development. This description will be used to generate a documentation of the UML definition.",
                     "$ref": "#/definitions/comment"
                 },
+                "colors": {
+                    "type": "object",
+                    "id": "/properties/data/properties/colors",
+                    "title": "Colors",
+                    "options": {
+                      "disable_collapse": false,
+                      "disable_edit_json": false,
+                      "disable_properties": false,
+                      "collapsed": false,
+                      "hidden": false
+                    },
+                    "defaultProperties": [
+                      "app",
+                      "menu"
+                    ],
+                    "properties": {
+                      "app": {
+                        "type": "object",
+                        "id": "/properties/data/properties/colors/properties/app",
+                        "title": "App",
+                        "options": {
+                          "disable_collapse": false,
+                          "disable_edit_json": false,
+                          "disable_properties": false,
+                          "collapsed": true,
+                          "hidden": false
+                        },
+                        "defaultProperties": [
+                          "background",
+                          "textcolor"
+                        ],
+                        "properties": {
+                          "background": {
+                            "type": "string",
+                            "id": "/properties/data/properties/colors/properties/app/properties/background",
+                            "title": "Background",
+                            "default": "#F6F4E2",
+                            "format": "color",
+                            "description": "Description for 'background' Type: 'string' Path: '/properties/data/properties/colors/properties/app/properties/background'",
+                            "options": {
+                              "hidden": false
+                            },
+                            "propertyOrder": 10
+                          },
+                          "textcolor": {
+                            "type": "string",
+                            "id": "/properties/data/properties/colors/properties/app/properties/textcolor",
+                            "title": "Textcolor",
+                            "default": "#70420D",
+                            "format": "color",
+                            "description": "Description for 'textcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/app/properties/textcolor'",
+                            "options": {
+                              "hidden": false
+                            },
+                            "propertyOrder": 20
+                          }
+                        },
+                        "propertyOrder": 10
+                      },
+                      "menu": {
+                        "type": "object",
+                        "id": "/properties/data/properties/colors/properties/menu",
+                        "title": "Menu",
+                        "options": {
+                          "disable_collapse": false,
+                          "disable_edit_json": false,
+                          "disable_properties": false,
+                          "collapsed": true,
+                          "hidden": false
+                        },
+                        "defaultProperties": [
+                          "toggleleft",
+                          "background",
+                          "textcolor",
+                          "mobile",
+                          "desktop"
+                        ],
+                        "properties": {
+                          "toggleleft": {
+                            "type": "boolean",
+                            "id": "/properties/data/properties/colors/properties/menu/properties/toggleleft",
+                            "title": "Toggle for Menu left",
+                            "format": "checkbox",
+                            "default": false,
+                            "description": "A description for 'toggleleft'  Type: 'boolean'",
+                            "options": {
+                              "hidden": false
+                            },
+                            "propertyOrder": 10
+                          },
+                          "background": {
+                            "type": "string",
+                            "id": "/properties/data/properties/colors/properties/menu/properties/background",
+                            "title": "Background",
+                            "default": "#F6F4E2",
+                            "format": "color",
+                            "description": "Description for 'background' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/background'",
+                            "options": {
+                              "hidden": false
+                            },
+                            "propertyOrder": 20
+                          },
+                          "textcolor": {
+                            "type": "string",
+                            "id": "/properties/data/properties/colors/properties/menu/properties/textcolor",
+                            "title": "Textcolor",
+                            "default": "#70420D",
+                            "format": "color",
+                            "description": "Description for 'textcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/textcolor'",
+                            "options": {
+                              "hidden": false
+                            },
+                            "propertyOrder": 30
+                          },
+                          "mobile": {
+                            "type": "object",
+                            "id": "/properties/data/properties/colors/properties/menu/properties/mobile",
+                            "title": "Mobile",
+                            "options": {
+                              "disable_collapse": false,
+                              "disable_edit_json": false,
+                              "disable_properties": false,
+                              "collapsed": true,
+                              "hidden": false
+                            },
+                            "defaultProperties": [
+                              "texcolor",
+                              "default",
+                              "hover",
+                              "focus"
+                            ],
+                            "properties": {
+                              "texcolor": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/texcolor",
+                                "title": "Texcolor",
+                                "default": "#EBEBD3",
+                                "format": "color",
+                                "description": "Description for 'texcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/texcolor'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 10
+                              },
+                              "default": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/default",
+                                "title": "Default",
+                                "default": "#333000",
+                                "format": "color",
+                                "description": "Description for 'default' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/default'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 20
+                              },
+                              "hover": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/hover",
+                                "title": "Hover",
+                                "default": "#70420D",
+                                "format": "color",
+                                "description": "Description for 'hover' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/hover'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 30
+                              },
+                              "focus": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/focus",
+                                "title": "Focus",
+                                "default": "#E4B363",
+                                "format": "color",
+                                "description": "Description for 'focus' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/focus'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 40
+                              }
+                            },
+                            "propertyOrder": 40
+                          },
+                          "desktop": {
+                            "type": "object",
+                            "id": "/properties/data/properties/colors/properties/menu/properties/desktop",
+                            "title": "Desktop",
+                            "options": {
+                              "disable_collapse": false,
+                              "disable_edit_json": false,
+                              "disable_properties": false,
+                              "collapsed": true,
+                              "hidden": false
+                            },
+                            "defaultProperties": [
+                              "default",
+                              "hover",
+                              "focus"
+                            ],
+                            "properties": {
+                              "default": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/default",
+                                "title": "Default",
+                                "default": "#E4B363",
+                                "format": "color",
+                                "description": "Description for 'default' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/default'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 10
+                              },
+                              "hover": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/hover",
+                                "title": "Hover",
+                                "default": "#d18428",
+                                "format": "color",
+                                "description": "Description for 'hover' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/hover'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 20
+                              },
+                              "focus": {
+                                "type": "string",
+                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/focus",
+                                "title": "Focus",
+                                "default": "#472a07",
+                                "format": "color",
+                                "description": "Description for 'focus' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/focus'",
+                                "options": {
+                                  "hidden": false
+                                },
+                                "propertyOrder": 30
+                              }
+                            },
+                            "propertyOrder": 50
+                          }
+                        },
+                        "propertyOrder": 20
+                      }
+                    },
+                    "propertyOrder": 35
+                },
                 "reposinfo": {
                     "type": "object",
                     "title": "Repository Info",
