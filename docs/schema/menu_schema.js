@@ -738,43 +738,12 @@ vDataJSON["menu_schema"] = {
                 "size":12,
                 "description": "JSON Editor stores a JSON file with this file extension"
               },
-              "classlist": {
-                    "type": "array",
-                    //"id": "/properties/settings/properties/classlist",
-                    "title": "Select List of Classes",
-                    "format": "table",
-                    "propertyOrder": 20,
-        						"options": {
-                      "collapsed": true,
-                      "hidden": true
-                    },
-                    "items": {
-                        "type": "string",
-                        "id": "/properties/settings/properties/classlist/items",
-                        "title": "Class",
-                        "default": " ",
-                        "format": "text"
-                    },
-                    "default": [
-                        " ",
-                        "Array",
-                        "Boolean",
-                        "Document",
-                        "Float",
-                        "Function",
-                        "Hash",
-                        "Integer",
-                        "Object",
-                        "RegularExp",
-                        "String"
-                      ],
-                },
                 "pagemenuitems": {
                     "type": "array",
-                    //"id": "/properties/settings/properties/pagemenuitems",
-                    "title": "Local List of Classes",
-                    "description":"A local class is a module that is required and implemented on your local filesystem (and NOT installed from a remote repository via NPM). The pathname prefix is defined in 'Repository Info'. The prefix is concatenated for all local modules that are listed in  Local Classes.",
-                    "format": "table",
+                    "id": "/properties/settings/properties/pagemenuitems",
+                    "title": "Pages of WebApp",
+                    "description":"A page of a WebApp is HTML code displayed if a specific menu item was selected. Each page need a unique page name and a HTML code for the page.",
+                    //"format": "table",
                     "propertyOrder": 30,
         						"options": {
                       "collapsed": true
@@ -783,11 +752,11 @@ vDataJSON["menu_schema"] = {
                         "type": "object",
                         "id": "/properties/settings/properties/pagemenuitems/items",
                         "title": "Local Class",
-                        "headerTemplate": "{{self.name}}()",
+                        "headerTemplate": "Page: {{self.name}}()",
                         "defaultProperties": [
                             "name",
-                            "initvalue",
-                            "repo"
+                            "comment",
+                            "htmlcode"
                         ],
                         "properties": {
                             "name": {
@@ -798,21 +767,21 @@ vDataJSON["menu_schema"] = {
                                 "propertyOrder": 10,
                                 "format": "text"
                             },
-                            "initvalue": {
+                            "comment": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/pagemenuitems/items/properties/initvalue",
-                                "title": "Init Value",
-                                "default": "",
+                                "id": "/properties/settings/properties/pagemenuitems/items/properties/comment",
+                                "title": "Comment",
+                                "default": "This page defines ...",
                                 "propertyOrder": 20,
-                                "format": "text"
+                                "format": "textarea"
                             },
-                            "repo": {
+                            "htmlcode": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/repo",
-                                "title": "Module Name (repo)",
-                                "default": "",
-                                "propertyOrder": 20,
-                                "format": "text"
+                                "id": "/properties/settings/properties/basemenuitems/items/properties/htmlcode",
+                                "title": "HTML Code for Page",
+                                "default": "<h2>Header of Page</h2>\nThis is the content of the page",
+                                "propertyOrder": 30,
+                                "format": "html"
                             }
                         }
                     }
