@@ -3,7 +3,8 @@
 //---------------------------------------------------
 const pkg = require('./package');
 // 'codegen' is module with functions for code generation
-const codegen = require('./src/codegen.js');
+//const codegen = require('./src/codegen.js');
+const codegen = require('build4code').codegen;
 // 'files4build' is a module with arrays of file to included for the build
 const f4b = require('./files4build');
 // ------ Build Settings -----------------

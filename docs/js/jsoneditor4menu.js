@@ -1,14 +1,13 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Menu
  Package:  jsoneditor4menu
- Version:  0.0.1  Date: 2019/07/11 13:04:28
+ Version:  0.0.1  Date: 2019/08/10 15:14:48
  Homepage: https://niebert.github.io/hamburger-menu-creator
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2019/07/11 13:04:28
+ Date:     2019/08/10 15:14:48
  Require Module with:
     const JSONEditor4Menu = require('jsoneditor4menu');
-    var  compileCode = JSONEditor4Menu.compile(vTemplate);
  JSHint: installation with 'npm install jshint -g'
  ------------------------------------------ */
 
@@ -2909,10 +2908,10 @@ var vSettingsVisible = false;
 function toggleSettings() {
   vSettingsVisible = !vSettingsVisible;
   console.log("classeditor.js:4 - toggleSettings(): vSettingsVisible = "+vSettingsVisible);
-  var vSettingsEditorIDs = ["baseclasslist","localclasslist","remoteclasslist"];
+  var vSettingsEditorIDs = ["basemenuitems","pagemenuitems","linkmenuitems"];
   var vMainEditorIDs = ["data"];
   if (vSettingsVisible == true) {
-    console.log("Settings for Classes visible");
+    console.log("Settings for JSON-Editor visible");
     for (var iD in vSettingsEditorIDs) {
       if (vSettingsEditorIDs.hasOwnProperty(iD)) {
         // display all settings editors for classes
@@ -11260,6 +11259,22 @@ JSONEditor.defaults.resolvers.unshift(function(schema) {
 })();
   window.JSONEditor = JSONEditor;
 })();
+/* ---------------------------------------
+ Exported Module Variable: Handlebars4Code
+ Package:  handlebars4code
+ Version:  1.0.0  Date: 2018/05/17 22:35:58
+ Homepage: https://github.com/niebert/Handlebars4Code#readme
+ Author:   niebert GitHub
+ License:  MIT
+Inheritance: 'Handlebars4Code' inherits from 'Handlebars'
+ Require Module with:
+    const Handlebars4Code = require('handlebars4code');
+    var  compileCode = Handlebars4Code.compile(vTemplate);
+ JSHint: installation with 'npm install jshint -g'
+ ------------------------------------------ */
+
+/*jshint  laxcomma: true, asi: true, maxerr: 150 */
+/*global alert, confirm, console, prompt */
 /**!
 
  @license
@@ -16099,7 +16114,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ })
 /******/ ])
 });
-;/* vDataJSON is the main JSON data storage defined in index.html
+;
+/* vDataJSON is the main JSON data storage defined in index.html
   vDataJSON is provided as parameter to createHandleBarsCompiler(pDataJSON)
    * createHandleBarsCompiler() expects a hash key "tpl" containing the templates.
    * createHandleBarsCompiler() generates HandleBars compiler functions
@@ -16267,24 +16283,10 @@ Handlebars.registerHelper('listhtmlattr', function(context, options) {
   }).join("\n") + "</ul>";
 });
 
-Handlebars.registerHelper('indent', function(pContext, options) {
-  var vIndent = "";
-  var vText = "";
+Handlebars.registerHelper('indent', function(pText, pIndent) {
+  var vIndent = pIndent || "        ";
+  var vText = pText ||  "";
   var vCR = "";
-  if (options && options.hasOwnProperty("hash")) {
-    if (options.hash.hasOwnProperty("text")) {
-      //console.log("text='"+options.hash["text"]+"'");
-      vText = options.hash["text"];
-    };
-    if (options.hash.hasOwnProperty("indent")) {
-      vIndent = options.hash["indent"];
-      //console.log("[indent] Indent for Code in HandleBars: '"+vIndent+"'");
-    };
-    //vText = options.fn(pContext);
-    //console.log("codeindent: vText="+vText.substr(0,120)+"...");
-  } else {
-    console.log("[indent] options in helper undefined");
-  };
   //vIndent = "\n" + vIndent;
   if (vText && (vText != "")) {
     vText = vText.replace(/\n/g,"\n"+vIndent);
@@ -16348,15 +16350,16 @@ Handlebars.registerHelper('requirelibs', function(pArray, options) {
 
   for (var i = 0; i < pArray.length; i++) {
     vFile = pArray[i];
-    ret += options.fn({"variable":filename2var(vFile),"module":vFile})
+    //ret += options.fn({"variable":filename2var(vFile),"module":vFile})
+    ret += options.fn(pArray[i])
   };
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
   return ret
 });
 
-Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods,pBaseClasses,pLocalClasses,pRequirePath, options) {
-  var vRequirePath = pRequirePath || "./libs/";
+Handlebars.registerHelper('requireclass', function(pData,pSettings, options) {
+  var vRequirePath = pData.reposinfo.require_path || "./libs/";
   var ret = "";
   // vRequire is a Hash that collects all classes
   // that are needed to create attributes or
@@ -16370,12 +16373,12 @@ Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods
     // so class/library is added if an only if it is not a base class
     console.log("("+pCheckTitle+") addlib_check('"+pLib+"')");
     if (pLib != "") {
-      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pBaseClasses));
-      if ((value_in_array(pLib,pBaseClasses) >= 0) || (pLib == pSuperClass)) {
+      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pSettings.baseclasslist));
+      if ((value_in_array(pLib,pSettings.baseclasslist) >= 0) || (pLib == pData.superclassname)) {
         console.log("("+pCheckTitle+") Library '"+pLib+"' is a Base Class - no required");
       } else {
-        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pLocalClasses));
-        if (value_in_array(pLib,pLocalClasses) >= 0) {
+        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pSettings.localclasslist));
+        if (value_in_array(pLib,pSettings.localclasslist) >= 0) {
           // pLib is a local library
           vRequire[pLib] = vRequirePath + name2filename(pLib);
           console.log("("+pCheckTitle+") Library '"+pLib+"' is a Local Class - require('"+vRequire[pLib]+"')");
@@ -16387,19 +16390,19 @@ Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods
     };
   }; //END: addlib_check()
 
-  console.log("Call Helper: requireclasslist - superclass='"+pSuperClass+"' require_path='"+vRequirePath+"'");
-  for (var i=0; i<pAttribs.length; i++) {
+  console.log("Call Helper: requireclasslist - superclass='"+pData.superclassname+"' require_path='"+vRequirePath+"'");
+  for (var i=0; i<pData.attributes.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for attributes
-    addlib_check("Attribute",pAttribs[i].class);
+    addlib_check("Attribute",pData.attributes[i].class);
   };
-  for (var i=0; i<pMethods.length; i++) {
+  for (var i=0; i<pData.methods.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for returned instances of those classes
-    addlib_check("Method "+pMethods[i].name+"() Return",pMethods[i].return);
-    vPars = pMethods[i].parameter;
+    addlib_check("Method "+pData.methods[i].name+"() Return",pData.methods[i].return);
+    vPars = pData.methods[i].parameter;
     for (var k=0; k<vPars.length; k++) {
-      addlib_check("Parameter "+pMethods[i].name+"()",vPars[k].class);
+      addlib_check("Parameter "+pData.methods[i].name+"()",vPars[k].class);
     };
   };
   // vRequire is a Hash therefore double usage of classes
@@ -16578,6 +16581,37 @@ function parameterListString(pParamArray,pIndent) {
 Handlebars.registerHelper('parameterlist', parameterListString);
 
 // -----------
+//---- Define the static class Handlebars4Code
+// The class was extended by src/libs/handlebars_helpers.js
+// build.js creates main.js
+
+function create_compiler(pTplJSON) {
+  var vTemplate = "";
+  for (var tplID in pTplJSON) {
+    if (pTplJSON.hasOwnProperty(tplID)) {
+      vTemplate = pTplJSON[tplID];
+      vCodeCompiler[tplID] = Handlebars.compile(vTemplate);
+    };
+  };
+};
+
+function get_compiler () {
+  return vCodeCompiler;
+};
+
+
+function compile_code(pTplID,pJSON) {
+  // pJSON is JSON data of the UML Class
+  var vCode = vCodeCompiler[pTplID](pJSON);
+  return vCode;
+};
+
+
+var Handlebars4Code = {
+  "create_compiler": create_compiler,
+  "compile_code": compile_code,
+  "get_compiler": get_compiler
+};
 //#################################################################
 //# Javascript Class: LinkParam()
 //#       SuperClass:
@@ -17302,6 +17336,9 @@ LinkParam.prototype.param2DOM = function (pLinkID,pDOMID,pOutType) {
 //---End Definition of Class-----------------
 // JS Class: LinkParam
 //-------------------------------------------
+//--- BEGIN: lib4menu.js ---
+
+//--- END: lib4menu.js ---
 JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'fontawesome4';
 JSONEditor.plugins.ace.theme = 'xcode';
@@ -17607,16 +17644,16 @@ function JSONEditor4Menu () {
   };
 
   this.init_ask = function () {
-    var vOK = confirm("Do you really want to initialize the data for '"+getAppName(this.aJSON)+"'?");
+    var vOK = confirm("Do you really want to initialize the data for '"+this.getAppName()+"'?");
     if (vOK == true) {
-    		var vSaveOK = confirm("Do you want to save the current data for '"+getAppName(this.aJSON)+"' first?");
+    		var vSaveOK = confirm("Do you want to save the current data for '"+this.getAppName()+"' first?");
     		if (vSaveOK == true) {
     			this.saveJSON();
-    			console.log("JSON-DB initalized with data for '"+getAppName(this.aJSON)+"'!");
+    			console.log("JSON-DB initalized with data for '"+this.getAppName()+"'!");
     		} else {
-    			console.log("JSON-DB for  '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+    			console.log("JSON-DB for  '"+this.getAppName()+"' not saved - data deleted!");
         }
-      	console.log("JSON-DB for  '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+      	console.log("JSON-DB for  '"+this.getAppName()+"' not saved - data deleted!");
         this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
     } else {
         console.log("initialize JSON-DB cancelled");
@@ -17626,12 +17663,12 @@ function JSONEditor4Menu () {
   this.delete_ask = function () {
     var vOK = confirm("Do you want to delete all data?");
     if (vOK == true) {
-        var vSaveOK = confirm("Do you want to save the current data for '"+getAppName(this.aJSON)+"' first?");
+        var vSaveOK = confirm("Do you want to save the current data for '"+this.getAppName()+"' first?");
         if (vSaveOK == true) {
           this.saveJSON();
-          console.log("JSON-DB initalized with data for '"+getAppName(this.aJSON)+"'!");
+          console.log("JSON-DB initalized with data for '"+this.getAppName()+"'!");
         } else {
-          console.log("JSON-DB for app '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+          console.log("JSON-DB for app '"+this.getAppName()+"' not saved - data deleted!");
         }
         var vEmptyJSON = {
             "data":{
@@ -18002,10 +18039,10 @@ function JSONEditor4Menu () {
     }
   };
 
-  this.saveLS = function (pLSID) {
+  this.saveLS = function (pLSID,pJSON) {
     var vLSID = pLSID || "jsondata";
     console.log("saveLS('"+vLSID+"')-Call");
-    var vJSON = this.getValue();
+    var vJSON = pJSON || this.getValue();
     var vJSONstring = "";
     if (typeof(Storage) != "undefined") {
         // Store
@@ -18040,7 +18077,8 @@ function JSONEditor4Menu () {
           //document.getElementById("inputTextToSave").value = textFromFileLoaded;
           //alert("textFromFileLoaded="+textFromFileLoaded);
           try {
-            vThis.aEditor.setValue(JSON.parse(vTextFromFileLoaded));
+            var vLoadedJSON = JSON.parse(vTextFromFileLoaded);
+            vThis.json2editor(vLoadedJSON);
             vThis.update_filename();
             alert("File JSON '"+fileToLoad.name+"' loaded successfully!");
             vThis.validate_errors();
@@ -18057,17 +18095,48 @@ function JSONEditor4Menu () {
     this.saveLS("jsondata");
   };
 
+  this.json2editor = function(pLoadedJSON) {
+    var vJSON = null;
+    if (pLoadedJSON) {
+      // json2editor has a JSON as paramter
+      if (pLoadedJSON.hasOwnProperty('data') && pLoadedJSON.hasOwnProperty('settings')) {
+        // load menu DEFINITION AND menu TEMPLATE/layout
+        vJSON = pLoadedJSON;
+      } else {
+        vJSON = cloneJSON(this.aDefaultJSON);
+        // here either "data" or "settings" is missing
+        if (pLoadedJSON.hasOwnProperty('data')) {
+          //  load menu DEFINITION only > settings / layout / templates are missing
+          vJSON.data = pLoadedJSON.data;
+          console.log("JSON update of 'data' in json2editor()");
+        } else if (pLoadedJSON.hasOwnProperty('settings')) {
+          // load menu TEMPLATE/layout > data for menu structure is missing
+          vJSON.settings = pLoadedJSON.settings;
+          console.log("JSON update of 'settings' in json2editor()");
+        }
+      }
+      this.aEditor.setValue(vJSON);
+    } else {
+      console.error("CALL: json2editor(pLoadedJSON) pLoadedJSON was undefined!");
+    }
+  };
+
   this.getAppName4File = function () {
-    return app2filename(getAppName(this.aJSON),"_juml.json");
+    return app2filename(this.getAppName(),".hmc.json");
+  };
+
+  this.getAppName = function () {
+    var vAppName = "Undefined App" || this.aJSON.appname;
+    return vAppName;
   };
 
   this.getFilename = function(pJSON) {
-    var vClassName = "Undefined_Class";
-    var vExtension = pJSON.settings.extension4json || "_uml.json";
+    var vAppName = "Undefined App";
+    var vExtension = pJSON.settings.extension4json || ".hmc.json";
     if (pJSON) {
       if (pJSON.data) {
         if (pJSON.data.appname) {
-          vClassName  = pJSON.data.appname;
+          vAppName  = pJSON.data.appname;
         } else {
           console.log("WARNING: pJSON.data.appname undefined in JSONEditor4Menu.getFilename()");
         }
@@ -18077,17 +18146,23 @@ function JSONEditor4Menu () {
     } else {
       console.log("WARNING: pJSON undefined in JSONEditor4Menu.getFilename()");
     }
-    var vFilename = app2filename(vClassName) + vExtension;
+    var vFilename = app2filename(vAppName) + vExtension;
     return vFilename;
   };
 
-  this.setFilename = function (pFilename) {
+  this.setAppName = function (pAppName) {
     if (this.aJSON) {
       if (this.aJSON.data) {
         if (this.aJSON.data.appname) {
-          this.aJSON.data.appname = pFilename;
+          this.aJSON.data.appname = pAppName;
+        } else {
+          console.error("this.aJSON.data.appname is undefined");
         }
+      } else {
+        console.error("this.aJSON.data is undefined");
       }
+    } else {
+      console.error("this.aJSON is undefined");
     }
   };
 
@@ -18107,7 +18182,7 @@ function JSONEditor4Menu () {
 
   this.saveSchema = function () {
     var vContent = JSON.stringify(this.aSchema,null,4);
-    var vFile = "class_uml_schema.json";
+    var vFile = "menu_schema.json";
     saveFile2HDD(vFile,vContent);
     console.log("JSON Schema '"+vFile+"' saved!");
     alert("JSON Schema File: '"+vFile+"' saved!");
@@ -18144,7 +18219,7 @@ function JSONEditor4Menu () {
         this.viewOutput(vContent);
         //---------------------------------
       } else {
-        console.log("compileCode['"+pTplCode+"'] undefined");
+        console.error("Handlebars4Code template compiler this.compileCode."+pTplCode+"() undefined");
       }
 
       return vContent;
@@ -18152,10 +18227,27 @@ function JSONEditor4Menu () {
 
   this.save4Template = function (pTplID,pExtension,pMessage) {
       console.log("save4Template('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
-      var vMessage = pMessage || "Code";
+      var vMessage = pMessage || "Code for Template generated";
       //vContent = postProcessHandlebars(vContent,vJSON);
       var vContent = this.getOutput4Template(pTplID);
       console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
+      //--Textarea Output----------------
+      this.viewOutput(vContent);
+      //---------------------------------
+      //--JSON Output--------------------
+      var vJSON = this.getValue();
+      var vFile = app2filename(vJSON.data.appname,pExtension);
+      saveFile2HDD(vFile,vContent);
+      //alert("File '"+vFile+"' saved - "+vMessage);
+      console.log("File '"+vFile+"' saved - "+vMessage);
+  };
+
+  this.save4MenuZIP = function (pTplID,pExtension,pMessage) {
+      console.log("save4MenuZIP('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
+      var vMessage = pMessage || "ZIP of Menue was generated";
+      //vContent = postProcessHandlebars(vContent,vJSON);
+      var vContent = this.getOutput4Template("html");
+      console.log("save4Template('html') vContent="+vContent.substr(0,120)+"...");
       //--Textarea Output----------------
       this.viewOutput(vContent);
       //---------------------------------

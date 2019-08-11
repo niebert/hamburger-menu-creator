@@ -1,0 +1,90 @@
+{
+    "data": {
+        "appname": "WebApp",
+        "apptitle": "My new Hamburger Menu",
+        "comment": "What does the app do?",
+        "menuitems": [
+            {
+                "menutype": "page",
+                "menuicon": "printer",
+                "visibility": "visible",
+                "title": "Print",
+                "html": "<!-- place content of the page here -->\n<h1>First Page</h1>\nThis is the first page"
+            },
+            {
+                "menutype": "jscall",
+                "menuicon": "floppy-o",
+                "title": "Load",
+                "code": "// place your javascriptcode here\nvApp.load_the_page('myparam',34)",
+                "visibility": "visible"
+            },
+            {
+                "menutype": "jscall",
+                "menuicon": "floppy-o",
+                "title": "Save",
+                "code": "// place your javascriptcode here\nvApp.save_the_page('myparam',34)",
+                "visibility": "visible"
+            },
+            {
+                "menutype": "page",
+                "menuicon": "trash",
+                "visibility": "visible",
+                "title": "Delete",
+                "html": "Content of Delete Page"
+            },
+            {
+                "menutype": "link",
+                "menuicon": "fa fa-floppy-o",
+                "visibility": "visible",
+                "title": "Settings",
+                "url": "myfile.html",
+                "target":" target='_blank' "
+            }
+        ]
+    },
+    "settings": {
+        "extension4code": ".js",
+        "extension4json": "_uml.json",
+        "colors": {
+            "app": {
+                "background": "#f6f4e2",
+                "textcolor": "#70420d"
+            },
+            "menu": {
+                "toggleleft": false,
+                "background": "#f6f4e2",
+                "textcolor": "#70420d",
+                "mobile": {
+                    "textcolor": "#ebebd3",
+                    "default": "#333000",
+                    "hover": "#70420d",
+                    "focus": "#e4b363"
+                },
+                "desktop": {
+                    "default": "#e4b363",
+                    "hover": "#d18428",
+                    "focus": "#472a07"
+                }
+            }
+        },
+        "configcode": "// the configuration code can be used to create some constants, local functions or initialize some javascript objects.",
+        "jsfiles": [
+            {
+                "name": "myfile.js",
+                "content": "// Content of imported Javascript library "
+            }
+        ],
+        "htmlfiles": [
+            {
+                "name": "myfile.html",
+                "content": "<!-- HTML File Content -->"
+            }
+        ],
+        "cssfiles": [
+            {
+                "name": "myfile.css",
+                "content": "/* CSS File Content */"
+            }
+        ]
+    }
+}

@@ -1,6 +1,5 @@
 # JSONEditor4Menu
 `JSONEditor4Menu` is a JSON Editor for creating HTML5 menus with CSS and HTML Templates for Hamburger Menus - based on JSON Editor of Jeremy Dorn
-* **[Demo JSONEditor4Menu](https://githubuser.github.io/jsoneditor4menu)**
 
 <!-- BEGIN: src/readme/headerinto.md -->
 The following table of contents is generated with `node doctoc README.md`.
@@ -584,6 +583,109 @@ The compiler call `Handlebars4Code.compile.mytpl(my_json)` for the JSON data `my
 
 ```
 <!-- END:   src/readme/handlebars4code.md -->
+## JSON2Schema for JSON Editor
+The user interface of the JSON Editor (https://www.github.com/niebert/json-editor) is defined by a JSON schema. JSON Editor takes a JSON Schema and uses it to generate an HTML form.  
+It has full support for JSON Schema version 3 and 4 and can integrate with several popular CSS frameworks (bootstrap, foundation, and jQueryUI).
+
+Check out an interactive demo (demo.html):  
+
+https://json-editor.github.io/json-editor/
+
+JSON Editor has no dependencies. It only needs a modern browser (tested in Chrome and Firefox).
+
+### Optional Requirements
+
+The following are not required, but can improve the style and usability of JSON Editor when present.
+
+*  A compatible JS template engine (Mustache, Underscore, Hogan, Handlebars, Swig, Markup, or EJS)
+*  A compatible CSS framework for styling (bootstrap 2/3, foundation 3/4/5, or jqueryui)
+*  A compatible icon library (bootstrap 2/3 glyphicons, foundation icons 2/3, jqueryui, or font awesome 3/4)
+*  [SCEditor](http://www.sceditor.com/) for WYSIWYG editing of HTML or BBCode content
+*  [SimpleMDE](https://simplemde.com/) for editing of Markdown content
+*  [Ace Editor](http://ace.c9.io/) for editing code
+*  [Select2](http://ivaynberg.github.io/select2/) for nicer Select boxes
+*  [Selectize](https://selectize.github.io/selectize.js/) for nicer Select & Array boxes
+*  [math.js](http://mathjs.org/) for more accurate floating point math (multipleOf, divisibleBy, etc.)
+
+If you learn best by example, check these out to understand the basic prinples of using a JSON editor:
+
+*  Basic Usage Example - http://rawgithub.com/jdorn/json-editor/master/examples/basic.html
+*  Advanced Usage Example - http://rawgithub.com/jdorn/json-editor/master/examples/advanced.html
+*  CSS Integration Example - http://rawgithub.com/jdorn/json-editor/master/examples/css_integration.html
+
+If you want to alter the provided example of https://githubuser.github.io/JSONEditor4Menu just make a copy of the `docs/`-folder in this repository `JSONEditor4Menu` and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema use the [JSON2Schema tool](https://niebert/github.io/JSON2Schema).
+### Menu Icon Selector in Schema
+The file `docs/schema/menu_schema.js` defines the JSON schema for the JSON editor. In the definitions part of the JSON schema the `selectonicon` defines the all icon selectors for the menu. If you want to add more [Font Awesome Icons 4.7.0](https://fontawesome.com/v4.7.0/icons/) to the selector expand the following part of the file `docs/schema/menu_schema.js` according to your needs.
+
+The `enum_titles` define the name in the selector and the `enum` array defines the strings that are use
+
+```json
+"selectoricon": {
+  "type": "string",
+  "title": "Menu Icon",
+  "default": "",
+  "enum":[
+      "",
+      "folder-open-o",
+      "floppy-o",
+      "cog",
+      "trash"
+  ],
+  "options": {
+    "enum_titles": [
+      "NO ICON",
+      "Load",
+      "Save",
+      "Settings",
+      "Trash"
+    ]
+  }
+}
+```
+**Icon Contact:** Assume you want to add a menu item for sending a message to the developer, institution or company. The contact information provides e.g. an e-mail address, so we select from the [Font-Awesome Icons 4.7.0](https://fontawesome.com/v4.7.0/icons/) an appropriate icon. In this example we select the icon with the name `envelop-o` and some other icons that expand the `selectoricon` with the following lines.
+```json
+"selectoricon": {
+  "type": "string",
+  "title": "Menu Icon",
+  "default": "",
+  "enum":[
+      "circle-thin",
+      "home",
+      "folder-open-o",
+      "floppy-o",
+      "pencil-square-o",
+      "calendar",
+      "camera",
+      "line-chart",
+      "fa-picture-o",
+      "envelope-o",
+      "phone",
+      "power-off",
+      "search",
+      "cog",
+      "trash"
+  ],
+  "options": {
+    "enum_titles": [
+      " ",
+      "Home",
+      "Load",
+      "Save",
+      "Edit",
+      "Calendar",
+      "Camera",
+      "Chart/Diagrams",
+      "Images",
+      "Mail",
+      "Phone",
+      "Quit/Exit",
+      "Search",
+      "Settings",
+      "Trash"
+    ]
+  }
+}
+```
 <!-- BEGIN: src/readme/build_process.md -->
 
 ## Build Process of `npm run build`
@@ -674,17 +776,22 @@ The compression of `dist/jsoneditor4menu.js` into `dist/jsoneditor4menu.min.js` 
 
 ## Acknowledgement
 Special thanks to the following individual developers and teams of OpenSource JavaScript projects:
+* [Font Awesome Icons - 4.7.0](https://fontawesome.com/v4.7.0/icons/) thanks to [fontawesome.com](https://fontawesome.com) for providing the [free 4.7.0 version](https://fontawesome.com/v4.7.0/icons/) for local application for this WebApp. The [fonts in version 4.7.0](https://fontawesome.com/v4.7.0/icons/) are created by ***[Font Awesome](https://fontawesome.com)*** and
+licensed under [SIL OFL 1.1](http://scripts.sil.org/OFL). The javascript-code for injecting the icon into the DOM licensed under [MIT License](http://opensource.org/licenses/mit-license.html). The
+[Documentation](https://fontawesome.com/v4.7.0/examples/) for [Font Awesome - 4.7.0](https://fontawesome.com/v4.7.0/icons/) licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/). The [Font-Awesome GitHub-repository](https://github.com/FortAwesome/Font-Awesome) can be used for forking and adapting the javascript code to individual requirements and constraints.
 * [HandleBars](http://handlebarsjs.com/) the code generation in Javascript was implemented
 * [JSON-Editor](https://github.com/jdorn/json-editor) by Jeremy Dorn. The JSON Editor takes a JSON Schema and uses it to generate an HTML form. The JSON-Editor is partially used to edit JSON file of the [JavascriptClassCreator Project](https://niebert.github.io/JavascriptClassCreator) `JSCC`.
 The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 and can integrate with several popular CSS frameworks (bootstrap, foundation, and jQueryUI). This would lead to major code reduction of `JSCC` . Refactoring of `JSCC` would make more use of the JSON-Editor features. Check out an interactive demo (demo.html): http://jeremydorn.com/json-editor/
 * Developer [Mihai Bazon](http://lisperator.net/) create UglifyJS, a great tool to handle and parse Javascript Code and minify the Javascript code (see [Source Code of UglifyJS](https://github.com/mishoo/UglifyJS2)).
 * The wrapper for UglifyJS is written [Dan Wolff](http://danwolff.se/). His UglifyJS-Online example is used to minify/compress the exported Javascript code of generated JS Classes (For Online Example of the [UglifyJS-Wrapper](https://skalman.github.io/UglifyJS-online/) see source code on https://github.com/Skalman/UglifyJS-online for the Online-Version of the Wrapper.
 * Developers of ACE Code Editor https://ace.c9.io (Javascript Editing uses the Editor in iFrames)
+* `[LoadFile4DOM](https://www.gitlab.com/niehausbert/loadfile4dom)` is a library that allows to load files into an application that run completely in a browser without the need to submit data to a server for processing. With this library the users are able load files into your browser application and process the data in the browser and provide the output to the user, without submitting any data to a server. **[Demo LoadFile4DOM](https://niehausbert.gitlab.io/loadfile4dom)**
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js) Developer Eli Grey provided the `FileSaver.js` that is used to store created `JSCC` files to the local filesystem. `JSCC` uses the same mechanism of browsers, that allows a `Save as...` in the context menu of a web pages or image. So not uncontrolled write access to your file system is implemented, because users have to select the locations in which the user whats to store the file (e.g. JSON, Javascript or HTML).
 * [JointJS](https://github.com/clientIO/joint) JointJS is a JavaScript diagramming library. It can be used to create either static diagrams. JointJS is used in this project to create UML-diagrams, that are interactive diagramming in conjunction and application builder in Javascript.
 * [Inheritage for JavaScript with protoypes](http://phrogz.net/js/classes/OOPinJS2.html) by Gavin Kistner
 * [3 ways to define a JavaScript class](https://www.phpied.com/3-ways-to-define-a-javascript-class/) by Stoyan Stefanov
 * [JQuery](https://jqueryui.com) is used for the theme and standard operations in the Document Object Model (DOM) of HTML-pages. The [JQuery-Themeroller](https://jqueryui.com/themeroller/) was used to create a JQuery theme for JSCC.
+* [JSZip](http://stuartk.com/jszip) - LibreOffice files, Geogebra files (Open Source applications) have file extensions that are actually ZIP files. To handle, change and generate those documents in a browser is possible the library JSZIP. Even a small file system for WebApps that can be stored with a folder structure in a ZIP file can be generated in a browser. So [JSZip](http://stuartk.com/jszip) is a multi-functional JavaScript class for generating and reading ZIP files. Thank you for sharing this great library with the Open Source community.
 
 ## Libraries required for  `JSONEditor4Menu`
 The following libraries are necessary for `jsoneditor4menu.js`:
@@ -695,21 +802,21 @@ The following libraries are necessary for `jsoneditor4menu.js`:
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4menu`. 
 These libraries are not included in `jsoneditor4menu.js`, but e.g. are required in `build.js`.
-* Lib: `browserify` Version: `^14.5.0`
-* Lib: `build4code` Version: `0.0.1`
+* Lib: `browserify` Version: `^16.5.0`
+* Lib: `build4code` Version: `^0.1.1`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.3.0`
-* Lib: `lint` Version: `^1.1.2`
-* Lib: `uglify-js` Version: `^2.6.2`
+* Lib: `lint` Version: `^0.7.0`
+* Lib: `uglify-js` Version: `^3.6.0`
 * Lib: `watchify` Version: `^3.9.0`
 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Menu`
 * Package:  `jsoneditor4menu`
-* Version:  `0.0.1`   (last build 2019/07/11 13:04:28)
+* Version:  `0.0.1`   (last build 2019/08/10 15:14:48)
 * Homepage: `https://niebert.github.io/hamburger-menu-creator`
 * License:  MIT
-* Date:     2019/07/11 13:04:28
+* Date:     2019/08/10 15:14:48
 * Require Module with:
 ```javascript
     const vJSONEditor4Menu = require('jsoneditor4menu');

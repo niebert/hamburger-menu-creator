@@ -1,47 +1,4 @@
-vDataJSON["tpl"]["index_html"] = `
-<!DOCTYPE html>
-<html >
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{data.appname}} - WebApp</title>
-  <link rel="stylesheet" href="css/normalize.min.css">
-
-  <link rel="stylesheet prefetch" href="css/font-awesome.min.css">
-
-  <link rel="stylesheet" href="css/style.css">
-
-</head>
-
-<body>
-
-    <div class="wrapper">
-        <nav class="site-nav">
-            <h1 class="logo">WebApp<span> Navigation</span></h1>
-
-            <div class="menu-toggle">
-              <div class="hamburger"></div>
-            </div>
-
-            <ul class="open desktop">
-                <li><a href="#!"><i class="fa fa-database site-nav--icon"></i>Home</a></li>
-                <li><a href="#!"><i class="fa fa-info-circle site-nav--icon"></i>Latest News</a></li>
-                <li><a href="#!"><i class="fa fa-paper-plane site-nav--icon"></i>About us</a></li>
-                <li><a href="#!"><i class="fa fa-cloud-download site-nav--icon"></i>Download</a></li>
-                <li><a href="#!"><i class="fa fa-envelope site-nav--icon"></i>Contact us</a></li>
-            </ul>
-        </nav>
-    </div>
-
-
-
-<script src="js/jquery-3.2.0.min.js"></script>
-
-<script src="js/menu.js"></script>
-</body>
-</html>
-
+vDataJSON["tpl"]["javascript"] = `
 //#################################################################
 {{#ifcond data.reposinfo.static "!=" "yes"}}
 //# Javascript Class: {{data.classname}}()

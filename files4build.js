@@ -14,14 +14,12 @@ const getLibs4Build = function (pLibPath) {
     pLibPath+'filesaver.js',
     pLibPath+'jsoneditor.js',
     //-----------------------------------------------
-    //---- Load Handlebars4Code or ------------------
-    // pLibPath+'handlebars4code.js',
-    //- OR Load Handlebars with Handlebars Helpers---
-    pLibPath+'handlebars.js',
-    pLibPath+'handlebars_helper.js',
+    //---- Load Handlebars4Code  --------------------
+    pLibPath+'handlebars4code.js',
     //-----------------------------------------------
     pLibPath+'linkparam.js',
     //pLibPath+'localstorage.js',
+    pLibPath+'lib4menu.js',
     pLibPath+'exportmod.js'
   ];
   return vLibs4Build;
@@ -68,7 +66,8 @@ const getReadme4Build = function (pPath) {
     pPath+'body.md',
     pPath+'bodytail.md',
     */
-    //pPath+'jsonschema.md',
+    pPath+'jsonschema.md',
+    pPath+'menuschema.md',
     pPath+'build_process.md',
     pPath+'browserify.md',
     pPath+'acknowledgement.md',

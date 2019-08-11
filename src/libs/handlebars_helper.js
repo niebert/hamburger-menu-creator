@@ -28,10 +28,10 @@ function value_in_array( pValue, pArray ) {
       if (pValue == pArray[i]) {
         ret = i;
       }
-    };
+    }
   } else {
     console.log("value_in_array()-Call pArray undefined");
-  };
+  }
   return ret;
 }
 
@@ -133,10 +133,10 @@ Handlebars.registerHelper('eachparam', function(context, pClassname,options) {
   for (var varID in options.hash) {
     if (options.hash.hasOwnProperty(varID)) {
       console.log("eachparam options.hash['"+varID+"']='"+options.hash[varID]+"'");
-      vText = vText.replace(new RegExp('{{' + varID + '}}', 'g'), options.hash[varID])
+      vText = vText.replace(new RegExp('{{' + varID + '}}', 'g'), options.hash[varID]);
     }
-  };
-  return vText
+  }
+  return vText;
 });
 
 Handlebars.registerHelper('foreach', function(pArray, pData, options) {
@@ -151,8 +151,8 @@ Handlebars.registerHelper('foreach', function(pArray, pData, options) {
     item = clone_json(pArray[i]);
     item.data = pData;
     ret += options.fn(item);
-  };
-  return ret
+  }
+  return ret;
 });
 
 
@@ -166,28 +166,29 @@ Handlebars.registerHelper('listhtmlattr', function(context, options) {
   }).join("\n") + "</ul>";
 });
 
-Handlebars.registerHelper('indent', function(pContext, options) {
-  var vIndent = "";
-  var vText = "";
-  var vCR = "";
-  if (options && options.hasOwnProperty("hash")) {
-    if (options.hash.hasOwnProperty("text")) {
-      //console.log("text='"+options.hash["text"]+"'");
-      vText = options.hash["text"];
-    };
-    if (options.hash.hasOwnProperty("indent")) {
-      vIndent = options.hash["indent"];
-      //console.log("[indent] Indent for Code in HandleBars: '"+vIndent+"'");
-    };
-    //vText = options.fn(pContext);
-    //console.log("codeindent: vText="+vText.substr(0,120)+"...");
+Handlebars.registerHelper('indent', function(pText, pIndent) {
+  var vText = pText ||"ERROR: undefined pText in helper-indent ";
+  var vIndent = "        ";
+  if(typeof(pIndent) == "string") {
+    console.log("CALL: helper-indent: pIndent is of type 'String'");
+    vIndent = pIndent;
   } else {
-    console.log("[indent] options in helper undefined");
-  };
+    if (pIndent.hasOwnProperty("hash")) {
+      if (pIndent.hash.hasOwnProperty("indent")) {
+        vIndent = pIndent.hash.indent;
+      } else {
+        console.log("ERROR: helper-indent: pIndent.hash 'indent' property undefined - use default indent");
+      }
+    } else {
+      console.log("ERROR: helper-indent: pIndent undefined - use default indent");
+    }
+  }
+  var vCR = "";
+  console.log("indent-helper: vIndent='"+vIndent+"'");
   //vIndent = "\n" + vIndent;
   if (vText && (vText != "")) {
     vText = vText.replace(/\n/g,"\n"+vIndent);
-  };
+  }
   return new Handlebars.SafeString(vIndent+vText);
 });
 
@@ -199,22 +200,22 @@ Handlebars.registerHelper('codeindent', function(pContext, options) {
   var vCR = "";
   if (options) {
     if (options.hash.hasOwnProperty("indent")) {
-      vIndent = options.hash["indent"];
+      vIndent = options.hash.indent;
       //console.log("Indent for Code Coments in HandleBars: '"+vIndent+"'");
-    };
+    }
     vText = options.fn(pContext);
     //console.log("pContext: "+pContext);
   } else {
     console.log("options in helper 'commentindent' undefined");
-  };
+  }
   if (pContext) {
     //console.log("Type: "+typeof(pContext)+" '"+pContext+"'");
     vText = pContext;
-  };
+  }
   //vIndent = "\n" + vIndent;
   if (vText != "") {
     vText = vText.replace(/\n/g,"\n"+vIndent+"  ");
-  };
+  }
   return vIndent+"  "+vText+"\n";
 });
 
@@ -240,22 +241,23 @@ Handlebars.registerHelper('requirelibs', function(pArray, options) {
     var vFile = pFile || "undef_require_lib";
     if (vFile.indexOf("/")>=0) {
       vFile = vFile.slice(vFile.lastIndexOf("/")+1);
-    };
+    }
     vFile = vFile.replace(/[^A-Za-z0-9]/g,"_"); // remove illegial characters in variable name
     return vFile.charAt(0).toUpperCase() + vFile.slice(1);
-  };
+  }
 
   for (var i = 0; i < pArray.length; i++) {
     vFile = pArray[i];
-    ret += options.fn({"variable":filename2var(vFile),"module":vFile})
-  };
+    //ret += options.fn({"variable":filename2var(vFile),"module":vFile})
+    ret += options.fn(pArray[i]);
+  }
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
-  return ret
+  return ret;
 });
 
-Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods,pBaseClasses,pLocalClasses,pRequirePath, options) {
-  var vRequirePath = pRequirePath || "./libs/";
+Handlebars.registerHelper('requireclass', function(pData,pSettings, options) {
+  var vRequirePath = pData.reposinfo.require_path || "./libs/";
   var ret = "";
   // vRequire is a Hash that collects all classes
   // that are needed to create attributes or
@@ -269,49 +271,49 @@ Handlebars.registerHelper('requireclass', function(pSuperClass,pAttribs,pMethods
     // so class/library is added if an only if it is not a base class
     console.log("("+pCheckTitle+") addlib_check('"+pLib+"')");
     if (pLib != "") {
-      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pBaseClasses));
-      if ((value_in_array(pLib,pBaseClasses) >= 0) || (pLib == pSuperClass)) {
+      console.log("Base Class '"+pLib+"' index="+value_in_array(pLib,pSettings.baseclasslist));
+      if ((value_in_array(pLib,pSettings.baseclasslist) >= 0) || (pLib == pData.superclassname)) {
         console.log("("+pCheckTitle+") Library '"+pLib+"' is a Base Class - no required");
       } else {
-        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pLocalClasses));
-        if (value_in_array(pLib,pLocalClasses) >= 0) {
+        console.log("Local Class '"+pLib+"' index="+value_in_array(pLib,pSettings.localclasslist));
+        if (value_in_array(pLib,pSettings.localclasslist) >= 0) {
           // pLib is a local library
           vRequire[pLib] = vRequirePath + name2filename(pLib);
           console.log("("+pCheckTitle+") Library '"+pLib+"' is a Local Class - require('"+vRequire[pLib]+"')");
         } else {
           vRequire[pLib] = name2filename(pLib);
           console.log("("+pCheckTitle+") Library '"+pLib+"' is a Remote Class - require('"+vRequire[pLib]+"')");
-        };
-      };
-    };
-  }; //END: addlib_check()
+        }
+      }
+    }
+  } //END: addlib_check()
 
-  console.log("Call Helper: requireclasslist - superclass='"+pSuperClass+"' require_path='"+vRequirePath+"'");
-  for (var i=0; i<pAttribs.length; i++) {
+  console.log("Call Helper: requireclasslist - superclass='"+pData.superclassname+"' require_path='"+vRequirePath+"'");
+  for (var i=0; i<pData.attributes.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for attributes
-    addlib_check("Attribute",pAttribs[i].class);
-  };
-  for (var i=0; i<pMethods.length; i++) {
+    addlib_check("Attribute",pData.attributes[i].class);
+  }
+  for (i=0; i<pData.methods.length; i++) {
     // populate vRequire with classes that a needed as
     // constructors for returned instances of those classes
-    addlib_check("Method "+pMethods[i].name+"() Return",pMethods[i].return);
-    vPars = pMethods[i].parameter;
+    addlib_check("Method "+pData.methods[i].name+"() Return",pData.methods[i].return);
+    vPars = pData.methods[i].parameter;
     for (var k=0; k<vPars.length; k++) {
-      addlib_check("Parameter "+pMethods[i].name+"()",vPars[k].class);
-    };
-  };
+      addlib_check("Parameter "+pData.methods[i].name+"()",vPars[k].class);
+    }
+  }
   // vRequire is a Hash therefore double usage of classes
   // in attributes and returns of methods lead just to one
   // require call in the list
   var vSep = "";
   for (var iLib in vRequire) {
     if (vRequire.hasOwnProperty(iLib)) {
-      ret += options.fn({"variable":iLib,"module":vRequire[iLib]})
+      ret += options.fn({"variable":iLib,"module":vRequire[iLib]});
       //ret += vSep + "const " + iLib + " = require('" + vRequire[iLib]+"');";
       vSep = "\n";
     }
-  };
+  }
   //return new Handlebars.SafeString(ret);
   console.log("Require List:\n"+ret);
   return ret;
@@ -345,7 +347,7 @@ function paramCallString(pParamArray) {
   for(var i=0, j=pParamArray.length; i<j; i++) {
     ret += vComma +  pParamArray[i].name;
     vComma = ",";
-  };
+  }
 
   return new Handlebars.SafeString(ret);
 }
@@ -362,7 +364,7 @@ function paramTypeString(pParamArray) {
     for(var i=0, j=pParamArray.length; i<j; i++) {
       ret += vComma +  pParamArray[i].name+":"+pParamArray[i].class;
       vComma = ",";
-    };
+    }
   } else {
     console.log("No pParamArray in 'paramcall' helper.");
   }
@@ -388,38 +390,18 @@ function attribs4UMLString(pArray) {
       break;
       default:
         vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+":"+pArray[i].class;
-    vSep = "<br>";
-  };
+    }
+    ret += vSep + " " + vVis + " `" + pArray[i].name;
+    if (pArray[i].class != " ") {
+      ret += + ":"+pArray[i].class;
+    }
+    vSep = "`<br>";
+  }
+  ret += "`";
   return new Handlebars.SafeString(ret);
 }
 
 Handlebars.registerHelper('requireattribs', attribs4UMLString);
-
-// -----------
-
-function attribs4UMLString(pArray) {
-  // pArray contains the array of Attributes
-  var ret = "";
-  var vSep = "";
-  var vVis = "-";
-  for(var i=0, j=pArray.length; i<j; i++) {
-    switch (pArray[i].visibility) {
-      case "public":
-        vVis = "+";
-      break;
-      case "private":
-        vVis = "-";
-      break;
-      default:
-        vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+":"+pArray[i].class;
-    vSep = "<br>";
-  };
-  return ret;
-}
 
 Handlebars.registerHelper('attribs_uml', attribs4UMLString);
 
@@ -440,15 +422,16 @@ function methods4UMLString(pArray) {
       break;
       default:
         vVis = "-";
-    };
-    ret += vSep + " " + vVis + " " + pArray[i].name+"(";
+    }
+    ret += vSep + " " + vVis + " `" + pArray[i].name+"(";
     ret += paramTypeString(pArray[i].parameter);
     ret += ")";
-    if (pArray[i].return != "") {
-      ret += ":"+pArray[i].return
-    };
-    vSep = "<br>";
-  };
+    if (pArray[i].return != " ") {
+      ret += ":"+pArray[i].return;
+    }
+    vSep = "`<br>";
+  }
+  ret += "`";
   return new Handlebars.SafeString(ret);
 }
 
@@ -460,7 +443,7 @@ function parameterListString(pParamArray,pIndent) {
   var ret = "";
   var vNewLine = "";
   var vComment = "";
-  var vExtraIndent = "  "
+  var vExtraIndent = "  ";
   for(var i=0, j=pParamArray.length; i<j; i++) {
     ret += vNewLine +  pParamArray[i].name + ":"+pParamArray[i].class;
     vNewLine = "\n"+pIndent;
@@ -469,8 +452,8 @@ function parameterListString(pParamArray,pIndent) {
       vComment = vComment.replace(/\n/g,vNewLine+vExtraIndent);
       // Split comment at "\n" and inject the vNewLine indent with additional spaces for the comment
       ret += vNewLine + vExtraIndent + vComment;
-    };
-  };
+    }
+  }
   return new Handlebars.SafeString(ret);
 }
 

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>JSONEditor4Code</title>
+    <title>JSONEditor4Menu</title>
     <link href="jquery/jquery-ui.css" rel="stylesheet">
     <!-- Bootstrap Core CSS -->
      <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -95,6 +95,11 @@
   Template ID: "css"
   Template: vDataJSON["tpl"]["html"]
   -->
+  <script src="tpl/javascript_tpl.js"></script>
+  <!-- ### COMPILE HANDLEBARS TEMPLATES  ############
+  Template ID: "css"
+  Template: vDataJSON["tpl"]["javascript"]
+  -->
   <script src="tpl/html_tpl.js"></script>
   <!-- ### SCHEMA LOADER ############################
   script tag stores the JSON schema in
@@ -131,14 +136,20 @@
 		&nbsp;
 		&nbsp;
     <!-- Function: exportCode() is defined in js/classeditor.js -->
-    <button id='bExportHTML' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('javascript','.js','Javascript Code for Class');return false">
+    <button id='bExportCSS' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('css','.css','CSS Stylesheet for Menu');return false">
 			<i class="fa fa-floppy-o" aria-hidden="true"></i> Export CSS
 	 </button>
    <!-- Function: exportDocumentation() is defined in js/classeditor.js -->
-   <button id='bExportDoc' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('docu4github','_github.md','Github Documentation for Class');return false">
+   <button id='bExportHTML' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('html','.html','HTML file of WebApp with Menu');return false">
      <i class="fa fa-floppy-o" aria-hidden="true"></i> Export HTML-Menu
   </button>
-  <button id='bSettings' style="color: white;background-color: #A0A0A0"  onclick="vJSONEditor.toggleSettings('root.settings','root.data');return false">
+  <button id='bExportJS' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4Template('javascript','.js','Javascript file of WebApp with Menu');return false">
+    <i class="fa fa-floppy-o" aria-hidden="true"></i> Export JS-Menu
+ </button>
+ <button id='bExportZIP' style="color: white;background-color: #225988"  onclick="vJSONEditor.save4MenuZIP('zip','.zip','ZIP File of Hamburger Menu');return false">
+    <i class="fa fa-floppy-o" aria-hidden="true"></i> Export Menu as ZIP
+ </button>
+ <button id='bSettings' style="color: white;background-color: #A0A0A0"  onclick="vJSONEditor.toggleSettings('root.settings','root.data');return false">
     <i class="fa fa-cog" aria-hidden="true"></i> Settings
   </button>
     <!--
@@ -158,7 +169,7 @@
 	</div>
 <hr>
 
-The library <tt>JSONEditor4Menu</tt> is a JSON Editor for creating HTML5 menus with CSS and HTML Templates for Hamburger Menus - based on JSON Editor of Jeremy Dorn. 
+The library <tt>JSONEditor4Menu</tt> is a JSON Editor for creating HTML5 menus with CSS and HTML Templates for Hamburger Menus - based on JSON Editor of Jeremy Dorn.
 The source code of  JSONEditor4Menu can be downloaded as <a href="https://github.com/githubuser/JSONEditor4Menu/archive/master.zip"  target="_blank">ZIP-file jsoneditor4menu.zip</a>
 
 	<!-- BEGIN of JSON Editor -->

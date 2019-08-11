@@ -303,16 +303,16 @@ function JSONEditor4Menu () {
   };
 
   this.init_ask = function () {
-    var vOK = confirm("Do you really want to initialize the data for '"+getAppName(this.aJSON)+"'?");
+    var vOK = confirm("Do you really want to initialize the data for '"+this.getAppName()+"'?");
     if (vOK == true) {
-    		var vSaveOK = confirm("Do you want to save the current data for '"+getAppName(this.aJSON)+"' first?");
+    		var vSaveOK = confirm("Do you want to save the current data for '"+this.getAppName()+"' first?");
     		if (vSaveOK == true) {
     			this.saveJSON();
-    			console.log("JSON-DB initalized with data for '"+getAppName(this.aJSON)+"'!");
+    			console.log("JSON-DB initalized with data for '"+this.getAppName()+"'!");
     		} else {
-    			console.log("JSON-DB for  '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+    			console.log("JSON-DB for  '"+this.getAppName()+"' not saved - data deleted!");
         }
-      	console.log("JSON-DB for  '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+      	console.log("JSON-DB for  '"+this.getAppName()+"' not saved - data deleted!");
         this.aEditor.setValue(this.aDefaultJSON); // defined e.g. in /db/uml_default.js
     } else {
         console.log("initialize JSON-DB cancelled");
@@ -322,12 +322,12 @@ function JSONEditor4Menu () {
   this.delete_ask = function () {
     var vOK = confirm("Do you want to delete all data?");
     if (vOK == true) {
-        var vSaveOK = confirm("Do you want to save the current data for '"+getAppName(this.aJSON)+"' first?");
+        var vSaveOK = confirm("Do you want to save the current data for '"+this.getAppName()+"' first?");
         if (vSaveOK == true) {
           this.saveJSON();
-          console.log("JSON-DB initalized with data for '"+getAppName(this.aJSON)+"'!");
+          console.log("JSON-DB initalized with data for '"+this.getAppName()+"'!");
         } else {
-          console.log("JSON-DB for app '"+getAppName(this.aJSON)+"' not saved - data deleted!");
+          console.log("JSON-DB for app '"+this.getAppName()+"' not saved - data deleted!");
         }
         var vEmptyJSON = {
             "data":{
@@ -698,10 +698,10 @@ function JSONEditor4Menu () {
     }
   };
 
-  this.saveLS = function (pLSID) {
+  this.saveLS = function (pLSID,pJSON) {
     var vLSID = pLSID || "jsondata";
     console.log("saveLS('"+vLSID+"')-Call");
-    var vJSON = this.getValue();
+    var vJSON = pJSON || this.getValue();
     var vJSONstring = "";
     if (typeof(Storage) != "undefined") {
         // Store
@@ -736,7 +736,8 @@ function JSONEditor4Menu () {
           //document.getElementById("inputTextToSave").value = textFromFileLoaded;
           //alert("textFromFileLoaded="+textFromFileLoaded);
           try {
-            vThis.aEditor.setValue(JSON.parse(vTextFromFileLoaded));
+            var vLoadedJSON = JSON.parse(vTextFromFileLoaded);
+            vThis.json2editor(vLoadedJSON);
             vThis.update_filename();
             alert("File JSON '"+fileToLoad.name+"' loaded successfully!");
             vThis.validate_errors();
@@ -753,17 +754,48 @@ function JSONEditor4Menu () {
     this.saveLS("jsondata");
   };
 
+  this.json2editor = function(pLoadedJSON) {
+    var vJSON = null;
+    if (pLoadedJSON) {
+      // json2editor has a JSON as paramter
+      if (pLoadedJSON.hasOwnProperty('data') && pLoadedJSON.hasOwnProperty('settings')) {
+        // load menu DEFINITION AND menu TEMPLATE/layout
+        vJSON = pLoadedJSON;
+      } else {
+        vJSON = cloneJSON(this.aDefaultJSON);
+        // here either "data" or "settings" is missing
+        if (pLoadedJSON.hasOwnProperty('data')) {
+          //  load menu DEFINITION only > settings / layout / templates are missing
+          vJSON.data = pLoadedJSON.data;
+          console.log("JSON update of 'data' in json2editor()");
+        } else if (pLoadedJSON.hasOwnProperty('settings')) {
+          // load menu TEMPLATE/layout > data for menu structure is missing
+          vJSON.settings = pLoadedJSON.settings;
+          console.log("JSON update of 'settings' in json2editor()");
+        }
+      }
+      this.aEditor.setValue(vJSON);
+    } else {
+      console.error("CALL: json2editor(pLoadedJSON) pLoadedJSON was undefined!");
+    }
+  };
+
   this.getAppName4File = function () {
-    return app2filename(getAppName(this.aJSON),"_juml.json");
+    return app2filename(this.getAppName(),".hmc.json");
+  };
+
+  this.getAppName = function () {
+    var vAppName = "Undefined App" || this.aJSON.appname;
+    return vAppName;
   };
 
   this.getFilename = function(pJSON) {
-    var vClassName = "Undefined_Class";
-    var vExtension = pJSON.settings.extension4json || "_uml.json";
+    var vAppName = "Undefined App";
+    var vExtension = pJSON.settings.extension4json || ".hmc.json";
     if (pJSON) {
       if (pJSON.data) {
         if (pJSON.data.appname) {
-          vClassName  = pJSON.data.appname;
+          vAppName  = pJSON.data.appname;
         } else {
           console.log("WARNING: pJSON.data.appname undefined in JSONEditor4Menu.getFilename()");
         }
@@ -773,17 +805,23 @@ function JSONEditor4Menu () {
     } else {
       console.log("WARNING: pJSON undefined in JSONEditor4Menu.getFilename()");
     }
-    var vFilename = app2filename(vClassName) + vExtension;
+    var vFilename = app2filename(vAppName) + vExtension;
     return vFilename;
   };
 
-  this.setFilename = function (pFilename) {
+  this.setAppName = function (pAppName) {
     if (this.aJSON) {
       if (this.aJSON.data) {
         if (this.aJSON.data.appname) {
-          this.aJSON.data.appname = pFilename;
+          this.aJSON.data.appname = pAppName;
+        } else {
+          console.error("this.aJSON.data.appname is undefined");
         }
+      } else {
+        console.error("this.aJSON.data is undefined");
       }
+    } else {
+      console.error("this.aJSON is undefined");
     }
   };
 
@@ -803,7 +841,7 @@ function JSONEditor4Menu () {
 
   this.saveSchema = function () {
     var vContent = JSON.stringify(this.aSchema,null,4);
-    var vFile = "class_uml_schema.json";
+    var vFile = "menu_schema.json";
     saveFile2HDD(vFile,vContent);
     console.log("JSON Schema '"+vFile+"' saved!");
     alert("JSON Schema File: '"+vFile+"' saved!");
@@ -840,7 +878,7 @@ function JSONEditor4Menu () {
         this.viewOutput(vContent);
         //---------------------------------
       } else {
-        console.log("compileCode['"+pTplCode+"'] undefined");
+        console.error("Handlebars4Code template compiler this.compileCode."+pTplCode+"() undefined");
       }
 
       return vContent;
@@ -848,10 +886,27 @@ function JSONEditor4Menu () {
 
   this.save4Template = function (pTplID,pExtension,pMessage) {
       console.log("save4Template('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
-      var vMessage = pMessage || "Code";
+      var vMessage = pMessage || "Code for Template generated";
       //vContent = postProcessHandlebars(vContent,vJSON);
       var vContent = this.getOutput4Template(pTplID);
       console.log("save4Template() vContent="+vContent.substr(0,120)+"...");
+      //--Textarea Output----------------
+      this.viewOutput(vContent);
+      //---------------------------------
+      //--JSON Output--------------------
+      var vJSON = this.getValue();
+      var vFile = app2filename(vJSON.data.appname,pExtension);
+      saveFile2HDD(vFile,vContent);
+      //alert("File '"+vFile+"' saved - "+vMessage);
+      console.log("File '"+vFile+"' saved - "+vMessage);
+  };
+
+  this.save4MenuZIP = function (pTplID,pExtension,pMessage) {
+      console.log("save4MenuZIP('"+pTplID+"'.'"+pExtension+"','"+pMessage+"')");
+      var vMessage = pMessage || "ZIP of Menue was generated";
+      //vContent = postProcessHandlebars(vContent,vJSON);
+      var vContent = this.getOutput4Template("html");
+      console.log("save4Template('html') vContent="+vContent.substr(0,120)+"...");
       //--Textarea Output----------------
       this.viewOutput(vContent);
       //---------------------------------

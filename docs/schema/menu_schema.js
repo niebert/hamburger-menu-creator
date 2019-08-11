@@ -5,7 +5,7 @@ vDataJSON["menu_schema"] = {
     "options":{
       "disable_collapse": false,
       "disable_properties": true,
-      "disable_edit_json": false
+      "disable_edit_json": true
     },
     "title": "Hamburger Menu Creator",
     "definitions": {
@@ -19,10 +19,11 @@ vDataJSON["menu_schema"] = {
           "title": "Visibility",
           "type": "string",
           "enum": [
-              "public",
-              "private"
+              "visible",
+              "hidden",
+              "not used"
           ],
-          "default":"public"
+          "default":"visible"
       },
       "yesno":{
         "default": "yes",
@@ -34,21 +35,79 @@ vDataJSON["menu_schema"] = {
       },
       "selectoricon": {
         "type": "string",
+        "title": "Menu Icon",
         "default": "",
         "enum":[
-            "",
-            "fa fa-folder-open-o",
-            "fa fa-floppy-o",
-            "a fa-cog",
-            "fa fa-trash"
+            "circle-thin",
+            "home",
+            "folder-open-o",
+            "floppy-o",
+            "pencil-square-o",
+            "calendar",
+            "camera",
+            "clone",
+            "line-chart",
+            "eye-slash",
+            "fa-picture-o",
+            "envelope-o",
+            "minus",
+            "mobile",
+            "phone",
+            "plus",
+            "print",
+            "power-off",
+            "refresh",
+            "search",
+            "cog",
+            "eye",
+            "volume-up",
+            "trash",
+            "upload",
+            "times"
         ],
         "options": {
           "enum_titles": [
-            "NO ICON",
+            " ",
+            "Home",
             "Load",
             "Save",
+            "Edit",
+            "Exit",
+            "Calendar",
+            "Camera",
+            "Clone",
+            "Chart/Diagrams",
+            "Hide",
+            "Images",
+            "Mail",
+            "Minus",
+            "Mobile Phone",
+            "Phone",
+            "Plus",
+            "Print",
+            "Quit/Exit",
+            "Refresh",
+            "Search",
             "Settings",
-            "Trash"
+            "Show/View",
+            "Sound",
+            "Trash",
+            "Upload",
+            "X-Exit"
+          ]
+        }
+      },
+      "target": {
+        "type": "string",
+        "default": "",
+        "enum":[
+            " ",
+            " target=\"_blank\" "
+        ],
+        "options": {
+          "enum_titles": [
+            "same window",
+            "new window"
           ]
         }
       },
@@ -90,15 +149,16 @@ vDataJSON["menu_schema"] = {
             "id": "/properties/data",
             "options": {
               "collapsed": false,
-              "disable_properties": true
+              "disable_properties": true,
+              "disable_edit_json": true
             },
             "defaultProperties": [
                 "appname",
                 "apptitle",
                 "comment",
+                "colors",
                 "reposinfo",
-                "attributes",
-                "methods"
+                "menuitems"
             ],
             "properties": {
                 "appname": {
@@ -108,7 +168,7 @@ vDataJSON["menu_schema"] = {
                     "propertyOrder": 10,
                     "default": "NewApp",
                     "format": "text",
-                    "description": "Use as appname (uppercase character allowed, e.g.'MyWebApp') - it is used for exported files as filenames e.g. 'mywebapp.json'."
+                    "description": "Use as appname (uppercase character allowed, e.g.'MyWebApp') - it is used for exported files as names e.g. 'mywebapp.json'."
                 },
                 "apptitle": {
                     "type": "string",
@@ -126,579 +186,255 @@ vDataJSON["menu_schema"] = {
                     "description": "Describe the main application of this class for the software development. This description will be used to generate a documentation of the UML definition.",
                     "$ref": "#/definitions/comment"
                 },
-                "colors": {
-                    "type": "object",
-                    "id": "/properties/data/properties/colors",
-                    "title": "Colors",
-                    "options": {
-                      "disable_collapse": false,
-                      "disable_edit_json": false,
-                      "disable_properties": false,
-                      "collapsed": false,
-                      "hidden": false
-                    },
-                    "defaultProperties": [
-                      "app",
-                      "menu"
-                    ],
-                    "properties": {
-                      "app": {
-                        "type": "object",
-                        "id": "/properties/data/properties/colors/properties/app",
-                        "title": "App",
-                        "options": {
-                          "disable_collapse": false,
-                          "disable_edit_json": false,
-                          "disable_properties": false,
-                          "collapsed": true,
-                          "hidden": false
-                        },
-                        "defaultProperties": [
-                          "background",
-                          "textcolor"
-                        ],
-                        "properties": {
-                          "background": {
-                            "type": "string",
-                            "id": "/properties/data/properties/colors/properties/app/properties/background",
-                            "title": "Background",
-                            "default": "#F6F4E2",
-                            "format": "color",
-                            "description": "Description for 'background' Type: 'string' Path: '/properties/data/properties/colors/properties/app/properties/background'",
-                            "options": {
-                              "hidden": false
-                            },
-                            "propertyOrder": 10
-                          },
-                          "textcolor": {
-                            "type": "string",
-                            "id": "/properties/data/properties/colors/properties/app/properties/textcolor",
-                            "title": "Textcolor",
-                            "default": "#70420D",
-                            "format": "color",
-                            "description": "Description for 'textcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/app/properties/textcolor'",
-                            "options": {
-                              "hidden": false
-                            },
-                            "propertyOrder": 20
-                          }
-                        },
-                        "propertyOrder": 10
-                      },
-                      "menu": {
-                        "type": "object",
-                        "id": "/properties/data/properties/colors/properties/menu",
-                        "title": "Menu",
-                        "options": {
-                          "disable_collapse": false,
-                          "disable_edit_json": false,
-                          "disable_properties": false,
-                          "collapsed": true,
-                          "hidden": false
-                        },
-                        "defaultProperties": [
-                          "toggleleft",
-                          "background",
-                          "textcolor",
-                          "mobile",
-                          "desktop"
-                        ],
-                        "properties": {
-                          "toggleleft": {
-                            "type": "boolean",
-                            "id": "/properties/data/properties/colors/properties/menu/properties/toggleleft",
-                            "title": "Toggle for Menu left",
-                            "format": "checkbox",
-                            "default": false,
-                            "description": "A description for 'toggleleft'  Type: 'boolean'",
-                            "options": {
-                              "hidden": false
-                            },
-                            "propertyOrder": 10
-                          },
-                          "background": {
-                            "type": "string",
-                            "id": "/properties/data/properties/colors/properties/menu/properties/background",
-                            "title": "Background",
-                            "default": "#F6F4E2",
-                            "format": "color",
-                            "description": "Description for 'background' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/background'",
-                            "options": {
-                              "hidden": false
-                            },
-                            "propertyOrder": 20
-                          },
-                          "textcolor": {
-                            "type": "string",
-                            "id": "/properties/data/properties/colors/properties/menu/properties/textcolor",
-                            "title": "Textcolor",
-                            "default": "#70420D",
-                            "format": "color",
-                            "description": "Description for 'textcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/textcolor'",
-                            "options": {
-                              "hidden": false
-                            },
-                            "propertyOrder": 30
-                          },
-                          "mobile": {
-                            "type": "object",
-                            "id": "/properties/data/properties/colors/properties/menu/properties/mobile",
-                            "title": "Mobile",
-                            "options": {
-                              "disable_collapse": false,
-                              "disable_edit_json": false,
-                              "disable_properties": false,
-                              "collapsed": true,
-                              "hidden": false
-                            },
-                            "defaultProperties": [
-                              "texcolor",
-                              "default",
-                              "hover",
-                              "focus"
-                            ],
-                            "properties": {
-                              "texcolor": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/texcolor",
-                                "title": "Texcolor",
-                                "default": "#EBEBD3",
-                                "format": "color",
-                                "description": "Description for 'texcolor' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/texcolor'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 10
-                              },
-                              "default": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/default",
-                                "title": "Default",
-                                "default": "#333000",
-                                "format": "color",
-                                "description": "Description for 'default' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/default'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 20
-                              },
-                              "hover": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/hover",
-                                "title": "Hover",
-                                "default": "#70420D",
-                                "format": "color",
-                                "description": "Description for 'hover' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/hover'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 30
-                              },
-                              "focus": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/mobile/properties/focus",
-                                "title": "Focus",
-                                "default": "#E4B363",
-                                "format": "color",
-                                "description": "Description for 'focus' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/mobile/properties/focus'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 40
-                              }
-                            },
-                            "propertyOrder": 40
-                          },
-                          "desktop": {
-                            "type": "object",
-                            "id": "/properties/data/properties/colors/properties/menu/properties/desktop",
-                            "title": "Desktop",
-                            "options": {
-                              "disable_collapse": false,
-                              "disable_edit_json": false,
-                              "disable_properties": false,
-                              "collapsed": true,
-                              "hidden": false
-                            },
-                            "defaultProperties": [
-                              "default",
-                              "hover",
-                              "focus"
-                            ],
-                            "properties": {
-                              "default": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/default",
-                                "title": "Default",
-                                "default": "#E4B363",
-                                "format": "color",
-                                "description": "Description for 'default' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/default'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 10
-                              },
-                              "hover": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/hover",
-                                "title": "Hover",
-                                "default": "#d18428",
-                                "format": "color",
-                                "description": "Description for 'hover' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/hover'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 20
-                              },
-                              "focus": {
-                                "type": "string",
-                                "id": "/properties/data/properties/colors/properties/menu/properties/desktop/properties/focus",
-                                "title": "Focus",
-                                "default": "#472a07",
-                                "format": "color",
-                                "description": "Description for 'focus' Type: 'string' Path: '/properties/data/properties/colors/properties/menu/properties/desktop/properties/focus'",
-                                "options": {
-                                  "hidden": false
-                                },
-                                "propertyOrder": 30
-                              }
-                            },
-                            "propertyOrder": 50
-                          }
-                        },
-                        "propertyOrder": 20
-                      }
-                    },
-                    "propertyOrder": 35
-                },
-                "reposinfo": {
-                    "type": "object",
-                    "title": "Repository Info",
-                    "propertyOrder": 40,
-                    "id": "/properties/data/properties/reposinfo",
-                    "options": {
-                      "collapsed": true,
-                      "disable_properties": true
-                    },
-                    "defaultProperties": [
-                        "JSCC_type",
-                        "JSCC_version",
-                        "repository",
-                        "static",
-                        "debugheader",
-                        "require_classes",
-                        "author",
-                        "email",
-                        "created",
-                        "modified",
-                        "configcode",
-                        "requirelist"
-                    ],
-                    "properties": {
-                        "JSCC_type": {
-                          "type": "string",
-                          "id": "/properties/data/properties/reposinfo/properties/JSCC_type",
-                          "title": "JSCC Type",
-                          "options": {
-                            "hidden": true
-                          },
-                          "propertyOrder": 10,
-                          "default": "CLASS",
-                          "format": "text",
-                          "description": "Hidden JSON attribute to handle with JavascriptClassCreator JSCC as CLASS - allows integration into UML based Software Development Framework"
-                        },
-                        "JSCC_version": {
-                          "type": "string",
-                          "id": "/properties/data/properties/reposinfo/properties/JSCC_type",
-                          "title": "JSCC Version",
-                          "propertyOrder": 20,
-                          "options": {
-                            "hidden": true
-                          },
-                          "default": "2",
-                          "format": "text",
-                          "description": "Hidden JSON attribute to handle the version of JSON with JavascriptClassCreator JSCC as CLASS - allows integration into UML based Software Development Framework"
-                        },
-                        "repository": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/repository",
-                            "title": "URL Repository",
-                            "propertyOrder": 30,
-                            "default": "https://www.github.com/author/NewClass",
-                            "format": "text",
-                            "description": "Enter e.g. the Link to your GitHub repository."
-                        },
-                        "require_classes": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/require_classes",
-                            "$ref": "#/definitions/yesno",
-                            "title": "Require Classes NPM:",
-                            "propertyOrder": 40,
-                            "description": "Set to 'Yes' if you want to insert the require commands for used classes in the generated code and add a 'module.exports' at the end of the generated code"
-                        },
-                        "debugheader": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/debugheader",
-                            "$ref": "#/definitions/yesno",
-                            "title": "Debug Headers:",
-                            "propertyOrder": 60,
-                            "default": "no",
-                            "description": "If set to 'Yes' the generated output of the app will have a debug comments and headers for easier debugging"
-                        },
-                        "requirelist": {
-                            "title":"List of Libraries",
-                            "propertyOrder": 70,
-                            "type": "array",
-                            "id": "/properties/data/properties/reposinfo/properties/requirelist",
-                            "format": "table",
-                            "description": "Add required libraries for the App. This creates a SCRIPT-tag in the generated HTML code for each module - add the required libraries to the  'js' folder in exported zip file.",
-                            "options": {
-                              "collapsed": false
-                            },
-                            "items": {
-                              "type": "object",
-                              "title": "Module",
-                              "id": "/properties/requirelist/items",
-                              "defaultProperties": [
-                                  "module",
-                                  "variable"
-                              ],
-                              "properties": {
-                                "variable": {
-                                    "type": "string",
-                                    "id": "/properties/requirelist/items/properties/variable",
-                                    "title": "Variable",
-                                    "default": "Handlebars",
-                                    "format": "text"
-                                },
-                                "module": {
-                                      "type": "string",
-                                      "id": "/properties/requirelist/items/properties/module",
-                                      "title": "Require Module",
-                                      "default": "handlebars",
-                                      "format": "text"
-                                  }
-                              }
-                          }
-                        },
-                        "author": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/author",
-                            "title": "Author of Class",
-                            "propertyOrder": 80,
-                            "default": "My Name",
-                            "format": "text"
-                        },
-                        "email": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/email",
-                            "title": "e-Mail:",
-                            "propertyOrder": 90,
-                            "default": "name@example.com",
-                            "format": "text"
-                        },
-                        "created": {
-                            "title": "Created:",
-                            "propertyOrder": 100,
-                            "type": "string",
-                            "default": getDate(),
-                            "id": "/properties/data/properties/reposinfo/properties/created",
-                            "format": "text"
-                        },
-                        "modified": {
-                            "title": "Modified:",
-                            "propertyOrder": 110,
-                            "type": "string",
-                            "default": getDate(),
-                            "id": "/properties/data/properties/reposinfo/properties/modified",
-                            "format": "text"
-                        },
-                        "configcode": {
-                            "type": "string",
-                            "id": "/properties/data/properties/reposinfo/properties/configcode",
-                            "title": "Configuration Code",
-                            "description": "The configuration code will be placed before the constructor of class and could contain e.g. some constants of some functions that are not methods of the class and are accessible in the class only.",
-                            "default": "// the configuration code can be used to create some constants or local functions",
-                            "propertyOrder": 120,
-                            "format": vProgLanguage
-                        }
-
-                    }
-                },
-                "attributes": {
-                    "title": "Attribute",
-                    "propertyOrder": 50,
+                "menuitems": {
                     "type": "array",
-                    "format": "table",
-                    "uniqueItems": true,
-                    "id": "/properties/data/properties/attributes",
-                    "options": {
-                      "collapsed": false
-                    },
-                    "items": {
-                        "title": "Attrib",
-                        "type": "object",
-                        "id": "/properties/data/properties/attributes/items",
-                        "headerTemplate": "{{self.name}}",
-                        "format": "table",
-                        "defaultProperties": [
-                            "visibility",
-                            "name",
-                            "init",
-                            "class",
-                            "comment"
-                        ],
-                        "properties": {
-                            "visibility": {
-                                "type": "string",
-                                "id": "/properties/data/properties/attributes/items/properties/visibility",
-                                "$ref": "#/definitions/visibility"
-                            },
-                            "name": {
-                                "type": "string",
-                                "id": "/properties/data/properties/attributes/items/properties/name",
-                                "title": "Name",
-                                "default": "aMyAttrib",
-                                "format": "text"
-                            },
-                            "init": {
-                                "type": "string",
-                                "id": "/properties/data/properties/attributes/items/properties/init",
-                                "title": "Init",
-                                "default": "",
-                                "format": "text"
-                            },
-                            "class": {
-                                "id": "/properties/data/properties/attributes/items/properties/class",
-                                "title": "Class",
-                                "$ref": "#/definitions/selectorclass"
-                            },
-                            "comment": {
-                                "type": "string",
-                                "id": "/properties/data/properties/attributes/items/properties/comment",
-                                "title": "Comment",
-                                "$ref": "#/definitions/comment",
-                                "default": "This attribute stores ...",
-                                "format": "text",
-                            }
-                        }
-                    }
-                },
-                "methods": {
-                    "type": "array",
-                    "title":"Methods",
-                    "propertyOrder": 60,
-                    "id": "/properties/data/properties/methods",
+                    "id": "/properties/data/properties/menuitems",
+                    "title": "Menu Items",
                     "format": "tabs",
-                    "uniqueItems": true,
                     "options": {
-                      "collapsed": false
+                        "disable_collapse": false,
+                        "disable_array_add": false,
+                        "disable_array_delete": false,
+                        "disable_array_reorder": false,
+                        "disable_properties": true,
+                        "collapsed": false,
+                        "hidden": false
                     },
                     "items": {
-                        "type": "object",
-                        "title": "Method",
-                        "headerTemplate": "{{self.name}}()",
-                        "id": "/properties/data/properties/methods/items",
-                        "defaultProperties": [
-                            "visibility",
-                            "name",
-                            "parameter",
-                            "return",
-                            "comment",
-                            "code"
-                        ],
-                        "properties": {
-                            "visibility": {
-                                "type": "string",
-                                "id": "/properties/data/properties/methods/items/properties/visibility",
-                                "title": "Visibility",
-                                "propertyOrder": 10,
-                    						"$ref": "#/definitions/visibility"
-                            },
-                            "name": {
-                                "type": "string",
-                                "id": "/properties/data/properties/methods/items/properties/name",
-                                "title": "Method Name",
-                                "default": "myMethod",
-                                "propertyOrder": 20,
-                    						"format": "text"
-                            },
-                            "parameter": {
-                                "title": "Parameter",
-                                "type": "array",
-                                "id": "/properties/data/properties/methods/items/properties/parameter",
-                                //"format": "tabs",
-                                "format": "table",
-                                "propertyOrder": 30,
-                    						"uniqueItems": true,
+                        "headerTemplate": "{{i1}}. {{self.title}}",
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "id": "/properties/data/properties/menuitems/oneof1page",
+                                "title": "Type: Page",
                                 "options": {
-                                  "collapsed": true
+                                    "disable_collapse": true,
+                                    "disable_edit_json": true,
+                                    "disable_properties": true,
+                                    "collapsed": false,
+                                    "hidden": false
                                 },
-                                "items": {
-                                    "title":"Param",
-                                    "type": "object",
-                                    "id": "/properties/data/properties/methods/items/properties/parameter/items",
-                                    "defaultProperties": [
-                                        "name",
-                                        "class",
-                                        "comment"
-                                    ],
-                                    "properties": {
-                                        "name": {
-                                            "type": "string",
-                                            "id": "/properties/data/properties/methods/items/properties/parameter/items/properties/name",
-                                            "title": "Parameter",
-                                            "default": "pVar",
-                                            "minLength": 1,
-                                            "propertyOrder": 10,
-                                						"format": "text"
+                                "defaultProperties": [
+                                    "menutype",
+                                    "menuicon",
+                                    "visibility",
+                                    "title",
+                                    "content"
+                                ],
+                                "required": [
+                                  "menutype"
+                                ],
+                                "properties": {
+                                    "menutype": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/menutype",
+                                        "title": "Menutype",
+                                        "enum": [ "page" ],
+                                        "default": "page",
+                                        "format": "text",
+                                        "description": "This is a HTML page or external reference/URL",
+                                        "options": {
+                                            "hidden": true
                                         },
-                                        "class": {
-                                            "type": "string",
-                                            "id": "/properties/data/properties/methods/items/properties/parameter/items/properties/class",
-                                            "title": "Class",
-                                            "propertyOrder": 20,
-                                						"$ref": "#/definitions/selectorclass"
+                                        "propertyOrder": 10
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/title",
+                                        "title": "Title",
+                                        "default": "Item Title",
+                                        "format": "text",
+                                        "description": "Description for 'title' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/title'",
+                                        "options": {
+                                            "hidden": false
                                         },
-                                        "comment": {
-                                            "type": "string",
-                                            "id": "/properties/data/properties/methods/items/properties/parameter/items/properties/comment",
-                                            "$ref": "#/definitions/comment",
-                                            "propertyOrder": 30,
-                                						"default": "the parameter stores ..."
-                                            //"format": "text"
-                                        }
+                                        "propertyOrder": 20
+                                    },
+                                    "menuicon": {
+                                        "type": "string",
+                                        "propertyOrder": 22,
+                                        "id": "/properties/data/properties/menuitems/items/properties/menuicon",
+                                        "$ref": "#/definitions/selectoricon"
+                                    },
+                                    "visibility": {
+                                        "type": "string",
+                                        "propertyOrder": 25,
+                                        "id": "/properties/data/properties/menuitems/items/properties/visibility",
+                                        "$ref": "#/definitions/visibility"
+                                    },
+                                    "html": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/html",
+                                        "title": "Content",
+                                        "default": "<!-- place content of the page here -->",
+                                        "format": "html",
+                                        "description": "This is the HTML code for the page, that is displayed, when the user clicks on the menu item of type 'page'.",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 30
                                     }
                                 }
                             },
-                            "return": {
-                                "type": "string",
-                                "id": "/properties/data/properties/methods/items/properties/return",
-                                "title": "Return",
-                                "propertyOrder": 40,
-                    						"$ref": "#/definitions/selectorclass"
+                            {
+                                "type": "object",
+                                "id": "/properties/data/properties/menuitems/oneof2link",
+                                "title": "Type: Link/URL",
+                                "options": {
+                                    "disable_collapse": true,
+                                    "disable_edit_json": true,
+                                    "disable_properties": true,
+                                    "collapsed": false,
+                                    "hidden": false
+                                },
+                                "defaultProperties": [
+                                    "menutype",
+                                    "menuicon",
+                                    "title",
+                                    "url"
+                                ],
+                                "required": [
+                                  "menutype"
+                                ],
+                                "properties": {
+                                    "menutype": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/menutype",
+                                        "title": "Menutype",
+                                        "enum": [ "link" ],
+                                        "default": "link",
+                                        "format": "text",
+                                        "description": "This menu item create a link to another HTML page or external webpage (e.g. tutorial on the web, a demo video on Youtube, ...). Select a new window as target for external websites.",
+                                        "options": {
+                                            "hidden": true
+                                        },
+                                        "propertyOrder": 10
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/title",
+                                        "title": "Title",
+                                        "default": "Item Title for Link",
+                                        "format": "text",
+                                        "description": "Description for 'title' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/title'",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 20
+                                    },
+                                    "menuicon": {
+                                        "type": "string",
+                                        "propertyOrder": 22,
+                                        "id": "/properties/data/properties/menuitems/items/properties/menuicon",
+                                        "$ref": "#/definitions/selectoricon"
+                                    },
+                                    "visibility": {
+                                        "type": "string",
+                                        "propertyOrder": 25,
+                                        "id": "/properties/data/properties/menuitems/items/properties/visibility",
+                                        "$ref": "#/definitions/visibility"
+                                    },
+                                    "url": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/url",
+                                        "title": "Url",
+                                        "default": "otherfile.html",
+                                        "format": "text",
+                                        "description": "Description for 'url' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/url'",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 30
+                                    },
+                                    "target": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/url",
+                                        "title": "Url",
+                                        "default": "otherfile.html",
+                                        "format": "text",
+                                        "description": "Description for 'url' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/url'",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 30
+                                    }
+                                }
                             },
-                            "code": {
-                                "type": "string",
-                                "id": "/properties/data/properties/methods/items/properties/code",
-                                "title": "Code - Language: '"+vProgLanguage+"'",
-                                "default": "// insert your code here",
-                                "propertyOrder": 50,
-                    						"format": vProgLanguage
-                            },
-                            "comment": {
-                                "type": "string",
-                                "id": "/properties/data/properties/methods/items/properties/comment",
-                                "title":"Comment",
-                                "format":"textarea",
-                                "$ref": "#/definitions/comment",
-                                "default": "the method performs ...",
-                                "propertyOrder": 60,
-                    						"description": "Describe the purpose of the method. This description will be used to generate a documentation of the UML definition."
+                            {
+                                "type": "object",
+                                "id": "/properties/data/properties/menuitems/oneof3jscall",
+                                "title": "Type: Javascript Call",
+                                "options": {
+                                  "disable_collapse": true,
+                                  "disable_edit_json": true,
+                                  "disable_properties": true,
+                                  "collapsed": false,
+                                  "hidden": false
+                                },
+                                "defaultProperties": [
+                                    "menutype",
+                                    "menuicon",
+                                    "title",
+                                    "jscall"
+                                ],
+                                "required": [
+                                  "menutype"
+                                ],
+                                "properties": {
+                                    "menutype": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/menutype",
+                                        "title": "Menutype",
+                                        "enum": [ "jscall" ],
+                                        "default": "jscall",
+                                        "format": "text",
+                                        "description": "Description for 'menutype' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/menutype'",
+                                        "options": {
+                                            "hidden": true
+                                        },
+                                        "propertyOrder": 10
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/title",
+                                        "title": "Title",
+                                        "default": "Item Title for JS-Call",
+                                        "format": "text",
+                                        "description": "Description for 'title' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/title'",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 20
+                                    },
+                                    "menuicon": {
+                                        "type": "string",
+                                        "propertyOrder": 22,
+                                        "id": "/properties/data/properties/menuitems/items/properties/menuicon",
+                                        "$ref": "#/definitions/selectoricon",
+                                    },
+                                    "visibility": {
+                                        "type": "string",
+                                        "propertyOrder": 25,
+                                        "id": "/properties/data/properties/menuitems/items/properties/visibility",
+                                        "$ref": "#/definitions/visibility"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "id": "/properties/data/properties/menuitems/items/properties/code",
+                                        "title": "Javascript Code for Event",
+                                        "default": "vApp.do_something('myparam',34)",
+                                        "format": "javascript",
+                                        "description": "The Javascript code will be executed if the user clicks on the menu item of type 'jscall'.",
+                                        "options": {
+                                            "hidden": false
+                                        },
+                                        "propertyOrder": 30
+                                    }
+                                }
                             }
-
-                        }
-                    }
+                        ]
+                    },
+                    "propertyOrder": 50
                 }
             }
         },
@@ -712,17 +448,19 @@ vDataJSON["menu_schema"] = {
             },
             "defaultProperties": [
                 "extension4code",
-                "classlist",
-                "pagemenuitems",
-                "linkmenuitems",
-                "basemenuitems"
+                "extension4json",
+                "colors",
+                "configcode",
+                "jsfiles",
+                "htmlfiles",
+                "cssfiles"
             ],
             "properties": {
               "extension4code": {
                 "type": "string",
                 "id": "/properties/settings/properties/extension4code",
-                "title": "Extension for Generated Code:",
-                "default": ".js",
+                "title": "Extension for Generated Menu:",
+                "default": ".zip",
                 "format": "text",
                 "propertyOrder": 10,
                 "size":12,
@@ -734,156 +472,440 @@ vDataJSON["menu_schema"] = {
                 "title": "Extension for saved JSON:",
                 "default": ".json",
                 "format": "text",
-                "propertyOrder": 10,
+                "propertyOrder": 20,
                 "size":12,
                 "description": "JSON Editor stores a JSON file with this file extension"
               },
-                "pagemenuitems": {
-                    "type": "array",
-                    "id": "/properties/settings/properties/pagemenuitems",
-                    "title": "Pages of WebApp",
-                    "description":"A page of a WebApp is HTML code displayed if a specific menu item was selected. Each page need a unique page name and a HTML code for the page.",
-                    //"format": "table",
-                    "propertyOrder": 30,
-        						"options": {
-                      "collapsed": true
-                    },
-                    "items": {
-                        "type": "object",
-                        "id": "/properties/settings/properties/pagemenuitems/items",
-                        "title": "Local Class",
-                        "headerTemplate": "Page: {{self.name}}()",
-                        "defaultProperties": [
-                            "name",
-                            "comment",
-                            "htmlcode"
-                        ],
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/pagemenuitems/items/properties/name",
-                                "title": "Base Class Name",
-                                "default": "",
-                                "propertyOrder": 10,
-                                "format": "text"
-                            },
-                            "comment": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/pagemenuitems/items/properties/comment",
-                                "title": "Comment",
-                                "default": "This page defines ...",
-                                "propertyOrder": 20,
-                                "format": "textarea"
-                            },
-                            "htmlcode": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/htmlcode",
-                                "title": "HTML Code for Page",
-                                "default": "<h2>Header of Page</h2>\nThis is the content of the page",
-                                "propertyOrder": 30,
-                                "format": "html"
-                            }
+              "configcode": {
+                  "type": "string",
+                  "id": "/properties/settings/properties/configcode",
+                  "title": "Configuration Code",
+                  "description": "The configuration code will be placed in the script-tag at the end of the generated HTML file. The code could contain e.g. some constants of some functions init calls for Javascript instances.",
+                  "default": "// the configuration code can be used to create some constants, local functions or initialize some javascript objects.",
+                  "propertyOrder": 30,
+                  "format": "javascript"
+              },
+              "colors": {
+                  "type": "object",
+                  "id": "/properties/settings/properties/colors",
+                  "title": "Colors",
+                  "propertyOrder": 40,
+                  "options": {
+                    "disable_collapse": false,
+                    "disable_edit_json": true,
+                    "disable_properties": true,
+                    "collapsed": true,
+                    "hidden": false
+                  },
+                  "defaultProperties": [
+                    "app",
+                    "menu"
+                  ],
+                  "properties": {
+                    "app": {
+                      "type": "object",
+                      "id": "/properties/settings/properties/colors/properties/app",
+                      "title": "Default App Colors",
+                      "options": {
+                        "disable_collapse": false,
+                        "disable_edit_json": true,
+                        "disable_properties": true,
+                        "collapsed": true,
+                        "hidden": false
+                      },
+                      "defaultProperties": [
+                        "background",
+                        "textcolor"
+                      ],
+                      "properties": {
+                        "background": {
+                          "type": "string",
+                          "id": "/properties/settings/properties/colors/properties/app/properties/background",
+                          "title": "Background",
+                          "default": "#F6F4E2",
+                          "format": "color",
+                          "description": "This is the  background of the app",
+                          "options": {
+                            "hidden": false
+                          },
+                          "propertyOrder": 10
+                        },
+                        "textcolor": {
+                          "type": "string",
+                          "id": "/properties/settings/properties/colors/properties/app/properties/textcolor",
+                          "title": "Textcolor",
+                          "default": "#70420D",
+                          "format": "color",
+                          "description": "Description for 'textcolor' Type: 'string' Path: '/properties/settings/properties/colors/properties/app/properties/textcolor'",
+                          "options": {
+                            "hidden": false
+                          },
+                          "propertyOrder": 20
                         }
-                    }
-                },
-                "linkmenuitems": {
-                    "type": "array",
-                    "id": "/properties/settings/properties/linkmenuitems",
-                    "title": "Remote Link Menu Items",
-                    "format": "table",
-                    "propertyOrder": 40,
-        						"options": {
-                      "collapsed": true
+                      },
+                      "propertyOrder": 10
                     },
-                    "description":"A remote link menu item refers to a website or server outside the WebApp e.g. displayed in a new window.",
-                    "items": {
-                        "type": "object",
-                        "id": "/properties/settings/properties/linkmenuitems/items",
-                        "title": "Remote Class",
-                        "headerTemplate": "{{self.name}}()",
-                        "defaultProperties": [
-                            "name",
-                            "link4item",
-                            "target4link"
-                        ],
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/linkmenuitems/items/properties/name",
-                                "title": "Link Title",
-                                "default": "",
-                                "propertyOrder": 10,
-                    						"format": "text"
+                    "menu": {
+                      "type": "object",
+                      "id": "/properties/settings/properties/colors/properties/menu",
+                      "title": "Menu Colors",
+                      "options": {
+                        "disable_collapse": false,
+                        "disable_edit_json": true,
+                        "disable_properties": true,
+                        "collapsed": true,
+                        "hidden": false
+                      },
+                      "defaultProperties": [
+                        "toggleleft",
+                        "background",
+                        "textcolor",
+                        "mobile",
+                        "desktop"
+                      ],
+                      "properties": {
+                        "toggleleft": {
+                          "type": "boolean",
+                          "id": "/properties/settings/properties/colors/properties/menu/properties/toggleleft",
+                          "title": "Toggle for Menu left",
+                          "format": "checkbox",
+                          "default": false,
+                          "description": "A description for 'toggleleft'  Type: 'boolean'",
+                          "options": {
+                            "hidden": true
+                          },
+                          "propertyOrder": 10
+                        },
+                        "background": {
+                          "type": "string",
+                          "id": "/properties/settings/properties/colors/properties/menu/properties/background",
+                          "title": "Default Background",
+                          "default": "#F6F4E2",
+                          "format": "color",
+                          "description": "Description for 'background' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/background'",
+                          "options": {
+                            "hidden": false
+                          },
+                          "propertyOrder": 20
+                        },
+                        "textcolor": {
+                          "type": "string",
+                          "id": "/properties/settings/properties/colors/properties/menu/properties/textcolor",
+                          "title": "Textcolor",
+                          "default": "#70420D",
+                          "format": "color",
+                          "description": "Description for 'textcolor' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/textcolor'",
+                          "options": {
+                            "hidden": false
+                          },
+                          "propertyOrder": 30
+                        },
+                        "mobile": {
+                          "type": "object",
+                          "id": "/properties/settings/properties/colors/properties/menu/properties/mobile",
+                          "title": "Mobile App View",
+                          "options": {
+                            "disable_collapse": false,
+                            "disable_edit_json": true,
+                            "disable_properties": true,
+                            "collapsed": false,
+                            "hidden": false
+                          },
+                          "defaultProperties": [
+                            "textcolor",
+                            "default",
+                            "hover",
+                            "focus"
+                          ],
+                          "properties": {
+                            "textcolor": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/mobile/properties/textcolor",
+                              "title": "Textcolor",
+                              "default": "#EBEBD3",
+                              "format": "color",
+                              "description": "Description for 'textcolor' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/mobile/properties/textcolor'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 10
                             },
-                            "link4item": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/linkmenuitems/items/properties/link4item",
-                                "title": "Link/URL",
-                                "default": "",
-                                "propertyOrder": 20,
-                                "format": "text"
+                            "default": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/mobile/properties/default",
+                              "title": "Default",
+                              "default": "#333000",
+                              "format": "color",
+                              "description": "Description for 'default' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/mobile/properties/default'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 20
                             },
-                            "target4link": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/target4link",
-                                "title": "Target for Link",
-                                "default": "",
-                                "propertyOrder": 30,
-                                "format": "text"
+                            "hover": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/mobile/properties/hover",
+                              "title": "Hover",
+                              "default": "#70420D",
+                              "format": "color",
+                              "description": "Description for 'hover' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/mobile/properties/hover'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 30
+                            },
+                            "focus": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/mobile/properties/focus",
+                              "title": "Focus",
+                              "default": "#E4B363",
+                              "format": "color",
+                              "description": "Description for 'focus' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/mobile/properties/focus'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 40
                             }
+                          },
+                          "propertyOrder": 40
+                        },
+                        "desktop": {
+                          "type": "object",
+                          "id": "/properties/settings/properties/colors/properties/menu/properties/desktop",
+                          "title": "Colors Desktop View",
+                          "options": {
+                            "disable_collapse": false,
+                            "disable_edit_json": true,
+                            "disable_properties": true,
+                            "collapsed": false,
+                            "hidden": false
+                          },
+                          "defaultProperties": [
+                            "default",
+                            "hover",
+                            "focus"
+                          ],
+                          "properties": {
+                            "default": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/desktop/properties/default",
+                              "title": "Default",
+                              "default": "#E4B363",
+                              "format": "color",
+                              "description": "Description for 'default' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/desktop/properties/default'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 10
+                            },
+                            "hover": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/desktop/properties/hover",
+                              "title": "Hover",
+                              "default": "#d18428",
+                              "format": "color",
+                              "description": "Description for 'hover' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/desktop/properties/hover'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 20
+                            },
+                            "focus": {
+                              "type": "string",
+                              "id": "/properties/settings/properties/colors/properties/menu/properties/desktop/properties/focus",
+                              "title": "Focus",
+                              "default": "#472a07",
+                              "format": "color",
+                              "description": "Description for 'focus' Type: 'string' Path: '/properties/settings/properties/colors/properties/menu/properties/desktop/properties/focus'",
+                              "options": {
+                                "hidden": false
+                              },
+                              "propertyOrder": 30
+                            }
+                          },
+                          "propertyOrder": 50
                         }
+                      },
+                      "propertyOrder": 20
                     }
-                },
-                "basemenuitems": {
+                  },
+              },
+              "jsfiles": {
                     "type": "array",
-                    "id": "/properties/settings/properties/basemenuitems",
-                    "title": "List of Basic Menu Items",
+                    "id": "/properties/settings/properties/jsfiles",
+                    "title": "Javascript Libraries",
                     "format": "tabs",
-                    "uniqueItems": true,
-                    "propertyOrder": 60,
-        						"options": {
-                      "collapsed": true
+                    "options": {
+                        "disable_collapse": false,
+                        "disable_array_add": false,
+                        "disable_array_delete": false,
+                        "disable_array_reorder": false,
+                        "disable_properties": true,
+                        "collapsed": false,
+                        "hidden": false
                     },
-                    "description":"A basic menu items provide by basic user interfaces in an application. These are components for loading or saving files.",
                     "items": {
                         "type": "object",
-                        "id": "/properties/settings/properties/basemenuitems/items",
-                        "title": "Basic Menu Item",
-                        "headerTemplate": "Basic MI: {{self.name}}",
+                        "id": "/properties/settings/properties/jsfiles/items",
+                        "title": "JS Files",
+                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "options": {
+                            "disable_collapse": false,
+                            "disable_edit_json": true,
+                            "disable_properties": true,
+                            "collapsed": false,
+                            "hidden": false
+                        },
                         "defaultProperties": [
-                          "name",
-                          "icon",
-                          "codetemplate"
+                            "name",
+                            "content"
                         ],
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/name",
-                                "title": "Basic Item Name",
-                                "default": "",
-                                "propertyOrder": 10,
-                    						"format": "text"
+                                "id": "/properties/settings/properties/jsfiles/items/properties/name",
+                                "title": "Filename",
+                                "default": "myfile.js",
+                                "format": "text",
+                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/jsfiles/items/properties/name'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 10
                             },
-                            "icon": {
+                            "content": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/icon",
-                                "title": "Icon",
-                                "$ref": "#/definitions/selectoricon",
-                                "default": "",
-                                "propertyOrder": 20,
-                                "format": "text"
-                            },
-                            "codetemplate": {
-                                "type": "string",
-                                "id": "/properties/settings/properties/basemenuitems/items/properties/codetemplate",
-                                "title": "Code - Template: '"+vProgLanguage+"'",
-                                "default": "// insert your code template here",
-                                "propertyOrder": 30,
-                    						"format": vProgLanguage
+                                "id": "/properties/settings/properties/jsfiles/items/properties/content",
+                                "title": "Content",
+                                "default": "// Content of imported Javascript library ",
+                                "format": "javascript",
+                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/jsfiles/items/properties/content'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 20
                             }
-
                         }
-                    }
+                    },
+                    "propertyOrder": 40
+                },
+                "htmlfiles": {
+                    "type": "array",
+                    "id": "/properties/settings/properties/htmlfiles",
+                    "title": "HTML Files of AppLSAC",
+                    "format": "tabs",
+                    "options": {
+                        "disable_collapse": false,
+                        "disable_array_add": false,
+                        "disable_array_delete": false,
+                        "disable_array_reorder": false,
+                        "disable_properties": true,
+                        "collapsed": false,
+                        "hidden": false
+                    },
+                    "items": {
+                        "type": "object",
+                        "id": "/properties/settings/properties/htmlfiles/items",
+                        "title": "HTML Files",
+                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "options": {
+                            "disable_collapse": false,
+                            "disable_edit_json": true,
+                            "disable_properties": true,
+                            "collapsed": true,
+                            "hidden": false
+                        },
+                        "defaultProperties": [
+                            "name",
+                            "content"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/htmlfiles/items/properties/name",
+                                "title": "Filename",
+                                "default": "myfile.html",
+                                "format": "text",
+                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/htmlfiles/items/properties/name'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 10
+                            },
+                            "content": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/htmlfiles/items/properties/content",
+                                "title": "Content",
+                                "default": "<!-- HTML File Content -->",
+                                "format": "html",
+                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/htmlfiles/items/properties/content'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 20
+                            }
+                        }
+                    },
+                    "propertyOrder": 50
+                },
+                "cssfiles": {
+                    "type": "array",
+                    "id": "/properties/settings/properties/cssfiles",
+                    "title": "CSS Files",
+                    "format": "tabs",
+                    "options": {
+                        "disable_collapse": false,
+                        "disable_array_add": false,
+                        "disable_array_delete": false,
+                        "disable_array_reorder": false,
+                        "disable_properties": true,
+                        "collapsed": false,
+                        "hidden": false
+                    },
+                    "items": {
+                        "type": "object",
+                        "id": "/properties/settings/properties/cssfiles/items",
+                        "title": "CSS Files ",
+                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "options": {
+                            "disable_collapse": false,
+                            "disable_edit_json": true,
+                            "disable_properties": true,
+                            "collapsed": true,
+                            "hidden": false
+                        },
+                        "defaultProperties": [
+                            "name",
+                            "content"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/cssfiles/items/properties/name",
+                                "title": "CSS Filename",
+                                "default": "myfile.css",
+                                "format": "text",
+                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/cssfiles/items/properties/name'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 10
+                            },
+                            "content": {
+                                "type": "string",
+                                "id": "/properties/settings/properties/cssfiles/items/properties/content",
+                                "title": "CSS Definitions",
+                                "default": "/* CSS File Content */",
+                                "format": "css",
+                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/cssfiles/items/properties/content'",
+                                "options": {
+                                    "hidden": false
+                                },
+                                "propertyOrder": 20
+                            }
+                        }
+                    },
+                    "propertyOrder": 60
                 }
             }
         }
