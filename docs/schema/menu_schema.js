@@ -45,25 +45,15 @@ vDataJSON["menu_schema"] = {
             "pencil-square-o",
             "calendar",
             "camera",
-            "clone",
             "line-chart",
-            "eye-slash",
             "fa-picture-o",
             "envelope-o",
-            "minus",
-            "mobile",
             "phone",
-            "plus",
-            "print",
             "power-off",
-            "refresh",
             "search",
             "cog",
-            "eye",
-            "volume-up",
             "trash",
-            "upload",
-            "times"
+            "file-archive-o"
         ],
         "options": {
           "enum_titles": [
@@ -72,28 +62,17 @@ vDataJSON["menu_schema"] = {
             "Load",
             "Save",
             "Edit",
-            "Exit",
             "Calendar",
             "Camera",
-            "Clone",
             "Chart/Diagrams",
-            "Hide",
             "Images",
             "Mail",
-            "Minus",
-            "Mobile Phone",
             "Phone",
-            "Plus",
-            "Print",
             "Quit/Exit",
-            "Refresh",
             "Search",
             "Settings",
-            "Show/View",
-            "Sound",
             "Trash",
-            "Upload",
-            "X-Exit"
+            "ZIP"
           ]
         }
       },
@@ -101,7 +80,7 @@ vDataJSON["menu_schema"] = {
         "type": "string",
         "default": "",
         "enum":[
-            " ",
+            "",
             " target=\"_blank\" "
         ],
         "options": {
@@ -168,7 +147,7 @@ vDataJSON["menu_schema"] = {
                     "propertyOrder": 10,
                     "default": "NewApp",
                     "format": "text",
-                    "description": "Use as appname (uppercase character allowed, e.g.'MyWebApp') - it is used for exported files as names e.g. 'mywebapp.json'."
+                    "description": "Use as appname (uppercase character allowed, e.g.'MyWebApp') - it is used for exported files as filenames e.g. 'mywebapp.json'."
                 },
                 "apptitle": {
                     "type": "string",
@@ -219,7 +198,8 @@ vDataJSON["menu_schema"] = {
                                     "menuicon",
                                     "visibility",
                                     "title",
-                                    "content"
+                                    "content",
+                                    "jscode"
                                 ],
                                 "required": [
                                   "menutype"
@@ -262,13 +242,13 @@ vDataJSON["menu_schema"] = {
                                         "id": "/properties/data/properties/menuitems/items/properties/visibility",
                                         "$ref": "#/definitions/visibility"
                                     },
-                                    "html": {
+                                    "content": {
                                         "type": "string",
-                                        "id": "/properties/data/properties/menuitems/items/properties/html",
+                                        "id": "/properties/data/properties/menuitems/items/properties/content",
                                         "title": "Content",
                                         "default": "<!-- place content of the page here -->",
                                         "format": "html",
-                                        "description": "This is the HTML code for the page, that is displayed, when the user clicks on the menu item of type 'page'.",
+                                        "description": "Description for 'content' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/content'",
                                         "options": {
                                             "hidden": false
                                         },
@@ -289,6 +269,7 @@ vDataJSON["menu_schema"] = {
                                 },
                                 "defaultProperties": [
                                     "menutype",
+                                    "visibility",
                                     "menuicon",
                                     "title",
                                     "url"
@@ -418,13 +399,13 @@ vDataJSON["menu_schema"] = {
                                         "id": "/properties/data/properties/menuitems/items/properties/visibility",
                                         "$ref": "#/definitions/visibility"
                                     },
-                                    "code": {
+                                    "jscall": {
                                         "type": "string",
-                                        "id": "/properties/data/properties/menuitems/items/properties/code",
-                                        "title": "Javascript Code for Event",
+                                        "id": "/properties/data/properties/menuitems/items/properties/jscall",
+                                        "title": "Menu Click Handler",
                                         "default": "vApp.do_something('myparam',34)",
                                         "format": "javascript",
-                                        "description": "The Javascript code will be executed if the user clicks on the menu item of type 'jscall'.",
+                                        "description": "Description for 'jscall' Type: 'string' Path: '/properties/data/properties/menuitems/items/properties/jscall'",
                                         "options": {
                                             "hidden": false
                                         },
@@ -748,7 +729,7 @@ vDataJSON["menu_schema"] = {
                         "type": "object",
                         "id": "/properties/settings/properties/jsfiles/items",
                         "title": "JS Files",
-                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "headerTemplate": "({{i1}}) {{self.filename}}",
                         "options": {
                             "disable_collapse": false,
                             "disable_edit_json": true,
@@ -757,29 +738,29 @@ vDataJSON["menu_schema"] = {
                             "hidden": false
                         },
                         "defaultProperties": [
-                            "name",
-                            "content"
+                            "filename",
+                            "code"
                         ],
                         "properties": {
-                            "name": {
+                            "filename": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/jsfiles/items/properties/name",
+                                "id": "/properties/settings/properties/jsfiles/items/properties/filename",
                                 "title": "Filename",
                                 "default": "myfile.js",
                                 "format": "text",
-                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/jsfiles/items/properties/name'",
+                                "description": "Description for 'filename' Type: 'string' Path: '/properties/settings/properties/jsfiles/items/properties/filename'",
                                 "options": {
                                     "hidden": false
                                 },
                                 "propertyOrder": 10
                             },
-                            "content": {
+                            "code": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/jsfiles/items/properties/content",
-                                "title": "Content",
-                                "default": "// Content of imported Javascript library ",
+                                "id": "/properties/settings/properties/jsfiles/items/properties/code",
+                                "title": "Code",
+                                "default": "// Code of Javascript library ",
                                 "format": "javascript",
-                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/jsfiles/items/properties/content'",
+                                "description": "These Javascript files are imported with Javascript tag in the main index.html",
                                 "options": {
                                     "hidden": false
                                 },
@@ -807,7 +788,7 @@ vDataJSON["menu_schema"] = {
                         "type": "object",
                         "id": "/properties/settings/properties/htmlfiles/items",
                         "title": "HTML Files",
-                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "headerTemplate": "({{i1}}) {{self.filename}}",
                         "options": {
                             "disable_collapse": false,
                             "disable_edit_json": true,
@@ -816,29 +797,29 @@ vDataJSON["menu_schema"] = {
                             "hidden": false
                         },
                         "defaultProperties": [
-                            "name",
-                            "content"
+                            "filename",
+                            "code"
                         ],
                         "properties": {
-                            "name": {
+                            "filename": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/htmlfiles/items/properties/name",
+                                "id": "/properties/settings/properties/htmlfiles/items/properties/filename",
                                 "title": "Filename",
                                 "default": "myfile.html",
                                 "format": "text",
-                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/htmlfiles/items/properties/name'",
+                                "description": "Description for 'filename' Type: 'string' Path: '/properties/settings/properties/htmlfiles/items/properties/filename'",
                                 "options": {
                                     "hidden": false
                                 },
                                 "propertyOrder": 10
                             },
-                            "content": {
+                            "code": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/htmlfiles/items/properties/content",
-                                "title": "Content",
-                                "default": "<!-- HTML File Content -->",
+                                "id": "/properties/settings/properties/htmlfiles/items/properties/code",
+                                "title": "HTML Code of Page",
+                                "default": "<!-- HTML File Code of Page -->",
                                 "format": "html",
-                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/htmlfiles/items/properties/content'",
+                                "description": "This is HTML code of the page that is toggled by a Menu event.",
                                 "options": {
                                     "hidden": false
                                 },
@@ -866,7 +847,7 @@ vDataJSON["menu_schema"] = {
                         "type": "object",
                         "id": "/properties/settings/properties/cssfiles/items",
                         "title": "CSS Files ",
-                        "headerTemplate": "({{i1}}) {{self.name}}",
+                        "headerTemplate": "({{i1}}) {{self.filename}}",
                         "options": {
                             "disable_collapse": false,
                             "disable_edit_json": true,
@@ -875,29 +856,29 @@ vDataJSON["menu_schema"] = {
                             "hidden": false
                         },
                         "defaultProperties": [
-                            "name",
-                            "content"
+                            "filename",
+                            "code"
                         ],
                         "properties": {
-                            "name": {
+                            "filename": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/cssfiles/items/properties/name",
+                                "id": "/properties/settings/properties/cssfiles/items/properties/filename",
                                 "title": "CSS Filename",
                                 "default": "myfile.css",
                                 "format": "text",
-                                "description": "Description for 'name' Type: 'string' Path: '/properties/settings/properties/cssfiles/items/properties/name'",
+                                "description": "Description for 'filename' Type: 'string' Path: '/properties/settings/properties/cssfiles/items/properties/filename'",
                                 "options": {
                                     "hidden": false
                                 },
                                 "propertyOrder": 10
                             },
-                            "content": {
+                            "code": {
                                 "type": "string",
-                                "id": "/properties/settings/properties/cssfiles/items/properties/content",
+                                "id": "/properties/settings/properties/cssfiles/items/properties/code",
                                 "title": "CSS Definitions",
-                                "default": "/* CSS File Content */",
+                                "default": "/* CSS File Definitions */",
                                 "format": "css",
-                                "description": "Description for 'content' Type: 'string' Path: '/properties/settings/properties/cssfiles/items/properties/content'",
+                                "description": "These styles are imported in the main index.html",
                                 "options": {
                                     "hidden": false
                                 },

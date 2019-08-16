@@ -47,7 +47,8 @@ The `enum_titles` define the name in the selector and the `enum` array defines t
       "power-off",
       "search",
       "cog",
-      "trash"
+      "trash",
+      "file-archive-o"
   ],
   "options": {
     "enum_titles": [
@@ -65,7 +66,8 @@ The `enum_titles` define the name in the selector and the `enum` array defines t
       "Quit/Exit",
       "Search",
       "Settings",
-      "Trash"
+      "Trash",
+      "ZIP"
     ]
   }
 }

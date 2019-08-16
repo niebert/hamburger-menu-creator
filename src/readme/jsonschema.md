@@ -1,5 +1,5 @@
-## JSON2Schema for JSON Editor
-The user interface of the JSON Editor (https://www.github.com/niebert/json-editor) is defined by a JSON schema. JSON Editor takes a JSON Schema and uses it to generate an HTML form.  
+## JSON2Schema for ___PKG_EXPORTVAR___
+The user interface of the [JSON Editor for Menus](__PKG_GITUSER___.github.io/___PKG_EXPORTVAR___) is defined by a JSON schema. JSON Editor takes a JSON Schema and uses it to generate an HTML form.  
 It has full support for JSON Schema version 3 and 4 and can integrate with several popular CSS frameworks (bootstrap, foundation, and jQueryUI).
 
 Check out an interactive demo (demo.html):  
@@ -8,6 +8,9 @@ https://json-editor.github.io/json-editor/
 
 JSON Editor has no dependencies. It only needs a modern browser (tested in Chrome and Firefox).
 
+The `___PKG_EXPORTVAR___` uses the [JSON Editor orginally developed by Jeremy Dorn](https://json-editor.github.io/json-editor/) and you can use the same type of JSON Schema.
+
+If you want to create a new `___PKG_EXPORTVAR___` with additional attributes for editing  the menu you can replace the JSON Schema in `docs/schema/menu_schema.js` that defines currently the graphical user interface (GUI) for the provided example of [___PKG_EXPORTVAR___](https://___PKG_GITUSER___.github.io/___PKG_EXPORTVAR___) just make a copy of the `docs/schema/menu_schema.js` -folder in this repository `___PKG_EXPORTVAR___` and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema 
 ### Optional Requirements
 
 The following are not required, but can improve the style and usability of JSON Editor when present.
@@ -27,5 +30,3 @@ If you learn best by example, check these out to understand the basic prinples o
 *  Basic Usage Example - http://rawgithub.com/jdorn/json-editor/master/examples/basic.html
 *  Advanced Usage Example - http://rawgithub.com/jdorn/json-editor/master/examples/advanced.html
 *  CSS Integration Example - http://rawgithub.com/jdorn/json-editor/master/examples/css_integration.html
-
-If you want to alter the provided example of https://___PKG_GITHUBUSER___.github.io/___PKG_EXPORTVAR___ just make a copy of the `docs/`-folder in this repository `___PKG_EXPORTVAR___` and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema use the [JSON2Schema tool](https://niebert/github.io/JSON2Schema).

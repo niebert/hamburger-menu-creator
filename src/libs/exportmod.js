@@ -202,9 +202,9 @@ function JSONEditor4Menu () {
       console.log("CALL: JSONEditor4Menu.init() - use default data in pDefaultJSON - also used by init_ask() method.");
       if (pDefaultJSON) {
         vJSON = pDefaultJSON;
-        console.log("pDefautJSON defined in JSONEditor4Menu.init()");
+        console.log("pDefaultJSON defined in JSONEditor4Menu.init()");
       } else {}
-        console.error("WARNING: pDefautJSON undefined - use an empty JSON");
+        console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
         vJSON = {
           data: {},
           settings: {}

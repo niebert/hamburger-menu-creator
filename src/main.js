@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Menu
  Package:  jsoneditor4menu
- Version:  0.0.1  Date: 2019/08/10 15:14:48
+ Version:  0.0.1  Date: 2019/08/16 19:27:26
  Homepage: https://niebert.github.io/hamburger-menu-creator
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2019/08/10 15:14:48
+ Date:     2019/08/16 19:27:26
  Require Module with:
     const JSONEditor4Menu = require('jsoneditor4menu');
  JSHint: installation with 'npm install jshint -g'
@@ -17543,9 +17543,9 @@ function JSONEditor4Menu () {
       console.log("CALL: JSONEditor4Menu.init() - use default data in pDefaultJSON - also used by init_ask() method.");
       if (pDefaultJSON) {
         vJSON = pDefaultJSON;
-        console.log("pDefautJSON defined in JSONEditor4Menu.init()");
+        console.log("pDefaultJSON defined in JSONEditor4Menu.init()");
       } else {}
-        console.error("WARNING: pDefautJSON undefined - use an empty JSON");
+        console.error("WARNING: pDefaultJSON undefined - use an empty JSON");
         vJSON = {
           data: {},
           settings: {}

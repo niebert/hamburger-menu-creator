@@ -1,6 +1,8 @@
 <!-- BEGIN: src/readme/handlebars4code.md -->
 
 ## Templates for Handlebars4Code
+For generation of the output files a template engine [`Handlebars4Code`](https://github.com/niebert/Handlebars4Code) was used. It adds some additional helper functions to the original [`Handlebars`](https://github.com/wycats/handlebars.js/).
+
 In the `Handlebars4Code` demo the JSON data is stored in `vDataJSON`, which is the main JSON data storage defined in `index.html`. Data (`docs/db/`) and templates (`docs/tpl/`) are loaded into the JSON. All templates reside in `vDataJSON.tpl`, which is provided as parameter to `Handlebars4Code.create_compiler(vDataJSON.tpl)`. The method `create_compiler(vDataJSON.tpl)` creates Handlebars compilers for all templates in `vDataJSON.tpl`.  
 * `create_compiler(vTplHash)` expects a hash, for which the template ID is the key for accessing template (e.g. `vDataJSON.tpl["docu4github"])` or `vDataJSON.tpl["javascript"])` (see directory `docs/tpl/`).
 * The compilers need to be generated only once. Then the compiler for all templates are ready to process JSON data and generate output according to the template definition.
