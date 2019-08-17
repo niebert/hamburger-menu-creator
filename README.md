@@ -12,6 +12,8 @@ The following table of contents is generated with `node doctoc README.md`.
 
 
 - [Installation `JSONEditor4Menu`](#installation-jsoneditor4menu)
+  - [Installation for Browsers](#installation-for-browsers)
+  - [Init the JSON Editor](#init-the-json-editor)
 - [Quick Start for Users of JSONEditor4Menu](#quick-start-for-users-of-jsoneditor4menu)
 - [Templates for Handlebars4Code](#templates-for-handlebars4code)
 - [vDataJSON as Template Storage](#vdatajson-as-template-storage)
@@ -57,10 +59,13 @@ The following table of contents is generated with `node doctoc README.md`.
     - [Template: `indent`](#template-indent)
     - [JSON Data: `indent`](#json-data-indent)
     - [Compiler Output: `indent`](#compiler-output-indent)
+- [JSON2Schema for JSONEditor4Menu](#json2schema-for-jsoneditor4menu)
   - [Optional Requirements](#optional-requirements)
+  - [Menu Icon Selector in Schema](#menu-icon-selector-in-schema)
 - [Build Process of `npm run build`](#build-process-of-npm-run-build)
   - [Define Filename for build in `package.json`](#define-filename-for-build-in-packagejson)
-  - [Browserify after Build](#browserify-after-build)
+  - [Compress after Build](#compress-after-build)
+- [Build and Compress with Browserify, Watchify, UglifyJS](#build-and-compress-with-browserify-watchify-uglifyjs)
   - [Browserify and Watchify](#browserify-and-watchify)
   - [Global Installation of Browserify, Watchify, UglifyJS and DocToc](#global-installation-of-browserify-watchify-uglifyjs-and-doctoc)
   - [Package Installation of Browserify and Watchify - Alternative](#package-installation-of-browserify-and-watchify---alternative)
@@ -72,28 +77,81 @@ The following table of contents is generated with `node doctoc README.md`.
 - [NPM Library Information](#npm-library-information)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
 ## Installation `JSONEditor4Menu`
-If you want to install `JSONEditor4Menu` in Node NPM use the following require-call:
-```javascript
-const  JSONEditor4Menu = require('jsoneditor4menu');
-let  vjsoneditor4menu = new JSONEditor4Menu();
-```
-If you want to use the library `jsoneditor4menu.js` in a browser, please copy the file `dist/jsoneditor4menu.js` into your library folder (e.g. `docs/js`) and
-import the library with `script`-tag with:
+The library was designed to used in a browser (WebApp). So use the installation for your browser by using a bundle `dist/jsoneditor4menu.js` (see example [`Demo JSONEditor4Menu`](https://github.com/niebert/hamburger-menu-creator/issueshttps://gitusergitlab.io/jsoneditor4menu)).
+
+### Installation for Browsers
+If you want to use the library `jsoneditor4menu.js` in a browser, please copy the file `dist/jsoneditor4menu.js` into your library folder of WebApp that you want to test with a browser (e.g. `js/jsoneditor4menu.js`). If you want expand existing examples check the basic example in `docs/index.html` first and play around with that HTML-file. If you want to import the library with `script`-tag do it in the standard way with:
 ```html
 <script src="js/jsoneditor4menu.js"></script>
 ```
 Now it is possible to use the constructor of `JSONEditor4Menu`
 ```javascript
-var  vjsoneditor4menu = new JSONEditor4Menu();
+if (JSONEditor4Code) {
+  var vJSONEditor = new JSONEditor4Menu();
+  vJSONEditor.initDoc(document);
+}
+```
+Now we define a hash that contains the options for the `init()`-call.
+```javascript
+var pOptions = {
+        "editor_var": "vJSONEditor", // Variable in index.html that stores the JSONeditor
+        "editor_id": "editor_holder", // ID of DOM element, that stores the editor.
+        "validator_id":"valid_indicator",  // ID of DOM, that contains the validator result "valid" or "not valid"
+        "filejson_id" : "fileJSON", // ID of DOM element that contains the JSON file upload
+        "filename_id" : "display_filename", // innerHTML for DOM element to display the loaded filename
+        "filename_key" : "data.classname",  // key that stores the basename for the filename
+        "out_json": "tOutJSON", // ID of textarea to visualise the generated JSON
+        "out_code": "tOutput", // ID of textarea to visualise the generated code/markdown with the templates in docs/tpl
+        "out_errors": "tErrors" // ID of textarea that shows the errors in the loaded JSON
+};
+
+```
+After the `initDoc()` call the `JSONEditor4Menu` is aware about the `document` in the browser.
+
+### Init the JSON Editor
+The init method of the JSON Editor gets as parameter the follow JavaScript objects:
+* `pJSON` is JSON data with which the JSON Editor is populated,
+* `pDefaultJSON` is the JSON data which is used, when the JSON Editor is resetted,
+* `pSchema` is JSON Schema which defines the input elements of JSON Editor `JSONEditor4Menu`
+* `vDataJSON.tpl` is a hash of string templates for [`Handlebars4Code`](https://github.com/niebert/Handlebars4Code). `vDataJSON.tpl` is  hash with defined template strings. With the template ID the [`Handlebars4Code`](https://github.com/niebert/Handlebars4Code) template engine uses this template for code generation.
+* `pOption` are options for the JSON Editor.
+
+```javascript
+vJSONEditor.init(vJSON,
+  vDefaultJSON,
+  vDataJSON["class_schema"],
+  vDataJSON.tpl,
+  vOptions);
+```
+
+`vDataJSON` is a JSON container for all the loaded data. Templates are loaded with `script`-tags (see `docs/index.html`):
+
+```html
+<script src="tpl/javascript_tpl.js"></script>
+<!-- ### COMPILE HANDLEBARS TEMPLATES  ############
+Template ID: "docu4github"
+Template: vDataJSON["tpl"]["docu4github"]
+-->
+<script src="tpl/docu4github_tpl.js"></script>
+<!-- ### SCHEMA LOADER ############################
+script tag stores the JSON schema in
+vDataJSON.tpl.["class_schema"]
+<script src="schema/class_uml_schema.js"></script>
+-->
+<script src="schema/class_uml_schema.js"></script>
 ```
 <!-- BEGIN: src/readme/usage.md -->
 
 
 ## Quick Start for Users of JSONEditor4Menu
-Just copy the `docs/`-folder and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema use the [JSON2Schema tool](https://niebert/github.io/JSON2Schema).
+
+Just download the [ZIP-file of the JSONEditor4Menu repository](https://github.com/niebert/hamburger-menu-creator/archive/master.zip). For using the [AppLSAC](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache) unzip the file
+and navigate to the `docs/`-folder and load the
+`docs/index.html` in your browser as privacy-friendly [AppLSAC-2](https://en.wikiversity.org/wiki/WebApps_with_LocalStorage_and_AppCache/Types_of_AppLSAC).
+All files, that are equired  for the AppLSAC to run are stored in the docs folder. Only if you are planing the change the source code of the AppLSAC `JSONEditor4Menu` you need the other folders.
+
+If you just want to use `JSONEditor4Menu` in your browser it is recommended to copy just the `docs/`-folder and rename the folder to `jsoneditor4menu/`.
 
 <!-- END:   src/readme/usage.md -->
 <!-- BEGIN: src/readme/handlebars4code.md -->
@@ -659,7 +717,7 @@ JSON Editor has no dependencies. It only needs a modern browser (tested in Chrom
 
 The `JSONEditor4Menu` uses the [JSON Editor orginally developed by Jeremy Dorn](https://json-editor.github.io/json-editor/) and you can use the same type of JSON Schema.
 
-If you want to create a new `JSONEditor4Menu` with additional attributes for editing  the menu you can replace the JSON Schema in `docs/schema/menu_schema.js` that defines currently the graphical user interface (GUI) for the provided example of [JSONEditor4Menu](https://___PKG_GITUSER___.github.io/JSONEditor4Menu) just make a copy of the `docs/schema/menu_schema.js` -folder in this repository `JSONEditor4Menu` and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema 
+If you want to create a new `JSONEditor4Menu` with additional attributes for editing  the menu you can replace the JSON Schema in `docs/schema/menu_schema.js` that defines currently the graphical user interface (GUI) for the provided example of [JSONEditor4Menu](https://gituser.github.io/JSONEditor4Menu) just make a copy of the `docs/schema/menu_schema.js` -folder in this repository `JSONEditor4Menu` and adapt the JSON-schema `docs/schema` and the JSON data in the folder `docs/db/` to the schema for your requirements. If you want to create your own JSON schema 
 ### Optional Requirements
 
 The following are not required, but can improve the style and usability of JSON Editor when present.
@@ -756,7 +814,25 @@ The `enum_titles` define the name in the selector and the `enum` array defines t
 <!-- BEGIN: src/readme/build_process.md -->
 
 ## Build Process of `npm run build`
-The build process is called by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
+As a developer it is assumed that you have:
+* `NodeJS` and
+* `git`
+installed on your computer.
+
+The build process must be called with `npm run build`. If you want change the existing code for `JSONEditor4Menu` clone the code from the Git-repository with:
+```shell
+git clone https://github.com/niebert/jsoneditor4menu.git
+```
+The you will have a folder `jsoneditor4menu/` with all the files in your local file system.
+The code part for the build process are stored in the folder `jsoneditor4menu/src/`.
+
+Now all the dependent libraries must be installed with:
+```shell
+npm install
+```
+You will find an additional folder `node_modules/` in your cloned copy of `jsoneditor4menu`.
+
+The build process is started by calling by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
 
 The templates for building the output are stored in the folder `src/`.
 
@@ -779,12 +855,12 @@ To specify these filenames add the following `build` section to the `package.jso
 ```
 If you want to edit the generated file check the files that are selected for including into the generated files (see `files4build.js`) and set the files to a preliminary build name (e.g. like `index_build.html` instead of `index.html` to compare generated file `index_build.html` with the older version `index.html` for debugging
 
-### Browserify after Build
-After building (concat the file parts) and replacement of package variables (e.g. like  `_``__PKG_NAME__``_` for package name) in the generated documents the module is browserified by the command
+### Compress after Build
+After building (concat the file parts) and replacement of package variables (e.g. see [`build4code`](https://www.npmjs.com/package/build4code) like  `jsoneditor4menu` for package name) in the generated documents the module is browserified by the command
 ```javascript
- browserify src/main.js  > dist/jsoneditor4menu.js
+uglifyjs dist/jsoneditor4menu.js --compress -o dist/jsoneditor4menu.min.js
 ```
-This command is called and defined in the script section of the `package.json`.
+This command is called after `build.js` and the final step of the build process is the [`doctoc`](https://www.npmjs.com/package/doctoc) call to update the table of contents in the `README.md`. All steps of the `npm run build` command are defined in the `script` section of the `package.json` file.
 <!-- END:   src/readme/build_process.md -->
 ## Build and Compress with Browserify, Watchify, UglifyJS
 The NodeJS modules can use `require()`-command. Browsers cannot execute the `require()`-command and other node specific programming features.
@@ -864,26 +940,25 @@ The JSON-Editor of Jeremy Dorn has full support for JSON Schema version 3 and 4 
 The following libraries are necessary for `jsoneditor4menu.js`:
 * Lib: `handlebars` Version: `^4.0.11`
 * Lib: `linkparam` Version: `^1.0.8`
-* Lib: `build4code` Version: `^0.0.7`
+* Lib: `shelljs` Version: `^0.8.3`
 
 
 ## Libraries for Building and Developement
 The following libraries are necessary for building the `jsoneditor4menu`. 
 These libraries are not included in `jsoneditor4menu.js`, but e.g. are required in `build.js`.
-* Lib: `browserify` Version: `^14.5.0`
+* Lib: `build4code` Version: `^0.2.4`
 * Lib: `concat-files` Version: `^0.1.1`
 * Lib: `doctoc` Version: `^1.3.0`
-* Lib: `lint` Version: `^1.1.2`
-* Lib: `uglify-js` Version: `^2.6.2`
-* Lib: `watchify` Version: `^3.9.0`
+* Lib: `jsdom` Version: `^13.1.0`
+* Lib: `uglify-js` Version: `^3.6.0`
 
 ## NPM Library Information
 * Exported Module Variable: `JSONEditor4Menu`
 * Package:  `jsoneditor4menu`
-* Version:  `0.0.1`   (last build 2019/08/16 19:27:26)
+* Version:  `0.0.1`   (last build 2019/08/17 16:41:19)
 * Homepage: `https://niebert.github.io/hamburger-menu-creator`
 * License:  MIT
-* Date:     2019/08/16 19:27:26
+* Date:     2019/08/17 16:41:19
 * Require Module with:
 ```javascript
     const vJSONEditor4Menu = require('jsoneditor4menu');

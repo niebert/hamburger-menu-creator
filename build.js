@@ -3,15 +3,15 @@
 //---------------------------------------------------
 const pkg = require('./package');
 // 'codegen' is module with functions for code generation
-//const codegen = require('./src/codegen.js');
-const codegen = require('build4code').codegen;
+const b4c = require('build4code');
+const codegen = b4c.codegen;
 // 'files4build' is a module with arrays of file to included for the build
 const f4b = require('./files4build');
 // ------ Build Settings -----------------
-pkg.githubuser = pkg.githubuser || "githubuser";
+pkg.gituser = pkg.gituser || "gituser";
 pkg.build = pkg.build || {
       readme: "README_build.md",
-      html: "docs/index.html",
+      html: "docs/index_build.html",
       htmlsrc: "docs/index_src_libs_build.html",
       css: "docs/css/build.css"
     };
@@ -111,17 +111,16 @@ function writeConvertCall() {
   codegen.write_convert_json(vLibOut, vLibOut, pkg);
   codegen.write_convert_json(vLibDist, vLibDist, pkg);
   console.log("Replacing ___PKG___ variables in generated files DONE: "+vLibOut);
-  var vLine = "------------------------------------------------";
-  console.log("\n" + vLine);
-  console.log("Build Process '"+pkg.exportvar+"' DONE");
-  console.log("README:   '"+pkg.build.readme+"' created");
-  console.log("CSS:      '"+pkg.build.css+"' created");
-  console.log("HTML:     '"+pkg.build.html+"' created");
-  console.log("HTML-SRC: '"+pkg.build.html+"' created");
-  console.log(vLine);
+  codegen.log_done(pkg);
 
 }
 
+/*
+let vConstructor = require('./src/libs/exportmod.js');
+//let uml_filename = 'jscc/' + pkg.name + '_uml.json';
+let uml_filename = 'jscc/jsoneditor4code_uml.json';
+b4c.js2uml(pkg.exportvar,uml_filename,vConstructor,pkg);
+*/
 setTimeout(writeConvertCall,1000);
 /*
 */

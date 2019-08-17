@@ -1,7 +1,25 @@
 <!-- BEGIN: src/readme/build_process.md -->
 
 ## Build Process of `npm run build`
-The build process is called by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
+As a developer it is assumed that you have:
+* `NodeJS` and
+* `git`
+installed on your computer.
+
+The build process must be called with `npm run build`. If you want change the existing code for `___PKG_EXPORTVAR___` clone the code from the Git-repository with:
+```shell
+git clone https://github.com/niebert/___PKG_NAME___.git
+```
+The you will have a folder `___PKG_NAME___/` with all the files in your local file system.
+The code part for the build process are stored in the folder `___PKG_NAME___/src/`.
+
+Now all the dependent libraries must be installed with:
+```shell
+npm install
+```
+You will find an additional folder `node_modules/` in your cloned copy of `___PKG_NAME___`.
+
+The build process is started by calling by `npm run build` which in turn call `build.js`. If you want to call the build process of `build.js` separately just call `build.js` with `node build.js` from the shell/console.
 
 The templates for building the output are stored in the folder `src/`.
 
@@ -24,10 +42,10 @@ To specify these filenames add the following `build` section to the `package.jso
 ```
 If you want to edit the generated file check the files that are selected for including into the generated files (see `files4build.js`) and set the files to a preliminary build name (e.g. like `index_build.html` instead of `index.html` to compare generated file `index_build.html` with the older version `index.html` for debugging
 
-### Browserify after Build
-After building (concat the file parts) and replacement of package variables (e.g. like  `_``__PKG_NAME__``_` for package name) in the generated documents the module is browserified by the command
+### Compress after Build
+After building (concat the file parts) and replacement of package variables (e.g. see [`build4code`](https://www.npmjs.com/package/build4code) like  `___PKG_NAME___` for package name) in the generated documents the module is browserified by the command
 ```javascript
- browserify ___PKG_MAIN___  > dist/___PKG_NAME___.js
+uglifyjs dist/___PKG_NAME___.js --compress -o dist/___PKG_NAME___.min.js
 ```
-This command is called and defined in the script section of the `package.json`.
+This command is called after `build.js` and the final step of the build process is the [`doctoc`](https://www.npmjs.com/package/doctoc) call to update the table of contents in the `README.md`. All steps of the `npm run build` command are defined in the `script` section of the `package.json` file.
 <!-- END:   src/readme/build_process.md -->
