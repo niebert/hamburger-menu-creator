@@ -1,4 +1,13 @@
 <script language="javascript">
+    var vZIP = new JSZip();
+    if (vDataJSON.hasOwnProperty('files4json')) {
+      var data =
+      vZIP.loadAsync(data,{"base64":true}).then(function (zip) {
+      zip.forEach(function (relativePath, file){
+          console.log("File in ZIP: ", relativePath);
+        });
+      });
+    }
       //---- Initialize the JSONEditor for Code ----------
       // Initialization expect certain DOM nodes to be available,
       // so that event handlers can assigned e.g. to buttons.
@@ -9,6 +18,7 @@
         vDefaultJSON,
         vDataJSON["menu_schema"],
         vDataJSON["tpl"],
+        vZIP,
         vOptions);
 
 </script>

@@ -181,7 +181,7 @@ function JSONEditor4Menu () {
         //DO NOT: return pSchema
   };
 
-  this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions) {
+  this.init = function (pJSON,pDefaultJSON,pSchema,pTemplates,pOptions,pZIP) {
     // LOAD PRIORITY
     // (1) jsondata in Link Parameter
     // (2) pJSON if init data provide by constructor
@@ -211,6 +211,7 @@ function JSONEditor4Menu () {
         };
     }
     this.aJSON = vJSON;
+    this.aZIP = pZIP || new JSZip()
     console.log("HTML-INIT init_definitions(pJSON,pSchema)): "+JSON.stringify(vJSON,null,4));
     this.aDefaultJSON = pDefaultJSON;
     // extend/overwrite options
@@ -824,6 +825,20 @@ function JSONEditor4Menu () {
       console.error("this.aJSON is undefined");
     }
   };
+
+  this.saveJSON = function () {
+    // Get the value from the editor
+    //alert("saveJSON()-Call");
+    var vJSON = this.aEditor.getValue();
+    this.saveLS("jsondata");
+    var vFile = this.getFilename(vJSON);
+   // set modified date in reposinfo.modified
+    this.update_modified();
+    var vContent = JSON.stringify(vJSON,null,4);
+    saveFile2HDD(vFile,vContent);
+    console.log("JSON output '"+vFile+"':\n"+vContent);
+    alert("JSON File: '"+vFile+"' saved!");
+  }
 
   this.saveJSON = function () {
     // Get the value from the editor
