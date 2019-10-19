@@ -3,7 +3,7 @@ vDataJSON["menu_data"] = {
         "appname": "EditorApp",
         "apptitle": "AppLSAC",
         "appsubtitle": " Editor",
-        "comment": "This is a simple text editor Load, Save and Print features running completely in the browser without submission of loaded data to remote servers.",
+        "comment": "This is a simple text editor with Load, Save and Print features running completely in the browser without submission of loaded data to remote servers.",
         "generated": "2019/09/24 19:39:29",
         "menuitems": [
             {

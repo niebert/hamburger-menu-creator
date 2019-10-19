@@ -1,79 +1,81 @@
 vDataJSON["menu_default"] = {
-  "data": {
-      "appname": "WebApp",
-      "apptitle": "My App",
-      "appsubtitle": "My Subtitle",
-      "comment": "What does the app do?",
-      "generated": "2019/09/24 19:39:29",
-      "menuitems": [
-        {
-            "menutype": "jscall",
-            "menuicon": "fa-folder-open",
-            "title": "Load",
-            "jscall": "lf4d.open_dialog('mytxtfile')",
-            "visibility": "visible"
-        },
-        {
-            "menutype": "page",
-            "menuicon": "fa-file-save",
-            "visibility": "visible",
-            "title": "Save",
-            "content": "<!-- This is the page content of the menu item 'Save' of type 'page' -->\n"
-        },
-        {
-            "menutype": "page",
-            "menuicon": "edit",
-            "visibility": "visible",
-            "title": "Editor",
-            "content": "<textarea id=\"app_editor\" width=\"90%\" height=\"85%\">\n    Content of Editor\n</textarea> "
-        },
-        {
-            "menutype": "page",
-            "menuicon": "fa-trash",
-            "visibility": "visible",
-            "title": "Delete",
-            "content": "<!-- This is the page content of the menu item 'Delete' of type 'page' -->\n"
-        },
-        {
-            "menutype": "page",
-            "menuicon": "fa-print",
-            "visibility": "visible",
-            "title": "Print",
-            "content": "<!-- This is the page content of the menu item 'Print' of type 'page' -->\n"
-        },
-        {
-            "menutype": "page",
-            "menuicon": "gear",
-            "visibility": "visible",
-            "title": "Settings",
-            "content": "<!-- This is the page content of the menu item 'Settings' of type 'page' -->\n"
-        },
-        {
-              "menutype": "page",
-              "menuicon": "info",
-              "visibility": "visible",
-              "title": "About",
-              "content":"<h3>\n   {{{data.appname}}} - {{{data.apptitle}}}\n</h3>\n<h4>\n   {{{data.appsubtitle}}}\n</h4>\n\n{{{data.comment}}}\n<hr>\nThis is an <a href='https://en.wikiversity.org/wiki/AppLSAC' target='_blank'>AppLSAC</a>. The application was create with <a href='https://niehausbert.gitlab.io/jsoneditor4menu' target='_blank'>JSONEditor4Menu</a>.\n<hr>\n<center>Created {{{settings.created}}} - last modified {{{settings.modified}}}</center>"
-          }
-      ]
-  },
-  "settings": {
-      "jsoneditor": "https://niehausbert.gitlab.io/jsoneditor4menu",
-      "created": "2019/09/24 19:39:29",
-      "modified":  getDateTime(),
-      "extension4json": "_menu.json",
-      "colors": {
+    "data": {
+        "appname": "EditorApp",
+        "apptitle": "AppLSAC",
+        "appsubtitle": " Editor",
+        "comment": "This is a simple text editor with Load, Save and Print features running completely in the browser without submission of loaded data to remote servers.",
+        "generated": "2019/09/24 19:39:29",
+        "menuitems": [
+            {
+                "menutype": "jscall",
+                "menuicon": "fa-folder-open",
+                "title": "Load",
+                "jscall": "lf4d.open_dialog('mytxtfile')",
+                "jsinit": "<!-- Init code for Loader -->\nvar lf4d = new LoadFile4DOM();\nvar options = {\n          \"debug\": false // if true, it will show the hidden <input type=\"file\" ...> loaders in DOM\n        };\n        lf4d.init(document,options);\n        //-----------------------------------------------\n        //----- Create a new Loader \"txtfile\" -----------\n        //-----------------------------------------------\n        // with MIME type filter use type=\"text\"\n        //var txtfile = lf4d.get_loader_options(\"mytxtfile\",\"text\");\n\n        // if arbitray files are allowed use type=\"all\"\n        var txtfile = lf4d.get_loader_options(\"mytxtfile\",\"text\");\n        // Define what to do with the loaded data\n        txtfile.returntype = \"file\"; // data contains the file\n        console.log(\"txtfile: \"+JSON.stringify(txtfile));\n        txtfile.onload = function (data,err) {\n          if (err) {\n            // do something on error, perr contains error message\n            console.error(err);\n            alert(\"ERROR: \"+err)\n          } else {\n            // do something with the file content in data e.g. store  in a HTML textarea (e.g. <textarea id=\"mytextarea\" ...>\n            console.log(\"CALL: txtfile.onload()\");\n            document.getElementById(\"app_editor\").value = data;\n            app.nav.page('edit');\n          }\n        };\n        // create the loader txtfile\n        lf4d.create_load_dialog(txtfile);\n        //-----------------------------------------------\n",
+                "visibility": "visible"
+            },
+            {
+                "menutype": "jscall",
+                "menuicon": "fa-file-save",
+                "title": "Save",
+                "jscall": "var vFilename = document.getElementById('tFilename').value;\nvar vContent = document.getElementById('app_editor').value;\nsaveFile2HDD(vFilename,vContent)",
+                "jsinit": "<!-- Init code for Save -->\nfunction saveFile2HDD(pFilename,pContent) {\n\tvar file = new File([pContent], {type: \"text/plain;charset=utf-8\"});\n\tsaveAs(file,pFilename);\n\tapp.nav.page('edit');\n\t};\n",
+                "visibility": "visible"
+          },
+            {
+                "menutype": "page",
+                "menuicon": "edit",
+                "visibility": "visible",
+                "title": "Edit",
+                "content": "<center>\n\t<div style=\"float:center;width:90%;\">\n\t\t<textarea id=\"app_editor\" style=\"width:100%;height:100%\" rows=\"20\" ></textarea>\n\t</div>\n</center>"
+            },
+            {
+                "menutype": "page",
+                "menuicon": "fa-trash",
+                "visibility": "visible",
+                "title": "Delete",
+                "content": "<!-- This is the page content of the menu item 'Delete' of type 'page' -->\n<input type='button' value='Clear Content' onclick=\"document.getElementById('app_editor').value='';app.nav.page('edit');\">"
+            },
+            {
+                "menutype": "page",
+                "menuicon": "fa-print",
+                "visibility": "visible",
+                "title": "Print",
+                "content": "<!-- This is the page content of the menu item 'Print' of type 'page' -->\n<button onclick=\"previewTextArea('app_editor');return false\">Print Preview</button> - <button onclick=\"printTextArea('app_editor');return false\">Print</button>"
+            },
+            {
+                "menutype": "page",
+                "menuicon": "gear",
+                "visibility": "visible",
+                "title": "Settings",
+                "content": "<!-- This is the page content of the menu item 'Settings' of type 'page' -->\n<b>Filename:</b> <input type='text' id='tFilename' value='myfilename.txt'>"
+             },
+            {
+                "menutype": "page",
+                "menuicon": "info",
+                "visibility": "visible",
+                "title": "About",
+                "content": "<h3>\n   {{{data.appname}}} - {{{data.apptitle}}}\n</h3>\n<h4>\n   {{{data.appsubtitle}}}\n</h4>\n\n{{{data.comment}}}\n<hr>\nThis is an <a href='https://en.wikiversity.org/wiki/AppLSAC' target='_blank'>AppLSAC</a>. The application was create with <a href='https://niehausbert.gitlab.io/jsoneditor4menu' target='_blank'>JSONEditor4Menu</a>. See also <a href='https://www.gitlab.com/niehausbert/jsoneditor4menu' target='_blank'>GitLab repository for source code</a> of JSONEditor4Menu\n<hr>\n<center>Created {{{settings.created}}}<br>last modified {{{settings.modified}}}</center>"
+            }
+        ]
+    },
+    "settings": {
+        "jsoneditor": "https://niehausbert.gitlab.io/jsoneditor4menu",
+        "created": "2019/09/24 19:39:29",
+        "modified":  getDateTime(),
+        "extension4json": "_menu.json",
+        "colors": {
             "app": {
                 "background": "#f6f4e2",
                 "textcolor": "#70420d"
             },
             "menu": {
                 "toggleleft": false,
-                "background": "#f6f4e2",
-                "textcolor": "#70420d",
+                "background": "#EBEBD3",
+                "textcolor": "#f6f4e2",
                 "mobile": {
                     "textcolor": "#f6f4e2",
-                    "default": "#7f4619",
+                    "default": "#333",
                     "hover": "#70420d",
                     "focus": "#e4b363"
                 },
@@ -84,7 +86,7 @@ vDataJSON["menu_default"] = {
                 }
             }
         },
-        "configcode": "//--- init pages ----\napp.nav.page(\"home\");\n\n//--- Assign Toggle Menu Function ----\n$('.menu-toggle').click(app.nav.menu.toggle);\n// the configuration code can be used to create some constants, local functions or initialize some javascript objects.\nvar lf4d = new LoadFile4DOM();\n        var options = {\n          \"debug\": false // if true, it will show the hidden <input type=\"file\" ...> loaders in DOM\n        };\n        lf4d.init(document,options);\n        //-----------------------------------------------\n        //----- Create a new Loader \"txtfile\" -----------\n        //-----------------------------------------------\n        // with MIME type filter use type=\"text\"\n        //var txtfile = lf4d.get_loader_options(\"mytxtfile\",\"text\");\n\n        // if arbitray files are allowed use type=\"all\"\n        var txtfile = lf4d.get_loader_options(\"mytxtfile\",\"text\");\n        // Define what to do with the loaded data\n        txtfile.returntype = \"file\"; // data contains the file\n        console.log(\"txtfile: \"+JSON.stringify(txtfile));\n        txtfile.onload = function (data,err) {\n          if (err) {\n            // do something on error, perr contains error message\n            console.error(err);\n            alert(\"ERROR: \"+err)\n          } else {\n            // do something with the file content in data e.g. store  in a HTML textarea (e.g. <textarea id=\"mytextarea\" ...>\n            console.log(\"CALL: txtfile.onload()\");\n            document.getElementById(\"app_editor\").value = data;\n          }\n        };\n        // create the loader txtfile\n        lf4d.create_load_dialog(txtfile);\n        //-----------------------------------------------\n",
+        "configcode": "//--- init pages ----\napp.nav.page(\"edit\");\n\n//--- Assign Toggle Menu Function ----\n$('.menu-toggle').click(app.nav.menu.toggle);\n\n// the configuration code can be used to create some constants, local functions or initialize some javascript objects.\n",
         "jsfiles": [
             {
                 "filepath": "js/jquery-3.2.0.js",
@@ -99,7 +101,7 @@ vDataJSON["menu_default"] = {
             {
                 "filepath": "js/menu.js",
                 "istemplate": "yes",
-                "code": "// App: WebApp - Javascript library {{{filepath}}} - Date: {{{settings.modified}}}\nfunction AppLSAC() {\n\t//--- Navigation -----\n\tthis.nav = {\n\t\t\"page\": function(pid) {\n\t\t\tpid = pid || this.menu.current;\n\t\t\t//console.log(\"Current Page:\"+this.menu.current);\n\t\t\tthis.menu.goto_page(pid);\n\t\t},\n\t\t//---- Menu -----\n\t\t\"menu\":\t{\n\t\t\t\"current\": \"home\",\n\t\t\t\"goto_page\": function(pid) {\n\t\t\t\tpid = pid || this.current;\n\t\t\t\tif (pid !== this.current) {\n\t\t\t\t\tconsole.log(\"Goto Page: '\"+pid+\"' (current page: '\"+this.current+\"')\");\n\t\t\t\t};\n\t\t\t\t// store the current page ID in the page-container\n\t\t\t\t//$('#page-container').attr(\"currentpage\",this.current);\n\n\t\t\t\t//this.hide_all_pages();\n\t\t\t\t$('.pages-app').hide();\n\n\t\t\t\tthis.current = pid;\n\t\t\t\tthis.hide();\n\t\t\t\t// use JQuery to show page as DOM element with ID=this.menu.current\n\t\t\t\t$('#'+this.current).show();\n\t\t\t},\n\t\t\t\"hide\": function () {\n\t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\tconsole.log(\"MENU: visible > hide menu!\");\n  \t\t\t\t\t$('ul').toggleClass('opening');\n  \t\t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\t\tthis.hide_all_pages();\n  \t\t\t\t\tthis.goto_page(this.current);\n  \t\t\t\t} else {\n  \t\t\t\t\t//console.log(\"MENU: is already hidden\");\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"show\": function () {\n\t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\t//console.log(\"MENU: already visible \");\n  \t\t\t\t} else {\n  \t\t\t\t\tconsole.log(\"MENU: is hidden > show menu!\");\n  \t\t\t\t\tthis.hide_all_pages();\n  \t\t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"toggle\": function () {\n\t\t\t\t$('ul').toggleClass('opening');\n  \t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\t//console.log(\"TOGGLE MENU: hide menu \");\n  \t\t\t\t\t$('.pages-app').hide();\n  \t\t\t\t} else {\n  \t\t\t\t\tvar pageid = $('#page-container').attr(\"currentpage\");\n  \t\t\t\t\t//console.log(\"TOGGLE MENU: hide and show page '\" + pageid + \"'\");\n  \t\t\t\t\t$('#'+pageid).show();\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"hide_all_pages\": function () {\n\t\t\t\t$('.pages-app').hide();\n\t\t\t},\n\t\t\t\"show_all_pages\": function () {\n\t\t\t\t$('.pages-app').show();\n\t\t\t}\n\t\t},\n\t\t//--- Event Handler ----\n\t\t\"evt\": {\n\t\t\t\"_hide_pages\": function () {\n\t\t\t\t$('.pages-app').hide();\n\t\t\t} //--close: _hide_pages\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"jscall\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n            ,\n            \"{{filename title}}\": function () {\n{{indent jscall \"\t\t\t       \"}}\n            } //--close {{{title}}}: evt.{{filename title}}()\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n\n\t\t}  //--close: evt\n\t}  //--close: app\n\n};\n\n// Create an instance of AppLSAC() - see also https://en.wikiversity.org/wiki/AppLSAC\nvar app = new AppLSAC();\n\n//--- init pages is performed in 'settings.configcode' inserted in 'index.html'----\n\n//--- Assign Toggle Menu Function assigned with 'settings.configcode' in 'index.html' with $('.menu-toggle').click(app.nav.menu.toggle);\n\n//--- init pages ----\napp.nav.page(\"home\");\n\n//--- Assign Toggle Menu Function ----\n$('.menu-toggle').click(app.nav.menu.toggle);\n"
+                "code": "// App: WebApp - Javascript library {{{filepath}}} - Date: {{{settings.modified}}}\nfunction AppLSAC() {\n\t//--- Navigation -----\n\tthis.nav = {\n\t\t\"page\": function(pid) {\n\t\t\tpid = pid || this.menu.current;\n\t\t\t//console.log(\"Current Page:\"+this.menu.current);\n\t\t\tthis.menu.goto_page(pid);\n\t\t},\n\t\t//---- Menu -----\n\t\t\"menu\":\t{\n\t\t\t\"current\": \"home\",\n\t\t\t\"goto_page\": function(pid) {\n\t\t\t\tpid = pid || this.current;\n\t\t\t\tif (pid !== this.current) {\n\t\t\t\t\tconsole.log(\"Goto Page: '\"+pid+\"' (current page: '\"+this.current+\"')\");\n\t\t\t\t};\n\t\t\t\t// store the current page ID in the page-container\n\t\t\t\t//$('#page-container').attr(\"currentpage\",this.current);\n\n\t\t\t\t//this.hide_all_pages();\n\t\t\t\t$('.pages-app').hide();\n\n\t\t\t\tthis.current = pid;\n\t\t\t\tthis.hide();\n\t\t\t\t// use JQuery to show page as DOM element with ID=this.menu.current\n\t\t\t\t$('#'+this.current).show();\n\t\t\t},\n\t\t\t\"hide\": function () {\n\t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\tconsole.log(\"MENU: visible > hide menu!\");\n  \t\t\t\t\t$('ul').toggleClass('opening');\n  \t\t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\t\tthis.hide_all_pages();\n  \t\t\t\t\tthis.goto_page(this.current);\n  \t\t\t\t} else {\n  \t\t\t\t\t//console.log(\"MENU: is already hidden\");\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"show\": function () {\n\t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\t//console.log(\"MENU: already visible \");\n  \t\t\t\t} else {\n  \t\t\t\t\tconsole.log(\"MENU: is hidden > show menu!\");\n  \t\t\t\t\tthis.hide_all_pages();\n  \t\t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"toggle\": function () {\n\t\t\t\t$('ul').toggleClass('opening');\n  \t\t\t\t$('.menu-toggle').toggleClass('open');\n  \t\t\t\tif ($('ul.opening').is(\":visible\")) {\n  \t\t\t\t\t//console.log(\"TOGGLE MENU: hide menu \");\n  \t\t\t\t\t$('.pages-app').hide();\n  \t\t\t\t} else {\n  \t\t\t\t\tvar pageid = $('#page-container').attr(\"currentpage\");\n  \t\t\t\t\t//console.log(\"TOGGLE MENU: hide and show page '\" + pageid + \"'\");\n  \t\t\t\t\t$('#'+pageid).show();\n  \t\t\t\t};\n\t\t\t},\n\t\t\t\"hide_all_pages\": function () {\n\t\t\t\t$('.pages-app').hide();\n\t\t\t},\n\t\t\t\"show_all_pages\": function () {\n\t\t\t\t$('.pages-app').show();\n\t\t\t}\n\t\t},\n\t\t//--- Event Handler ----\n\t\t\"evt\": {\n\t\t\t\"_hide_pages\": function () {\n\t\t\t\t$('.pages-app').hide();\n\t\t\t} //--close: _hide_pages\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"jscall\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n            ,\n            \"{{filename title}}\": function () {\n{{indent jscall \"\t\t\t       \"}}\n            } //--close {{{title}}}: evt.{{filename title}}()\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n\n\t\t}  //--close: evt\n\t}  //--close: app\n\n};\n\n// Create an instance of AppLSAC() - see also https://en.wikiversity.org/wiki/AppLSAC\nvar app = new AppLSAC();\n\n//--- init pages is performed in 'settings.configcode' inserted in 'index.html'----\n\n//--- Assign Toggle Menu Function ----\n$('.menu-toggle').click(app.nav.menu.toggle);\n\n//--- init pages ----\napp.nav.page(\"home\");\n\n//--- Assign Toggle Menu Function is assigned with 'settings.configcode' in 'index.html' with $('.menu-toggle').click(app.nav.menu.toggle);\n"
             },
             {
                 "filepath": "js/loadfile4dom.js",
@@ -116,7 +118,7 @@ vDataJSON["menu_default"] = {
             {
                 "filepath": "index.html",
                 "istemplate": "yes",
-                "code": "<!DOCTYPE html>\n<html >\n<head>\n\n  <meta charset=\"UTF-8\">\n  <!-- HTML File Content {{data.appname}} - generated {{settings.modified}} -->\n\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"jsoneditor4menu\" content=\"https://niehausbert.gitlab.io/jsoneditor4menu\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>{{data.appname}} - WebApp</title>\n  <!-- generated CSS files by jsoneditor4menu -->\n{{#foreach settings.cssfiles data}}\n  <link rel=\"stylesheet\" href=\"{{{filepath}}}\">\n{{/foreach}}\n<!-- generated script tags for 'settings.jsfiles' -->\n{{#foreach settings.jsfiles data}}\n    <!-- {{{filepath}}} is generated by JSONEditor4Menu -->\n  <script src=\"{{{filepath}}}\"></script>\n{{/foreach}}\n\n\n</head>\n\n<body onload=\"lf4d.create()\">\n\n    <div class=\"wrapper\">\n        <nav class=\"site-nav\">\n            <h1 class=\"logo\">{{{data.apptitle}}}<span>{{{data.appsubtitle}}}</span></h1>\n\n            <div class=\"menu-toggle\">\n              <div class=\"hamburger\"></div>\n            </div>\n\n            <ul class=\"open desktop\">\n{{#foreach data.menuitems data}}\n                <!-- Menu Item '{{title}}' - type: {{menutype}} - visibility: {{{visibility}}} -->\n{{#ifcond visibility \"==\" \"visible\"}}\n{{#ifcond menutype \"==\" \"jscall\"}}\n                <li><a href=\"#!\" onclick=\"app.nav.evt.{{filename title}}()\"><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{#ifcond menutype \"==\" \"page\"}}\n                <li><a href=\"#!\" onclick=\"app.nav.page('{{filename title}}')\"><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{#ifcond menutype \"==\" \"link\"}}\n                <li><a href=\"{{{url}}}\" {{{target}}}><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n            </ul>\n        </nav>\n    </div>\n    <div class=\"area\" data-role=\"page-container\" id=\"page-container\" currentpage=\"home\">\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"page\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n      <div class=\"pages-app\" data-role=\"page\" id=\"{{filename title}}\">\n        <h2>{{{title}}}</h2>\n{{indent content \"\t\t\t    \"}}\n\n      </div>\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n    </div>\n\n  <script>\n    // Config Code is defined in settings.configcode by JSONEditor4Menu\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"page\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n\n\t\t// BEGIN: init code for menu item {{{title}}} \n{{indent jsinit \"\t\t\"}}\n\t\t// END: init code for menu item {{{title}}} \n\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n\n{{{indent settings.configcode \"      \"}}}\n  </script>\n</body>\n</html>\n"
+                "code": "<!DOCTYPE html>\n<html >\n<head>\n\n  <meta charset=\"UTF-8\">\n  <!-- HTML File Content {{data.appname}} - generated {{settings.modified}} -->\n\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"jsoneditor4menu\" content=\"https://niehausbert.gitlab.io/jsoneditor4menu\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>{{data.appname}} - WebApp</title>\n  <!-- generated CSS files by jsoneditor4menu -->\n{{#foreach settings.cssfiles data}}\n  <link rel=\"stylesheet\" href=\"{{{filepath}}}\">\n{{/foreach}}\n<!-- generated script tags for 'settings.jsfiles' -->\n{{#foreach settings.jsfiles data}}\n    <!-- {{{filepath}}} is generated by JSONEditor4Menu -->\n  <script src=\"{{{filepath}}}\"></script>\n{{/foreach}}\n\n\n</head>\n\n<body onload=\"lf4d.create()\">\n\n    <div class=\"wrapper\">\n        <nav class=\"site-nav\">\n            <h1 class=\"logo\">{{{data.apptitle}}}<span>{{{data.appsubtitle}}}</span></h1>\n\n            <div class=\"menu-toggle\">\n              <div class=\"hamburger\"></div>\n            </div>\n\n            <ul class=\"open desktop\">\n{{#foreach data.menuitems data}}\n                <!-- Menu Item '{{title}}' - type: {{menutype}} - visibility: {{{visibility}}} -->\n{{#ifcond visibility \"==\" \"visible\"}}\n{{#ifcond menutype \"==\" \"jscall\"}}\n                <li><a href=\"#!\" onclick=\"app.nav.evt.{{filename title}}()\"><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{#ifcond menutype \"==\" \"page\"}}\n                <li><a href=\"#!\" onclick=\"app.nav.page('{{filename title}}')\"><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{#ifcond menutype \"==\" \"link\"}}\n                <li><a href=\"{{{url}}}\" {{{target}}}><img class=\"menu-icon\" src=\"img/icons-svg/{{{menuicon}}}-white.svg\"><div class=\"nav-text site-nav--icon\">{{{title}}}</div></a></li>\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n            </ul>\n        </nav>\n    </div>\n    <div class=\"area\" data-role=\"page-container\" id=\"page-container\" currentpage=\"home\">\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"page\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n      <div class=\"pages-app\" data-role=\"page\" id=\"{{filename title}}\">\n        <h2>{{{title}}}</h2>\n{{indent content \"\t\t\t    \"}}\n\n      </div>\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n    </div>\n\n  <script>\n    // Config Code is defined in settings.configcode by JSONEditor4Menu\n{{#foreach data.menuitems data}}\n{{#ifcond menutype \"==\" \"jscall\"}}\n{{#ifcond visibility \"!=\" \"not used\"}}\n\n\t\t// BEGIN: init code for menu item {{{title}}} \n{{indent jsinit \"\t\t\"}}\n\t\t// END: init code for menu item {{{title}}} \n\n{{/ifcond}}\n{{/ifcond}}\n{{/foreach}}\n\n{{{indent settings.configcode \"      \"}}}\n  </script>\n</body>\n</html>\n"
             }
         ],
         "cssfiles": [
@@ -133,13 +135,13 @@ vDataJSON["menu_default"] = {
             {
                 "filepath": "css/menu.css",
                 "istemplate": "yes",
-                "code": "/*\n    // App: WebApp - Javascript library {{{filepath}}} - Date: {{{settings.modified}}}\n*/\n\n* {\n    box-sizing: border-box;\n}\n\n/*\n\tlight color: #F6F4E2\n\tmedium color:\n\tdark brown:   #70420D\n*/\n\nbody {\n  background: {{{settings.colors.app.background}}}; /*  app & desktop #F6F4E2; */\n  font-family:  sans-serif;\n  letter-spacing: 1px;\n}\n\n.wrapper {\n  width: 100%;\n  max-width: 1960px;\n  margin: 0 auto;\n}\n\n\n/*\n.container {\n  max-width: 960px;\n  width: 95%;\n  margin: 0 auto;\n}\n\nheader {\n  background: {{{settings.colors.menu.desktop.focus}}}; /* before #2059b5*/\n  color: {{{settings.colors.app.textcolor}}}; /* #f7e9cc */\n  padding: 1.5em 0;\n  position: relative;\n}\n\n/*header::after {\n  content: '';\n  clear: both;\n  display: block;\n}*/\n\n\n.logo {\n  color: #fff;\n  font-size: 1rem;\n  margin: 0;\n  padding-top: 24px;\n  padding-left: 20px;\n  text-transform: uppercase;\n  font-weight: 700;\n  letter-spacing: 3px;\n  height: 65px;\n  background-color: {{{settings.colors.menu.desktop.default}}}; /* DESKTOP: dark background logo & app menu bar #E4B363 - dark blue #0431B4  */\n}\n\n.logo span {\n  font-weight: 400;\n}\n\n.menu-toggle {\n  position: absolute;\n  padding: 0.8em;\n  top: 1em;\n  right: .5em;\n  cursor: pointer;\n}\n\n.hamburger,\n.hamburger::before,\n.hamburger::after {\n  content: '';\n  display: block;\n  background: {{{settings.colors.menu.desktop.default}}}; /* logocolor hamburger logo color - #EBEBD3 */\n  height: 3px;\n  width: 2em;\n  border-radius: 3px;\n  -webkit-transition: all ease-in-out 350ms;\n  transition: all ease-in-out 350ms;\n}\n\n.hamburger::before {\n  -webkit-transform: translateY(-7px);\n          transform: translateY(-7px);\n}\n\n.hamburger::after {\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.open .hamburger {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n\n.open .hamburger::before {\n  display: none;\n}\n\n.open .hamburger::after {\n  -webkit-transform: translateY(-1px) rotate(-90deg);\n          transform: translateY(-1px) rotate(-90deg);\n}\n\n\n\nnav {\n    margin: 0;\n    padding: 0;\n}\n\nnav ul {\n    display: flex;\n    flex-direction: column;\n    list-style-type: none;\n    padding: 0;\n    margin: 0;\n    display: none;\n}\n\nnav ul.opening {\n    display: block;\n    height: 30px;\n}\n\nnav li {\n  border-bottom: 1px solid {{{settings.colors.menu.mobile.textcolor}}}; /* light grey brownisch color #EBEBD3 - before #f6f4e2 */\n}\nnav li:last-child {\n  border-bottom: none;\n}\nnav a {\n  color: {{{settings.colors.menu.textcolor}}}; /* menu.textcolor app & desktop like background #EBEBD3 */\n  background: {{{settings.colors.menu.mobile.default}}}; /* MOBILE: before #333 */\n  display: block;\n  padding: 1.5em 4em 1.5em 3em;\n  text-transform: uppercase;\n  text-decoration: none;\n}\n\nnav a:hover {\n  background: {{{settings.colors.menu.mobile.hover}}}; /* MOBILE: hover in App menu background in menu #E4B363 - 'settings.colors.menu.mobile.hover' */\n}\nnav a:focus {\n  background: {{{settings.colors.menu.mobile.focus}}}; /* MOBILE: focus background in App Menu #E4B363 'settings.colors.menu.mobile.focus'*/\n}\n\n.site-nav--icon {\n  font-size: 1.4em;\n  margin-right: 1em;\n  width: 1.1em;\n  text-align: right;\n  color: rgba(255,255,255,.4);\n}\n\n/* flex styles */\n\n\n\n\n/*\n  ---------------------------------------------\n  DESKTOP SETTINGS:\n  i.e. all devices with a minimum screen width of 780px\n  ---------------------------------------------\n*/\n@media (min-width: 780px) {\n\n/* hide the [X] resp. [=] menu toggle symbol\n   on navigation bar, if screen width exceeds 70px */\n  .menu-toggle {\n    display: none;\n  }\n\n\n\n  nav ul {\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n  }\n  nav li {\n     flex: 1 1 auto;\n     border: none;\n }\n\n   nav li a {\n       padding: 1.5em 1.3em 1.5em 1.3em;\n       margin: 0;\n       border: none;\n       background-color: {{{settings.colors.menu.desktop.default}}};   /* DESKTOP: desktop default menu background #E4B363 */\n    }\n    nav a:hover{\n      background-color: {{{settings.colors.menu.desktop.hover}}}; /* DESKTOP: hover background desktop menu - before #d18428, rgba(255,255,255,.10); */\n    }\n    nav a:focus {\n      background-color: {{{settings.colors.menu.desktop.focus}}}; /* DESKTOP: Focus background desktop menu - before #472a07; */\n    }\n\n\n\n  .logo {\n      flex: 0 0 200px;\n      margin: 0;\n      padding-left: 20px;\n  }\n\n\n    nav {\n      display: flex;\n      flex-direction: row;\n      justify-content: space-between;\n\n      text-align: center;\n      background-color: {{{settings.colors.menu.desktop.default}}};   /* DESKTOP background #E4B363;*/\n    }\n\n  /* .site-nav a:hover,\n  .site-nav a:focus {\n    background: transparent;\n  }\n*/\n  .site-nav--icon {\n    display: none;\n  }\n\n}\n"
+                "code": "/* CSS File Content  - Appname: {{data.appname}} - Title: {{data.apptitle}} - Date: {{settings.modified}} */\n* {\n    box-sizing: border-box;\n}\n\n/*\n\tlight color: #F6F4E2\n\tmedium color:\n\tdark brown:   #70420D\n*/\n\nbody {\n  background: {{{settings.colors.app.background}}}; /*  app & desktop #F6F4E2; */\n  font-family:  sans-serif;\n  letter-spacing: 1px;\n}\n\n.wrapper {\n  width: 100%;\n  max-width: 1960px;\n  margin: 0 auto;\n}\n\n\n.menu-icon {\n  margin-left: 1em;\n  margin-right: 1em;\n  width: 1.0em;\n  /* letter-spacing: 3px;\n  text-align: right;\n  color: rgba(255,255,255,.4);  */\n}\n\n.logo {\n  color: #fff;\n  font-size: 1rem;\n  margin: 0;\n  padding-top: 24px;\n  padding-left: 20px;\n  /* text-transform: uppercase; */\n  font-weight: 700;\n  letter-spacing: 3px;\n  height: 65px;\n  background-color: {{{settings.colors.menu.desktop.default}}}; /* DESKTOP: dark background logo & app menu bar #E4B363 - dark blue #0431B4  */\n}\n\n.logo span {\n  font-weight: 400;\n}\n\n.menu-toggle {\n  position: absolute;\n  padding: 0.8em;\n  top: 1em;\n  right: .5em;\n  cursor: pointer;\n}\n\n.hamburger,\n.hamburger::before,\n.hamburger::after {\n  content: '';\n  display: block;\n  background: {{{settings.colors.menu.background}}}; /* colors.app.background - logo color hamburger logo color - #f6f4e2 */\n  height: 3px;\n  width: 2em;\n  border-radius: 3px;\n  -webkit-transition: all ease-in-out 350ms;\n  transition: all ease-in-out 350ms;\n}\n\n.hamburger::before {\n  -webkit-transform: translateY(-7px);\n          transform: translateY(-7px);\n}\n\n.hamburger::after {\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.open .hamburger {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n}\n\n.open .hamburger::before {\n  display: none;\n}\n\n.open .hamburger::after {\n  -webkit-transform: translateY(-1px) rotate(-90deg);\n          transform: translateY(-1px) rotate(-90deg);\n}\n\n.nav-text {\n\tdisplay: inline;\n}\n\n\nnav {\n    margin: 0;\n    padding: 0;\n}\n\nnav ul {\n    display: flex;\n    flex-direction: column;\n    list-style-type: none;\n    padding: 0;\n    margin: 0;\n    display: none;\n}\n\nnav ul.opening {\n    display: block;\n    height: 30px;\n}\n\nnav li {\n  border-bottom: 1px solid {{{settings.colors.menu.background}}}; /* light grey brownisch color #EBEBD3 - before #f6f4e2 */\n}\nnav li:last-child {\n  border-bottom: none;\n}\nnav a {\n  color: {{{settings.colors.menu.textcolor}}}; /* menu.textcolor app & desktop like background #EBEBD3 */\n  background: {{{settings.colors.menu.mobile.default}}}; /* MOBILE: before #333 */\n  display: block;\n  padding: 1.5em 4em 1.5em 3em;\n  /* text-transform: uppercase; */\n  text-decoration: none;\n}\n\nnav a:hover {\n  background: {{{settings.colors.menu.mobile.hover}}}; /* MOBILE: hover in App menu background in menu #E4B363 - 'settings.colors.menu.mobile.hover' */\n}\nnav a:focus {\n  background: {{{settings.colors.menu.mobile.focus}}}; /* MOBILE: focus background in App Menu #E4B363 'settings.colors.menu.mobile.focus'*/\n}\n\n.site-nav--icon {\n  font-size: 1.4em;\n  margin-right: 1em;\n  width: 1.1em;\n  text-align: right;\n  color: rgba(255,255,255,.4);\n}\n\n/* flex styles */\n\n\n\n\n/*\n  ---------------------------------------------\n  DESKTOP SETTINGS:\n  i.e. all devices with a minimum screen width of 780px\n  ---------------------------------------------\n*/\n@media (min-width: 780px) {\n\n/* hide the [X] resp. [=] menu toggle symbol\n   on navigation bar, if screen width exceeds 70px */\n  .menu-toggle {\n    display: none;\n  }\n\n\n\n  nav ul {\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n  }\n  nav li {\n     flex: 1 1 auto;\n     border: none;\n }\n\n   nav li a {\n       padding: 1.5em 1.3em 1.5em 1.3em;\n       margin: 0;\n       border: none;\n       background-color: {{{settings.colors.menu.desktop.default}}};   /* DESKTOP: desktop default menu background #E4B363 */\n    }\n    nav a:hover{\n      background-color: {{{settings.colors.menu.desktop.hover}}}; /* DESKTOP: hover background desktop menu - before #d18428, rgba(255,255,255,.10); */\n    }\n    nav a:focus {\n      background-color: {{{settings.colors.menu.desktop.focus}}}; /* DESKTOP: Focus background desktop menu - before #472a07; */\n    }\n\n\n\n  .logo {\n      flex: 0 0 200px;\n      margin: 0;\n      padding-left: 20px;\n  }\n\n\n    nav {\n      display: flex;\n      flex-direction: row;\n      justify-content: space-between;\n\n      text-align: center;\n      background-color: {{{settings.colors.menu.desktop.default}}};   /* DESKTOP background #E4B363;*/\n    }\n\n  /* .site-nav a:hover,\n  .site-nav a:focus {\n    background: transparent;\n  }\n*/\n  .site-nav--icon {\n    display: none;\n  }\n\n}\n\n.pages-app {\n\tmargin: 10px;\n}\n"
             },
             {
               "filepath": "css/pages.css",
               "istemplate": "yes",
-              "code": "/*\n    // App: WebApp - Javascript library {{{filepath}}} - Date: {{{settings.modified}}}\n*/\n\ntextarea {\n      font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;\n}\n"
+              "code": "/*\n    // App: WebApp - Javascript library {{{filepath}}} - Date: {{{settings.modified}}}\n*/\n\ntextarea {\n      font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;\n   width:100%;\n   hieght:100%;\n}\n"
             }
         ]
-  }
+    }
 };

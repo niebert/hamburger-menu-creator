@@ -1,11 +1,11 @@
 /* ---------------------------------------
  Exported Module Variable: JSONEditor4Menu
  Package:  jsoneditor4menu
- Version:  1.0.1  Date: 2019/10/18 21:49:26
+ Version:  1.0.8  Date: 2019/10/19 9:46:59
  Homepage: https://niehausbert.gitlab.io/jsoneditor4menu
  Author:   Engelbert Niehaus
  License:  MIT
- Date:     2019/10/18 21:49:26
+ Date:     2019/10/19 9:46:59
  Require Module with:
     const JSONEditor4Menu = require('jsoneditor4menu');
  JSHint: installation with 'npm install jshint -g'
@@ -16039,13 +16039,40 @@ function JSONEditor4Menu () {
   };
 
   this.addMenuJSON2ZIP = function (pJSON,pOptions) {
-      var vFilename = pOptions.app_folder + "/db/menu4app.json";
-      var vContent = JSON.stringify(vJSON,null,4);
+    // app2filename(vJSON.data.appname,pExtension);
+      var vFilename = pOptions.app_folder + "/db/" + app2filename(vJSON.data.appname,vJSON.settings.extension4json);
+      var vContent = JSON.stringify(pJSON,null,4);
       this.aZIP.file(vFilename, vContent , {base64: false});
+  };
+
+  this.expandMenuPages4JSON = function (pJSON,pOptions) {
+    // app2filename(vJSON.data.appname,pExtension);
+    var vMenuList = [];
+    if (pJSON.hasOwnProperty("data")) {
+      if (pJSON.data.hasOwnProperty("menuitems")) {
+        console.log("CALL: expandMenuPages4JSON() - Menu Items found in pJSON ");
+        vMenuList = pJSON.data.menuitems;
+      } else {
+        console.warn("WARNING: 'pJSON.data.menuitems' undefined in expandMenuPages4JSON()");
+      }
+    } else {
+      console.warn("WARNING: 'pJSON.data' undefined in expandMenuPages4JSON()");
+    }
+    // iterate over menuitems and expand the page content with Handlebars4Code
+    for (var i = 0; i < vMenuList.length; i++) {
+      if (vMenuList[i].menutype == "page") {
+        console.log("Expand Menu Page '" + vMenuList[i].title + "' with expandMenuPages4JSON()");
+        var vMenTpl = vMenuList[i].content;
+        var generator4file  = Handlebars4Code.compile(vMenTpl);
+        vMenuList[i].content = generator4file(vJSON);
+      }
+    };
+    return pJSON;
   };
 
   this.addFiles2ZIP = function (pOptions) {
     var vJSON = this.getValue();
+    vJSON = this.expandMenuPages4JSON(vJSON,pOptions);
     this.addMenuJSON2ZIP(vJSON,pOptions);
     var vArrID = pOptions.file_list_id || [];
     var vID = "";
