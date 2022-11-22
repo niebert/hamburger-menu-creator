@@ -8,5 +8,5 @@ The JSONEditor4Menu was based on aJSON Editor developed by Jeremy Dorn.
 <h3><a href="https://niebert.github.io/hamburger-menu-creator" target="_blank">Demo Hamburger Menu - Creator</a></h3>
 
 ## See also 
-* [Hamburger Menu - App](https://niebert.github.io/hamburger_menu_app) - Demo: <a href="https://www.github.com/niebert/hamburger_menu_app" target="_blank">hamburger-menu-app</a>
-* [Hamburger Menu - Multi-Level](https://niebert.github.io/hamburger-menu-no-js/) without the need of Javascript - Demo: <a href="https://www.github.com/niebert/hamburger-menu-no-js/" target="_blank">hamburger-menu-no-js</a>
+* **[Hamburger Menu - App](https://niebert.github.io/hamburger_menu_app)** - **Demo:** <a href="https://www.github.com/niebert/hamburger_menu_app" target="_blank">hamburger-menu-app</a>
+* **[Hamburger Menu - Multi-Level](https://niebert.github.io/hamburger-menu-no-js/)** without the need of Javascript - **Demo:** <a href="https://www.github.com/niebert/hamburger-menu-no-js/" target="_blank">hamburger-menu-no-js</a>
