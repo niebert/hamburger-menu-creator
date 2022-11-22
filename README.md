@@ -5,7 +5,7 @@ Generate your own Hamburger Menu with the [`hamburger-menu-creator`]((https://ni
 
 The JSONEditor4Menu was based on aJSON Editor developed by Jeremy Dorn.
 
-<h3>[Demo Hamburger Menu Creator](https://niebert.github.io/hamburger-menu-creator)</h3>
+<h3><a href="https://niebert.github.io/hamburger-menu-creator" target="_blank">Demo Hamburger Menu - Creator</a></h3>
 
 ## See also 
 * [Hamburger Menu - Multi-Level](https://niebert.github.io/hamburger-menu-no-js/) without the need of Javascript
