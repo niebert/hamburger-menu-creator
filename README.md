@@ -10,5 +10,5 @@ The JSONEditor4Menu was based on aJSON Editor developed by Jeremy Dorn.
 ## See also 
 * **[Hamburger Menu - App](https://niebert.github.io/hamburger_menu_app)** - **Demo:** <a href="https://www.github.com/niebert/hamburger_menu_app" target="_blank">hamburger-menu-app</a>
 * **[Hamburger Menu - Multi-Level](https://www.github.com/niebert/hamburger-menu-no-js/)** without the need of Javascript - **Demo:** <a href="https://www.github.com/niebert/hamburger-menu-no-js/" target="_blank">hamburger-menu-no-js</a>
-* **[CSV2Chart](https://www.github.com/niebert/csv2wikichart_app)** - **Demo:** [csv2wikichart_app](https://niebert.github.io/csv2wikichart_app) - [Wikiversity CSV2Chart](https://en.wikiversity.org/wiki/CSV2Chart)
+* **[CSV2Chart](https://www.github.com/niebert/csv2wikichart_app)** - **Demo:** [csv2wikichart_app](https://niebert.github.io/csv2wikichart_app) - **Wikiversity:** [CSV2Chart](https://en.wikiversity.org/wiki/CSV2Chart)
 * **[ClassEditorUML](https://www.github.com/wiki/ClassEditorUML/)** - **Demo:** <a href="https://www.github.com/niebert/ClassEditorUML" target="_blank">ClassEditorUML</a>
